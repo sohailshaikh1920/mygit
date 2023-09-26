@@ -1,0 +1,53 @@
+push code to github
+integrate git with jenkins and create pipeline so that when changes are pushed to github it will create new docker image and push to docker repo
+
+
+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
+
+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
+
+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
+
+
+Pdm8Q~CrI-jvJGZA7d4emZrH.5r0UkgDIkkV4dsb
+ae024777-1f41-4f9d-ac66-a70e211f9ae1
+
+setx ARM_CLIENT_ID 784be6a1-52c1-48f6-aedc-aa04580ea82d
+setx ARM_CLIENT_SECRET Pdm8Q~CrI-jvJGZA7d4emZrH.5r0UkgDIkkV4dsb
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+to authenticate azure account throgh service principle
+
+1. go to aad-->apps registration and create new app
+2. goto app-->client secret and create a secret key
+3. add below variables to your enviroment 
+4. now the cli is authenticated with service principle
+
+setx ARM_CLIENT_ID e452ee45-b7ac-4aec-84ff-1df79f604244
+setx ARM_CLIENT_SECRET 60q8Q~~06jvOGz~tlNiVdkPO4Vf6ERngshUq4akC
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+terraform state show azurerm_resource_group.rg
+
+setx CLIENT_ID 27315e8d-9288-4294-ad5c-d12a5a476925
+setx CLIENT_SECRET mHO8Q~yXrPHerHqSwmtEzEDiwcT1fnAYFnzKOb9U
+setx TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+
+setx ARM_CLIENT_ID 918740f3-9135-4574-ab18-8d07eac8d057
+setx ARM_CLIENT_SECRET 8t_8Q~LX99mcXn8s~XzrWtzGaKhrHZmsqMI~falo
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+name: "Terraform Plan"
+
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+

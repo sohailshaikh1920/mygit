@@ -1,0 +1,3 @@
+create RG - done
+create vnet - done
+create subnet - done

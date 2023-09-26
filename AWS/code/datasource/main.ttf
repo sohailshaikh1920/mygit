@@ -1,0 +1,13 @@
+
+data "aws_ami" "standardami"{
+  most_recent = true
+  owners = ["amazon"]
+
+}
+
+resource "aws_instance" "standardec2"{
+
+  ami = data.aws_ami.standardami.id
+  instance_type = "t2.micro"
+
+}

@@ -1,0 +1,7 @@
+Another administrator plans to create several network security groups (NSGs) in the subscription.
+You need to ensure that when an NSG is created, it automatically blocks TCP port 8080 between the virtual networks.
+
+use custom policy defination
+
+https://docs.microsoft.com/en-us/azure/azure-policy/policy-definition
+https://docs.microsoft.com/en-us/azure/governance/policy/samples/built-in-policies

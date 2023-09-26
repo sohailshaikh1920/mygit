@@ -1,0 +1,427 @@
+
+Azure Storage account :
+
+blob services to get storage which is limitless
+
+webapp :
+
+allows you to publish app on PAAS platform
+
+Section 1 : Design Monitoring
+
+Monitor :
+
+azure monitor service can be used to create alert on logs,events etc
+
+log analytics workspace :
+
+agent based tool to move logs from azure vm or prem vm like syslog or splunk
+provide great flexiblity and one stop for all azure logs and treated as resource in RG and worked as container for
+diff logs, you can query different logs with predefined or you custom queries
+
+NSG flow logs :
+
+it can be enabled in network watcher and logs can be saved in storage account container
+
+types of logs in azure :
+
+VM events and log trails
+NSG flow logs
+ALB logs
+SQL diagnostic logs
+AD logs
+
+
+Traffic Analysis :
+
+can be enabled as part of flow logs and have to mapped with LAW and it will give graphical view of traffic on NSG 
+selected
+
+Service map :
+
+have to install dependency agent on vm's , it can be used for mapping of all services with target VM like inbound
+\outbound traffic and process etc.
+
+SQL diagnostic logs :
+
+can be enabled different types of logs and event for SQL DB and should be sent to LAW
+
+AD logs :
+
+diagnostic & sign in logs to LAW
+
+Advisor :
+
+can be used for technical and cost auto Advisor from Azure
+
+tags :
+
+can be used for seperating resources for many purpose, cost analysis is one of that
+
+Application insights :
+
+app monitoring tool for performance, code level recomm, session count etc
+
+Azure Sentinel :
+
+visiblity
+analytics
+hunting
+incidents
+automation
+
+Security information and event management (SIEM)
+Security orchestration, automation, and response (SOAR)
+
+Collect data at cloud scale across all users, devices, applications, and infrastructure, both on-premises
+and in multiple clouds
+Detect previously undetected threats, and minimize false positives using Microsoft's analytics and unparalleled 
+threat intelligence
+Investigate threats with artificial intelligence, and hunt for suspicious activities at scale, tapping into years 
+of cyber security work at Microsoft
+Respond to incidents rapidly with built-in orchestration and automation of common tasks
+
+can be used for azure on-prem or AWS resources
+sentinal runs on top of LAW
+
+Section 2 : Design Identity & Security
+
+Types of identity in Azure :
+
+Azure AD role
+RBAC
+PIM
+Application object
+
+Access & Authorization :
+
+Azure AD is used for identity & subscription will be assigned with RBAC
+
+Organisation chart :
+
+tenant mgnt group
+mgnt group+++
+subscription+++
+resourceGroup+++
+resources+++++
+
+RBAC and policies are inherited from mgnt group to subscription to RG to resource
+
+subscription mapped with Azure directory :
+
+in subscription you can choose which directory you want to access because there can be multiple directories
+
+Role based access control(RBAC) :
+
+https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
+
+RBAC is associated with azure resource
+
+Azure AD role :
+
+https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+
+AAR is associated with azure AD operations
+
+Azure AD Privileged identity management (PIM) :
+
+You can use this service to provide just-in-time privileged access to Azure AD and Azure resources
+You can assign time-bound access resources using start and end dates
+You can ensure an approval is sought before access is given
+Ensure the user goes through the process of Multi-Factor Authentication to activate any role
+Get notifications whenever a role is activated
+See an entire history of role activations in the Azure account
+Also conduct access reviews to see if users still need the required roles
+This features requires the use of Azure AD Premium P2 licenses
+
+Azure AD access reviews :
+
+is part of PIM where you can start review for particular roles assigned to set of groups\users
+you can identify user access and approve\deny it
+you can see the activity logs for activity trails
+
+Azure AD identity protection :
+
+is tool to identify risk specific to user or sign ins
+you can enable policy for users and signins to idetify risk
+it works on logs collected by Azure to identify risk
+
+Azure identity governance :
+
+is a tool that can be used to review access for O365 and apps authenticated through azure
+you can review access status and allow\deny access
+
+MS Defender for cloud :
+
+Performs a continuous assessment of your resources running in your environment
+Secure Score –This helps to assess your current security posture. The higher the score the lower the risk
+Recommendations –You get security recommendations on how to improve your environment
+Alerts –You can also get alerts with enhanced security features
+
+Defender JIT (just in time) vm access :
+
+you can add vm to workload protection and enable JIT for specific duration & port
+this will add one rule in NSG to block traffic on specific port but when you request access it add rule in NSG 
+to allow Traffic
+
+
+Azure identity protection  vs  Azure PIM                                            vs Azure JIT
+
+detect user risk              time specific access for azure ad role and resources    specific to vm access part of
+detect signin risk                                                                    azure security centre
+authentication
+
+MFA :
+
+you can enable MFA for users
+
+Conditional access policy :
+
+Can be created from security in azure ad and it helps you to set controls for user\group for apps under azure
+azure ad premium P2 license is required
+
+Azure policy :
+
+you can use predifined or custom policy to validate you environment eg vm backup should be enabled
+
+Azure Blueprints :
+
+Role assignments –If you need specific roles to be assigned
+Policy assignments –This is if you need specific policies to be applied
+Resource groups –If you need certain resource groups to be in place
+Azure Resource Manager templates –If there are resources that need to be deployed
+
+Stages:
+
+Definition–Here you define the Blueprint itself. The Blueprint needs to be saved to either a management group or a subscription
+When you save the Blueprint to a management group, the Blueprint can be assigned to any subscription which is part of the
+management group
+To save the Blueprint definition, you need to have Contributor access to either the management group or the subscription
+
+Publishing–Once the Blueprint is defined, you can publish it. Here you can assign a version number for the Blueprint
+
+Assignment–Here the Blueprint is then assigned to a subscription
+You can protect resources deployed via the Blueprint resource locks
+Here even if there is a user with the Owner role, still the user will not be able to remove the lock
+You can only remove the lock by unassigning the blueprint
+
+Application objects :
+
+for an application to access and resource like storage account app object is created which can be used for RBAC 
+roles to access any object and it can also be used as assume role for specific user accessing app and azure 
+resources with same access
+
+Azure key vault :
+
+certificates
+encryption keys
+secrets(password)
+
+AKV can be used to save passwords like OS administrator\sql db password, encryption keys and certificates
+
+Managed identity :
+
+it can be enabled on azure resource and then it is created as identity object in azure AD then go to
+the resource to be accessed and assign required RBAC to that object like IAM role in AWS
+
+encryption Keys :
+
+you can encrypt vm disk with encryption key from key vault but KV and VM should be in same region
+
+Azure AD domain services :
+
+can be used to deploy AD on azure allows you to join domain,GP,LDAP,authetication
+it creates 2 windows server domain controller
+patching,azure backup and disk encryption can be virtual features
+
+Section 3 : Designing data storage
+
+types of storage in Azure :
+
+1. storage accounts :
+blob : objects videos,images etc
+file : fileshares based on SMB protocol
+table : noSQL database
+
+2. SQL DB :
+
+Oracle,MSSQL,MySql on VM
+SQL PAAS where endpoint connectivity on internet but it can be assess via private\service endpoint
+SQL managed instance which is deployed in vnet-preffered way
+
+3. Fully managed NoSQL data store -- COSMOS DB :
+
+4. Azure cache for Redis :
+
+in memory DB
+
+authorization of storage accounts :
+
+Access keys (use MS storage account explorer)
+Shared access signatures(use MS storage account explorer)
+Azure AD
+
+Storage account tiers :
+
+hot
+cool
+archive
+
+lifecycle rules
+file can be accessed from hot or cool tier so if the file is archived it has to rehydreted means moving to 
+hot\cool, cool tier is cost effective as compared to archive
+cool tier data has to be 30 days and archive should be 180 else if you move then there will be early deletion fee
+
+storage account encryption :
+
+can be done with default encryption or azure key vault keys
+
+
+Storage account access policy :
+
+stored access policy : same as Shared access signatures
+immutable(resource that are redeployed rather than change) blob storage : no changes will be allowed
+
+Azure SQL :
+
+IAAS :
+
+You can use the Infrastructure as a service facility wherein you deploy Microsoft SQL Server on an Azure Virtual 
+machine,This will give you complete administrative access over the virtual machine
+Here you can also use the pay-as-you-go model when using SQL server on an Azure virtual machine
+This provides an easy option for migrating your on-premise SQL Server workloads
+Here you can install the version of SQL Server that you require
+And then migrate the data onto the instance on the Azure virtual machine
+
+PAAS :
+
+Then you have the Platform as a service wherein you can use the Azure SQL database service
+Here the underlying compute infrastructure is managed by Azure
+Here you also get an SLA of 99.995%
+With Azure SQL database server, you can choose from a variety of pricing tiers
+Here you can also make use of features such as Automated backup, Automated tuning, simplified patching etc
+
+Managed instance :
+
+Azure SQL Managed Instance –This is an ideal option also for migrating existing SQL Server workloads onto Azure
+SQL Managed Instance has near 100% compatibility with the latest SQL Server (Enterprise Edition) database engine
+You can also get native Virtual Network Integration
+You can also use the Hybrid benefits to use your own licenses to save on costs
+
+SQL Auditing :
+
+You can enable auditing for an Azure SQL database and also for Azure Synapse Analytics
+This feature can be used to track database events and write them to an audit log
+The logs can be stored in an Azure storage account, Log Analytics workspace or Azure Event Hubs
+This helps in regulatory compliance. It helps to gain insights on any anomalies when it comes to database 
+activities,Auditing can be enabled at the database or server level
+If it is applied at the server level, then it will be applied to all ofthe databases that reside on the server
+DB and LAW\ASA should be in same region
+
+SQL diagnostic :
+
+diagnostic logs can be stored in storage account or LAW and control retention
+
+SQL Data masking :
+
+Here the data in the database table can be limited in its exposure to non-privileged users.
+You can create a rule that can mask the data.
+Based on the rule you can decide on the amount of data to expose to the user
+
+There are different masking rules
+Credit Card masking rule –This is used to mask the column that contain credit card details. Here only the last 
+four digits of the field are exposed.
+Email –Here first letter of the email address is exposed. And the domain name of the email address is replaced 
+with XXX.com.
+Custom text-Here you decide which characters to expose for a field.
+Random number-Here you can generate a random number for the field.
+
+Azure cache for redis :
+
+in memory DB on SSD, frequently requested data from DB(COSMOS,SQL,storage account) can be written in redis by app
+
+Azure COSMOS DB :
+
+NoSQL DB but important to select right API based on DB is going to used :
+
+SQL API
+MondoDB API
+Casandra
+table
+graph
+
+can be replicated to multiple region as writable copy same as
+
+Azure Data lake :
+
+for storing and working on unorganised data from sources and extensions works on blob storage service
+
+Azure databricks :
+
+Azure Synapse :
+
+
+Section 4 : Business continuity in Azure
+
+SQL DB backup :
+
+backup is available for IAAS and managed instances where backup itself can be LRBS,ZRBS or GRBS
+restore can be done point in time,deleted db,regional restore for DR
+backup can be retained upto 10 years in storage accounts
+
+Locally-redundant storage (LRS) - Here data is replicated synchronously three times within the primary region.
+
+Zone-redundant storage (ZRS) - Here data is replicated synchronously across three Azure availability zones in the primary region.
+This is good when you want to have data present even in the event of a data center failure.
+
+Geo-redundant storage (GRS) - Here data is replicated synchronously three times in the primary region, then replicated
+asynchronously to the secondary region.
+
+Read access Geo-redundant storage (RA-GRS) - Here data is replicated synchronously three times in the primary region,
+then replicated asynchronously to the secondary region. Here the data in the secondary region is also available for read-only purposes.
+
+Remember when you decide to choose the replication strategy for a storage account as Read access Geo-redundant storage (RA-GRS) ,
+the storage service will decide on the secondary region.
+
+Geo-zone-redundant storage (GZRS) - Here data is replicated synchronously across three Azure availability zones in the primary region,
+then replicated asynchronously to the secondary region.
+
+Read Access Geo-zone-redundant storage (RA-GZRS) - Here data is replicated synchronously across three Azure availability
+zones in the primary region, then replicated asynchronously to the secondary region. Here the data in the secondary region is
+also available for read-only purposes.
+
+Azure backup :
+
+AB for vm can take one backup copy for a day and instance resovery snapshot is saved on VM and retention is saved 
+on vault
+
+Key vault :
+
+can be replicated to paired region and it stores key,secret,certificates etc
+
+
+Section 5 : Design Infrastructure
+
+Azure VM vs Azure Web App
+
+IAAS can install anything , you manage infra
+PASS cannot install anything , no operation management,only for web based app based on specific application
+
+Azure VM vs Azure functions
+
+IAAS can install anything , you manage infra
+PASS cannot install anything , no operation management,only for on-demand codes
+
+Azure Batch :
+
+can be use run batch jobs based on application or from specific application systems
+
+Container deployement option :
+
+1. Docker on VM
+2. container on ACI
+3. Container on AKS
+
+
+
+  

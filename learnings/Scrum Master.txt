@@ -1,0 +1,4 @@
+what is scrum?
+
+dividing work in small peices called as sprint which can upto 2-3 weeks and it includes daily standups,regular progress check and closure review
+key stakeholders are product owner,team (dev,QA,BA) and scrum master who ensure everything is going as planned

@@ -1,0 +1,48 @@
+"The small startup Contoso Inc. wishes to set up a balanced IT infrastructure to host their online e-commerce solution. The company wishes to utilize Azure Cloud services. Assuming a mix of on-site and remote developers, 
+draw out a high-level solution architecture showing its building blocks, considering security, performance, and cost optimization. Justify your proposed solution."
+
+hub spoke
+p2s , s2s vpn
+bastion
+fw
+ddos
+mgnt grp
+law
+monitring
+vnet gw
+devops
+documentation
+HA\DR
+internet\interanet traffic
+CDN
+private nedpoint
+patching
+backup-rsv
+storage account
+cost
+
+DNS config
+
+client tenant records will go to internal DNS hosted on VM
+azure resources like file,blob,queue,servicebus,appservice will go to private dns
+public records pointing to app gw will go to DNS zones 
+
+onprem DC and azure hosted dc will replicating each other with onprem interanet records
+onprem users\servers will have onprem dc as dns and vm on azure will have azfw as dns+168.63.129.16
+user from on prem will request azure vm and a record will take it azure vm through ER\vpn 
+vm inside azure will request on prem will have reserve comm 
+azure vm requesting org public dns then azure hosted dns will forward it to 168.63.129.16 (lookup zone) and then it will be taken to DNS zone(public) 
+azure resource requesting private endpoint dns then azure hosted dns will forward it to 168.63.129.16 (lookup zone) and then it will be taken to private DNS zone
+azure resource request anything on public will be validated through fw app rule and then forwarded to internet
+
+
+DNS split brain config 
+https://learn.microsoft.com/en-us/azure/architecture/hybrid/hybrid-dns-infra
+
+Offer kam hai
+paternity leaves
+namaz
+parking
+wfo
+
+

@@ -1,0 +1,255 @@
+Types of DNS registeration in Azure :
+
+1. private DNS with vnet link that registers and all records of vm's in that vnet and can be with vnet peering
+2. host normal windows ad\dns in azure vm and create required records
+3. DNS records from on prem
+4. Azure AD domain services
+
+when you create any resource in vnet there will be internal dns record created on idns 168.63.129.16
+
+xyz.internal.cloudapp.net
+xyz.east-us.cloudapp.azure.com - public
+
+private DNS is global and can be used from any region
+
+DNS :
+
+public
+private
+internal
+custom --> in azure vm,on prem,Azure ad dns
+
+Azure App GW :
+
+components :
+frontend ip\dns
+listner
+rules
+http\https settings
+backend pool --> VM,VMSS,Webapp,on-prem server
+need empty subnet of /24 to deploy AAPGW
+
+flow :
+
+client request site on hostname and translated to public ip through azure or any public DNS
+IP belongs to AAPGW which then sends request to listners
+listner makes connection with backend pool servers based on defined rules
+then AAPGW make connection between user and backend system
+
+Webapp :
+
+set of infra with defined runtime and attached to service plan which defines what type of services you are going 
+to get in webapp
+
+when webapp is configured as backend pool it will have error since webapp has its own URL name and AAPGW dont 
+change the host url when transmitting it to backend pool for that you need to overwrite the hostname from client 
+request in http settings in AAPGW
+
+WAF :
+
+AAPGW
+FrontDoor
+Traffic Manager
+
+can be applied on AAPGW,listner,route
+lower level have bigger priority so if WAF allow is attached on listner and deny on AAPGW then allow will work
+
+Security layers in Azure
+
+Ingress:
+
+NSG : NIC\subnet
+WAF : AAPGW,FD,TM
+
+Eagress:
+
+Azure FW : subnet through static route
+third party appliance like cloudguard 
+
+
+Traffic Manager :
+
+DNS based traffic load balancer
+global service
+can point to only public dns endpoint and endpoint can be vm webapp or onprem
+
+priority based
+if 1 is down then go to 2
+
+performance based
+go to nearest endpoint based on latency
+
+geo based :
+specific origin request can be pointed to specific target system
+
+subnet based :
+based on source ip
+
+Routing services :
+
+azure lb               AAPGW                  TrafficManager                FrontDoor           CDN
+
+associated with vnet  yes                      no its a global service            no its a global service
+
+
+FrontDoor :
+
+global service works from edge location(point of presence location) to deliver content from least latency endpoint
+combination of AAPGW & TrafficManager , like works on public endpoints and can do path based routing
+
+https://www.azurespeed.com/Azure/Latency
+
+can be mapped to
+
+vm public ip FQDN
+AAPGW
+TrafficManager
+API Manager
+Web app
+etc
+
+waf policy is if then else statement which states that if condition matches then perform this else ok
+
+NAT GW :
+
+can be created for resources which doesnt have public ip associated for outbound connections and can be attached 
+to subnet
+
+user defined routes :
+
+to route traffic through particular vm need to create route table,route and then attach it to subnet, enable ip 
+forwarding so that ip packet can be passed from middleware vm and then add route inside OS as well,this usually 
+required when there is appliance like cloudguard for eagress traffic.
+
+
+Point to site VPN
+
+1. create GW subnet recommended is /27,/28,/29
+2. create virtual network GW and attached it to vnet and GW subnet
+3. generate self signed root cert and then generate client cert from root cert
+MS link to generate cert
+https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-certificates-point-to-site
+
+$cert = New-SelfSignedCertificate -Type Custom -KeySpec Signature `
+-Subject "CN=VPNroot" -KeyExportPolicy Exportable `
+-HashAlgorithm sha256 -KeyLength 2048 `
+-CertStoreLocation "Cert:\CurrentUser\My" -KeyUsageProperty Sign -KeyUsage CertSign
+
+New-SelfSignedCertificate -Type Custom -DnsName P2SChildCert -KeySpec Signature `
+-Subject "CN=VPNClient" -KeyExportPolicy Exportable `
+-HashAlgorithm sha256 -KeyLength 2048 `
+-CertStoreLocation "Cert:\CurrentUser\My" `
+-Signer $cert -TextExtension @("2.5.29.37={text}1.3.6.1.5.5.7.3.2")
+
+create point2site config
+download client and install in PC
+
+authentication can be done through Azure AD by registering VPN as application
+
+Internet Key Exchange version 2 (IKEv2)
+
+Site-to-Site VPN
+
+1. create virtual network GW and attached it to vnet and a public ip
+2. configure local network GW that holds info about onprem public\CIDR & PSK(preshared key)
+3. confgure connection in VNGW and attach it to LNGW
+4. configure on-prem router with ikev2 vpn tunnel and add azure public\CIDR & PSK
+5. Both side should have publically routable static IP
+6. if you have multiple vnet then create peering connection while using existing VNGW
+7. add new vnet CIDR details in on-prem router to start routing packets to new CIDR
+
+awesome blogpost explaining virtual network gateway with p2s,s2s and ER circuit
+
+https://blog.cloudtrooper.net/2023/02/06/virtual-network-gateways-routing-in-azure/
+
+Azure virtual WAN :
+
+1. centralized virtual overlay of all vnets and other azure resources
+2. create hub in AVW that has all endpoints like VPN and ER circuit details
+
+AVW is available in marketplace
+
+basic : just S2S vpn
+standard : P2S , S2S , ER , Vnet
+
+when you virtual hub you dont need AVNGW and in hub itself you can add all vnets,P2S , S2S , ER
+once you add vnets you will see peering connection in vnet
+
+vnet peering within region is called vnetpeering but across region its globalvnetpeering
+
+Expressroute :
+
+dedicated 10GBPS MAX connection from on prem to MS edge location through service provider
+
+ER to ER can be connected through ER global reach
+
+SKU :
+
+local : can connect one or two region within geo
+standard : can connect to any region
+
+NSG
+
+ASG
+
+Network Watcher
+
+connection monitor : can monitor traffic between source\dest on perticular port vm's should have network watcher 
+agent
+IP flow log : source\destination port is open or not can be checked
+next hop : is like tracert
+connnection troubleshoot : can go to VM and check inbound\outbound traffic like telnet
+NSG diagnostics : will give detailed view on top of ip flow logs
+NSG flow logs : all logs going in\out NSG logs here need to be sent to storage account
+Traffic analysis : flow logs will be seen here in graphical view that is stored in LAW
+
+Security layer in azure
+
+NSG
+Firewall
+WAF
+
+Azure Firewall :
+
+is a managed service to protect vnet, intelligent,statefull, highly available etc
+to use it first create static route for subnet to go through FW for any destination
+can create eagress rule for specific port\URL
+it has to be in same region\RG as vnet
+requires dedicated subnet
+
+rulecollection group-priority
+app rule-priority 
+net rule-priority
+dnat rule-priority
+
+
+Service endpoint :
+
+can be used to access public azure service via private vnet network\subnet travels through MSBBN
+
+service endpoint policy :
+
+can restrict to particular resource in public like specific storage account and rest storage account will be 
+restricted
+
+its a regional service
+
+private endpoint :
+
+here the public service is communicated through private ip from vnet attached to dedicated nic and there private 
+DNS also created to add DNS records for public service
+
+private link :
+
+use case is when you want to expose few resource from one vnet to specific subnet in another vnet
+
+application service region-1
+
+vm's
+LB
+NAT GW
+Private link
+
+consumer region-2
+
+private endpoint from private link in consumer region attached to consumer vm subnet

@@ -1,0 +1,86 @@
+Access key = AKIAT75DN3MXM7QORVPX
+secret access key = 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
+
+username : sohail
+pass : Momo@98765
+
+docker pull jenkins/jenkins
+
+setting up jenkins container
+
+root@ip-10-0-1-232:~/jenkins-data# cat docker-compose.yml
+version: "3"
+services :
+ jenkins:
+  container_name: jenkins
+  image: jenkins/jenkins
+  ports:
+    - "8080:8080"
+  volumes:
+    - "$PWD/jenkins_home:/var7jenkins_home"
+  networks:
+    - net
+networks:
+  net:
+root@ip-10-0-1-232:~/jenkins-data#
+
+docker-compose up -d
+
+bitbucket credentials :
+
+
+ecJjpezEsu3SLXgbyWLu
+
+https://github.com/mydevopscoach/my-tf-iac-aws-repo
+
+jenkins pipeline with simple init and apply
+
+pipeline {
+    agent any
+
+    stages {
+        stage('git checkout') {
+            steps {
+                git branch: 'main ', url: 'https://github.com/mydevopscoach/my-tf-iac-aws-repo'
+            }
+        }
+
+        stage('terraform init') {
+            steps {
+                sh ("terraform init");
+            }
+        }
+        stage('terraform apply') {
+            steps {
+                sh ("terraform apply --auto-approve");
+            }
+        }
+    }
+}
+
+jenkins pipeline with simple init and choice apply\destroy
+set choice parameter as apply & destroy 
+
+pipeline {
+    agent any
+
+    stages {
+        stage('git checkout') {
+            steps {
+                git branch: 'vpc', url: 'https://github.com/sohailshaikh1920/jenkins'
+            }
+        }
+
+        stage('terraform init') {
+            steps {
+                sh ("terraform init");
+            }
+        }
+        stage('terraform action') {
+            steps {
+                echo "terraform action from parameter is --> ${action}"
+                sh ("terraform ${action} --auto-approve");
+            }
+        }
+    }
+}

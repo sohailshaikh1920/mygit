@@ -1,0 +1,21 @@
+defender_definition = {
+  standard = {
+    name = "standard configuration"
+    categories = [
+      ["AppServices", "Standard" ]
+      ["ContainerRegistry", "Free"]
+      ["KeyVaults", "Standard" ]
+      ["KubernetesService", "Free" ]
+      ["SqlServers", "Standard" ]
+      ["SqlServerVirtualMachines","Standard" ]
+      ["StorageAccounts", "Standard", "PerTransaction" ] #PerStorageAccount (only when >4.5 million transactions/month)
+      ["VirtualMachines","Standard","P1" ]
+      ["Arm", "Standard"]
+      ["Dns", "Standard"]
+      ["OpenSourceRelationalDatabases", "Standard"]
+      ["Containers", "Standard"] 
+      ["CosmosDbs", "Standard"]
+      ["CloudPosture","Standard"]
+    ]
+  }
+}

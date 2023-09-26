@@ -1,0 +1,36 @@
+understand below topics in details :
+
+L2 vs L3
+statefull vs stateless FW - done
+DNS,DHCP,TCP\IP,uDP
+Data encryption
+vpc flow logs - done
+tcpdump
+ECS fargate
+AWS NAT GW
+AWS VPC peering - done
+types of DNS records
+aws site to site vpn & DC
+check aws RDS deployement
+check DR solution deployement
+AWS control tower\landing zones
+parameter store
+AWS config
+aws secret manager
+
+
+refresh AWS logs
+
+cloudwatch
+cloudtrail
+vpcflow logs
+tcpdump
+elb access logs
+S3 bucket logs
+cloudfront logs
+R53 query logs
+
+AWS system manager
+used to patch linux and windows machines
+
+elastic disaster recovery

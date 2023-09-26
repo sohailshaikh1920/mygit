@@ -1,0 +1,112 @@
+
+[root@linux1 ~]# echo sohail
+sohail
+[root@linux1 ~]# #echo sohail
+[root@linux1 ~]# echo sohail;echo salik
+sohail
+salik
+[root@linux1 ~]# {
+> echo sohail
+> echo salik
+> pwd
+> }
+sohail
+salik
+/root
+
+[root@linux1 ~]# var=sohail
+[root@linux1 ~]# echo $var
+sohail
+[root@linux1 ~]# echo "$var"
+sohail
+[root@linux1 ~]# echo '$var'
+$var
+[root@linux1 ~]#
+
+[root@linux1 ~]# echo {1..10}
+1 2 3 4 5 6 7 8 9 10
+[root@linux1 ~]# echo {a..z}
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+[root@linux1 ~]# touch file{1..10}
+[root@linux1 ~]# ll
+total 40
+-rw-------. 1 root root 17124 Feb  7  2022 anaconda-ks.cfg
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file1
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file10
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file2
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file3
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file4
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file5
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file6
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file7
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file8
+-rw-r--r--. 1 root root     0 Oct  6 12:03 file9
+-rw-------. 1 root root 17070 Feb  7  2022 original-ks.cfg
+
+cat /etc/passwd | awk -F ":" '{ print $1 }'
+open file ...seperated by : ...print positional parameter 1
+bash allocates value starting from 0...whatever no
+
+[root@linux1 ~]# cat file.sh
+#!/bin/bash
+
+echo $0
+echo $1
+echo $2
+[root@linux1 ~]# ./file.sh sohail salik
+./file.sh
+sohail
+salik
+
+file descriptor :
+
+stdin     0    <
+stdout    1    >
+stderror  2
+
+print+redirect output
+
+[root@linux1 ~]# cat /etc/passwd | tee file1
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+
+redirect output
+
+[root@linux1 ~]# echo sohail > file3
+[root@linux1 ~]# cat file3
+sohail
+
+[root@linux1 ~]# if ((1>2)); then  echo "1"; else echo "2"; fi
+2
+[root@linux1 ~]# if ((1<2)); then  echo "1"; else echo "2"; fi
+1
+[root@linux1 ~]# if ((1<2)); then  echo "1"; else echo "2"; fi 2>/dev/null
+1                                                              redirecting stderr to linux blackhole
+
+
+[root@linux1 ~]# cat conditioncheck.sh
+#|/bin/bash
+
+if [[ -e "/etc/passwd" && -f "/etc/passwd" && -d "/etc/" ]];then
+echo "file exist"
+else
+echo "file does not exist"
+fi
+
+[root@linux1 ~]# help test
+test: test [expr]
+    Evaluate conditional expression.
+
+string manipulation commands :
+
+cut
+
+[root@fc45283ffc4f mydata]# echo hello world | cut -c 2
+e
+[root@fc45283ffc4f mydata]# echo hello world | cut -c 2-5
+ello
+[root@fc45283ffc4f mydata]# sh file1.sh | cut -f 2 -d " "
+file1.sh: line 1: !#/bin/bash: No such file or directory
+world
+/mydata
+of

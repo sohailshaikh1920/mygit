@@ -1,0 +1,48 @@
+{
+  
+  "appId": "6e52a90d-3123-45eb-808b-3f748c28edd9",
+  "displayName": "azure-cli-2023-04-16-12-22-09",
+  "password": "tx58Q~KnR5cSuQ9QSY_K2kYtqqh9_5YauT4MAck_",
+  "tenant": "cdbd1b0b-5131-40cf-9fb4-aaef3c2d4916"
+}
+
+subscription_id = "23f14cea-db23-4433-b607-a3f787d374d1"  
+    client_id       = "6e52a90d-3123-45eb-808b-3f748c28edd9"  
+    client_secret   = "tx58Q~KnR5cSuQ9QSY_K2kYtqqh9_5YauT4MAck_"  
+    tenant_id       = "cdbd1b0b-5131-40cf-9fb4-aaef3c2d4916"
+
+    env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+
+service principle for innofactor account
+
+"appId": "2ea0486b-cbf1-4d49-a883-7e36f2e87a7c",
+  "displayName": "azure-cli-2023-04-16-14-45-52",
+  "password": "Klp8Q~87p9uSgV2pizwvFatmdwBLNv3NHlhZ5c7f",
+  "tenant": "67481c72-d897-4db4-a7fa-b96d76dfb545"
+
+  subscription_id = "4cce77b1-65bc-4255-9570-07178450d61f"  
+    client_id       = "2ea0486b-cbf1-4d49-a883-7e36f2e87a7c"  
+    client_secret   = "Klp8Q~87p9uSgV2pizwvFatmdwBLNv3NHlhZ5c7f"  
+    tenant_id       = "67481c72-d897-4db4-a7fa-b96d76dfb545"
+
+    variables:
+ - group: montelno
+
+ env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+
+
+subscription_id = "4cce77b1-65bc-4255-9570-07178450d61f"  
+    client_id       = "2ea0486b-cbf1-4d49-a883-7e36f2e87a7c"  
+    client_secret   = "Klp8Q~87p9uSgV2pizwvFatmdwBLNv3NHlhZ5c7f"  
+    tenant_id       = "67481c72-d897-4db4-a7fa-b96d76dfb545"
+
+    bastion will pop up automatically if it is deployed in same vnet or bidirectional peered vnet-tested
+    
+
+

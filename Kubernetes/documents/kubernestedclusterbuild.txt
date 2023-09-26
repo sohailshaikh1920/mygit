@@ -1,0 +1,47 @@
+
+1. create master vm on vmware desktop with 4GB,2 CPU,custom NAT(VMNAT8)
+2. follow this URL for all https://www.virtualizationhowto.com/2021/06/kubernetes-home-lab-setup-step-by-step/
+3. use this URL for kubeadm installation https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+if you loose kubeadm join command use this
+
+sohail@kmaster:~$ kubeadm token create --print-join-command
+kubeadm join 192.168.16.133:6443 --token cconnn.yrhmo9vc5axg4bu7 --discovery-token-ca-cert-hash sha256:2fe0affb6bf67d9a24a6b3790ef1ef8c7f76000a265366918a2461d05d6a27af
+sohail@kmaster:~$
+
+swapoff -a
+
+this will give you CIDR for each node in cluster
+sohail@kmaster:~$ kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'
+10.244.0.0/24 10.244.1.0/24
+
+This will give you CIDR block for cluster
+
+sohail@kmaster:~$ kubectl cluster-info dump | grep -m 1 cluster-cidr
+                            "--cluster-cidr=10.244.0.0/16",
+
+sohail@kmaster:~$ ps -ef | grep "cluster-cidr"
+root        1980    1762  4 08:22 ?        00:02:14 kube-controller-manager --allocate-node-cidrs=true --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf --bind-address=127.0.0.1 --client-ca-file=/etc/kubernetes/pki/ca.crt --cluster-cidr=10.244.0.0/16 --cluster-name=kubernetes --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --controllers=*,bootstrapsigner,tokencleaner --kubeconfig=/etc/kubernetes/controller-manager.conf --leader-elect=true --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/sa.key --service-cluster-ip-range=10.96.0.0/12 --use-service-account-credentials=true
+sohail     28206    5218  0 09:11 pts/1    00:00:00 grep --color=auto cluster-cidr
+sohail@kmaster:~$
+
+
+cat <<EOF | sudo tee /etc/docker/daemon.json
+ {
+   "exec-opts": ["native.cgroupdriver=systemd"],
+   "log-driver": "json-file",
+   "log-opts": {
+     "max-size": "100m"
+   },
+   "storage-driver": "overlay2"
+ }
+ EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+

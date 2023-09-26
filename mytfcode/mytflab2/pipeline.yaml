@@ -1,0 +1,47 @@
+name: $(BuildDefinitionName)_$(date:yyyyMMdd)$(rev:.r)
+
+  
+# Only run against develop
+trigger: none
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+variables:
+ - group: myvars
+
+# Don't run against PRs
+# pr: none
+
+stages :
+  - stage: validate
+    jobs:
+    - job: validate
+      continueOnError: false
+      steps:
+      - task: Bash@3
+        displayName: Terraform Init
+        env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+         ARM_SUBSCRIPTION_ID: $(SubscriptionId)
+        inputs:
+          workingDirectory: '$(System.DefaultWorkingDirectory)'          
+          targetType: 'inline'
+          script: |
+            terraform init
+            
+  
+      - task: Bash@3
+        displayName: Terraform Apply
+        env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+         ARM_SUBSCRIPTION_ID: $(SubscriptionId)
+        inputs:      
+          workingDirectory: '$(System.DefaultWorkingDirectory)'   
+          targetType: 'inline'
+          script: |
+            terraform apply --auto-approve

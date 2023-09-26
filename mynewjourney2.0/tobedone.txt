@@ -1,0 +1,20 @@
+
+new learning going forward
+
+finops
+cloudops
+genAI
+AVD
+Azure Arc
+Azure lighthouse
+Ansible
+Container\K8s
+
+
+channels to prepare VDC
+
+ChatGPT
+AWS,GCP references
+virtual meetups
+colleges
+developers

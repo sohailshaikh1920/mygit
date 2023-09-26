@@ -1,0 +1,9 @@
+****** App service swap slot issue while moving app from staging to prod 
+
+****** FW provisioning state went into failed state
+
+****** app service making http call to itself and getting blocked at firewall
+
+
+****** SSL connection could not be established while downloading artifact before deploying code to azure function app 
+

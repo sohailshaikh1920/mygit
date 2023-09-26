@@ -1,0 +1,9 @@
+
+1 vpc : done
+2 subnet public : done
+route table public & subnet association : done
+internet gw with vpc association & routing : done
+security group with ssh,http as ingress & ig as eagress : done
+IAM user with read and admin access
+2 EC2 instance in public subnet with httpd installed : done
+ELB with target group pointing towards 2 public EC2 instances

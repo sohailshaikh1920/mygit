@@ -1,0 +1,6 @@
+create a test vm
+setup networking
+create app service plan
+create private endpoint 
+test access
+configure app gateway with waf and DNS 

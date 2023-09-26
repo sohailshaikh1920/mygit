@@ -1,0 +1,44 @@
+name: $(BuildDefinitionName)_$(date:yyyyMMdd)$(rev:.r)
+
+variables:
+ - group: montelno
+  
+# Only run against develop
+trigger: none
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+# Don't run against PRs
+# pr: none
+
+stages :
+  - stage: validate
+    jobs:
+    - job: validate
+      continueOnError: false
+      steps:
+      - task: Bash@3
+        displayName: Terraform Init
+        env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+        inputs:
+          workingDirectory: '$(System.DefaultWorkingDirectory)/cfg/'          
+          targetType: 'inline'
+          script: |
+            terraform init
+            
+  
+      - task: Bash@3
+        displayName: Terraform Plan
+        env:            
+         ARM_CLIENT_ID: $(ClientId)
+         ARM_CLIENT_SECRET: $(DeploymentPassword)              
+         ARM_TENANT_ID: $(TenantId)
+        inputs:      
+          workingDirectory: '$(System.DefaultWorkingDirectory)/cfg/'   
+          targetType: 'inline'
+          script: |
+            terraform plan

@@ -1,0 +1,393 @@
+
+Subscription :
+agreement between client and Azure which states type of support and amount which charged
+
+to get card details
+subscription-->billing properties-->billing profile name
+search billing profile
+
+help & support :
+to get the support plan
+
+cost mgnt & billing :
+for payment method and cost details
+
+Resource group :
+
+is a logical container and resources inside can be deployed to different regions , deleting RG means deleting 
+all resource inside it so ideally resource should be protected by applying locks , one resource can belong to one 
+RG
+
+Azure limits :
+https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits
+
+RG Naming :
+
+https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming
+
+RG name cannot be changed
+
+RG is associated with one region where it stores metadata but it can have resources from different regions
+
+IAM :
+
+Azure AD is default directory services provided when you create your account and all users and group will reside 
+in AAD
+
+sohail@sohailshaikh1920gmail.onmicrosoft.com
+Xabo1679
+RBAC :
+role based access control
+Account owner : global admin+billing admin+subscription owner
+Owner : subscription owner and can share subscription with others
+contributor : can create resource in subscription but cant share it
+reader : read only
+70+ predefined roles by azure
+
+access can be given on subscription,RG,resource & management group is group of subscription to manage Access
+
+Management Group :
+group of subscription to manage access\authorization
+can not delete mgnt group with subscription but after removing subscription you can delete it
+nested mgnt group can also be done
+
+
+global filters :
+can be used to filter subscription in different views
+
+MFA :
+use MS auth app and sync your account
+
+Availability Zone :
+
+multiple DC in same region with separate supply
+
+Availability set :
+
+only one DC hence managing logical placement of VM's in multiple fault domains
+
+Fault\update domains :
+
+is a rack(max 3 in one AS)\host(max 20 in one AS) in DC with separate power supply
+
+VM scale set :
+
+is group of Load balanced VM's that can scale in\out based on demand
+
+Proximity placement group :
+
+Proximity placement groups allow you to group Azure resources physically closer together in the same region
+
+Private IP range in Azure :
+
+10.0.0.0/16
+172.16.0.0/16
+172.31.0.0/16
+192.168.0.0/16
+
+Vnet :
+
+Virtual network in azure for private ip assignment
+site24*7 calculator
+
+reserved ip's in each subnet
+
+192.168.0.0 - network ip
+192.168.0.1 - default GW
+192.168.0.2\3 - Azure dns
+192.168.0.255 - broadcast ip
+
+one vnet is limited to specific region
+
+Microsoft automatically creates the Azure Network Watcher when you create or update an Azure virtual network in 
+your subscription.Azure makes a resource group named NetworkWatcherRG that contains Network Watchers for each 
+Azure region where it has deployed virtual networks
+Every subscription can create up to 50 Virtual Networks across all regions
+
+
+Azure VM types :
+
+https://docs.microsoft.com/en-us/azure/virtual-machines/sizes
+
+Cost optimization :
+
+stop button gracefully shutdown the vm and resources(ram,cpu,temp storage) are release but data luns is preserved
+set auto-shutdown for specific time when you want to stop vm
+
+VM components :
+
+Disk
+NIC
+Public IP (public dns names can configured here)
+NSG
+Virtual Network
+snapshot
+ASG
+
+After changing subnet vnic will be same but OS will get new vnic with new MAC
+
+NSG :
+
+packet is consist of 4 layers
+
+frame : data
+ethernet : src & dest mac address
+IP : src & dest ip
+TCP : src & dest port
+
+rule priority is more for lower number eg 900 is precedent over 901
+internet control message protocol -- ICMP
+
+NSG can be associated with NIC for individual VM or subnet for set of VM's
+
+ASG :
+
+is a virtual grouping of VM's to enable communication in NSG with ASG names instead of IP
+
+Disk :
+
+default vdisk is 127GB & 30GB for windows and linux respectively
+LRS : locally redundant storage which keeps 3 copy in one DC\AZ
+temporary storage differs based on vm size and it is free
+TS is used for paging\swap space
+
+disk types
+
+           Ultra disk	Premium SSD v2	Premium SSD	Standard SSD	Standard HDD
+Disk type	 SSD	      SSD	            SSD	        SSD	          HDD
+denoted by            P               P           E             s
+OS          No        No              Yes         Yes           Yes
+
+
+IOPS -- is the number of request (read\write) per second
+throughput -- is the amount of data transfer\fetch per second
+
+Locks :
+can be on diff levels
+
+subscription
+RG
+resource
+
+type - delete (do not delete but changes to resources is allowed) , readonly (no delete no changes)
+owner can delete lock
+
+vdisk created on az1 cannot be attached to vm in az2
+
+snapshot :
+
+point in time read only copy of your disk
+snapshot is kept at region level and you can create copy of disk in same region to any AZ
+from snapshot you can create VM or disk and capture is used to create image (use sysprep for windows)
+image is specific to region
+
+Routing\route tables :
+
+defult GW is router which helps in routing local traffic and internet
+azure me route tables are not practically used and traffic is controlled with NSG
+there are 2 default route one for vnet and one for internet 0.0.0.0/0
+restriction between 2 subnets should be through NSG
+default routes can be amended and it has to be on sybnet level
+
+create new route table
+create route towards 0.0.0.0/0 to point to none
+map that rt to subnet
+
+vnet peering :
+
+Ip address range should be different to enable communication between 2 vnet
+tcp packet depends on mtu size which 1500 bytes as standard practice and if the packet size is more than 1500b then
+it will be fragmented
+goto vnet and configure peering
+
+VM cost calculation :
+
+VM cost consist of OS+resources calculated per minute
+OSdisk,datadisk,snapshot,image,publicip charges are seperate
+
+pricing calculator
+https://azure.microsoft.com/en-us/pricing/calculator/?&ef_id=CjwKCAjwvNaYBhA3EiwACgndgsSnnitYe8BAfVAgKn8hWdVL7Wsv3E0L9HXTICooPbqlcYQf9uDuqBoCw4UQAvD_BwE:G:s&OCID=AIDcmmf6lw2mzf_SEM_CjwKCAjwvNaYBhA3EiwACgndgsSnnitYe8BAfVAgKn8hWdVL7Wsv3E0L9HXTICooPbqlcYQf9uDuqBoCw4UQAvD_BwE:G:s&gclid=CjwKCAjwvNaYBhA3EiwACgndgsSnnitYe8BAfVAgKn8hWdVL7Wsv3E0L9HXTICooPbqlcYQf9uDuqBoCw4UQAvD_BwE
+
+
+reserved instance :
+
+pay as u go - expensive per hour charges
+1 year reserved - 51% discount
+3 year reservation - 68% discount
+
+vm size can be changed in same series to get reservation discount
+
+azure hybrid benefit for windows server allows you to use on-prem license in azure
+180 days license can be used between on-prem and azure during migration phase
+
+Spot instance :
+
+azure allows you to create vm's with 90% discount with temporary resource without any SLA within 30sec azure will 
+take resources back,disk will be preserved if yoou chose stop\deallocate which can be used to create new VM
+
+disk charges hourly bases
+
+public ip prefix helps to assign series of public to target vm's
+
+Azure backup :
+
+status.azure.com to check service status in each region
+
+Recovery service vault for backup and ASR
+
+LRS : 3 copies in same DC
+ZRS : 1 copy each in 3 DC in same region
+GRS : LRS in primary and LRS secondary region
+
+azure backup is snapshot of OS and data disk
+
+soft deleting backup where azure keeps backup for 14 days for free
+
+retain instance recovery snapshot - can't be zero -- chargeable
+
+ASR :
+
+for backup vault and vm should be in same region but asr vm and vault should be in target region
+primary site caching storage account is created where all disk will be stored as staging and from there it will 
+be replicated to secondary replica disk , replica disk snapshot is created every 5 minute for recovery point which
+is retianed for 24 hours as per standard policy but can be changed
+
+replication
+failover
+commit
+create NSG\public ip and attach to target vm
+
+
+Load Balancing in Azure :
+
+front door or CDN
+is an application delivery network that provides global load balancing and site acceleration service for web 
+applications.It offers Layer 7 capabilities for your application like SSL offload, path-based routing, fast 
+failover, caching, etc.to improve performance and high-availability of your applications
+
+Application Gateway
+provides application delivery controller (ADC) as a service, offering various Layer 7 load-balancing capabilities.
+Use it to optimize web farm productivity by offloading CPU-intensive SSL termination to the gateway.
+
+Azure Traffic Manager
+is a DNS-based traffic load balancer. This service allows you to distribute traffic to your public facing 
+applications across the global Azure regions. Traffic Manager also provides your public endpoints with high 
+availability and quick responsiveness.
+
+Azure Load Balancer
+is a high-performance, ultra low-latency Layer 4 load-balancing service (inbound and outbound) for all UDP and TCP
+protocols.It is built to handle millions of requests per second while ensuring your solution is highly available. 
+Azure Load Balancer is zone-redundant, ensuring high availability across Availability Zones.
+
+types of ALB :
+
+Standard Load Balancer
+Equipped for load-balancing network layer traffic when high performance and super-low latency are needed.
+Standard Load Balancer routes traffic within and across regions, and to availability zones for high resiliency.
+
+Gateway Load Balancer
+Easily deploy and scale virtual appliances with Gateway Load Balancer.
+Enables scenarios that need service-chaining such as analytics, DDoS protection, firewall, and more.
+
+Basic Load Balancer
+Supports small-scale applications that don't need high availability or redundancy.
+
+ALB can route within same vnet in same region
+
+floating ip is used to map dynamic ip changes to ALB in failover\failback
+
+Azure Traffic Manager :
+
+is used route to multi region with DNS naming application through load balancer, every 30 sec checks endpoints 
+health and caches local DNS for endpoint and TTL is 300 sec can be reduced to 5 sec but that with cost
+
+flow :
+
+user access abc.com and it checks on local DNS server
+local dns server points to TM url
+TM configured with endpoint vm\LB and TM caches the endpoint alias for configured TTL
+user will be responded with nearest DNS server across diff geographies
+
+VM scaleset :
+
+configure scalein and scaleout based on your requirment
+
+Storage Accounts :
+
+blob(conatiner)
+file(SMB file shares)
+table(tabular data)
+queue(message ques)
+
+storage account is created in specific region and can be stand or premium
+
+LRS : 3 copies in same DC
+ZRS : 1 copy each in 3 DC in same region
+GRS : LRS in primary and LRS secondary region
+RA-GRS : read access on replicated region data
+
+access tier :
+
+hot .. frequently used data
+cool .. less frequently used data
+
+networking :
+
+public endpoint (all network)
+public endpoint(vnet\subnet)
+private endpoint (vnic attached)
+
+CDN :
+
+azure uses akamai in backend for CDN for caching static pages,videos etc
+
+Azure CLI(bash) :
+
+check commands and examples online
+
+Azure Powershell :
+
+check commands and examples online
+
+
+Azure AD connect :
+
+vm will be deployed on-prem connected to local domain and saved as hash values for authentication
+azure ad domain will always public so your onprem domain should be brought as public domain and add that public 
+domain as custom domain in azure ad
+
+https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/identity/azure-ad
+
+
+lab setup for SSO between on-prem to Azure and AWS
+
+1. have created hennabynoor.com in private lab VM
+2. added public hennabynoor.com as custom domain in azure and created one administrator\domain controller account
+3. Create VM in private lab and added it to hennabynoor domain and installed AD connect on the same VM
+4. configured ADC with azure custom domain and local domain user and user integrated in azure ad using password 
+hash mechanism
+5. configured AWS SSO and integrated it with azure enterpeise application AWS SSO
+6. user attributes first and last name is must to sync user between azure AD and AWS SSO
+7. System from cross domain identity management (SCIM) record is synced in AWS SSO
+8. Security assertion markup language(SAML) is user integration type between Azure AD and AWS SSO
+
+types on autheticaition in coud platform :
+
+1. AWS or azure platform level access, within platform administration,domain admin,subscription owner,contributor,
+reader
+2. System managed id which is associated with resource and lifecycle is with that specific resource
+3. managed identity is independent of resource and lifecycle is managed with individual id
+4. OS administrator and OS user
+5. App to app authetication (API based)
+6. serverless API GW authetication thorugh CIAM (token based)
+7. HSM token based
+8. Certificate based validation
+
+
+Azure VPN Gateway :
+
+S2S ipsec tunnel
+
+1. create GW subnet
+2. create virtual network gateway
+3. create publicip for virtual network gateway

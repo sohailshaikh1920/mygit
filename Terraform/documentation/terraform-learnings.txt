@@ -1,0 +1,962 @@
+
+git password : XZKthhHjdGW28zRmSSrW
+export AWS_ACCESS_KEY_ID="AKIAT75DN3MXI36DVANU"
+export AWS_SECRET_ACCESS_KEY="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"
+export AWS_DEFAULT_REGION="us-east-1"
+
+$env:AWS_ACCESS_KEY_ID="AKIAT75DN3MXI36DVANU"
+$env:AWS_SECRET_ACCESS_KEY="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"
+$env:AWS_DEFAULT_REGION="us-east-1"
+
+new aws account sohailaws0310@gmail.com
+
+Access Key = AKIAZ6NYMFQEPG6GFC7W
+Secret access key = 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
+
+git cert error : git config --global http.sslVerify false
+git config --global user.name "sohail"
+git config --global user.email sohail.shaikh1920@gmail.com
+
+IAM user : 274683779886
+
+referal :
+
+https://www.middlewareinventory.com/blog/terraform-aws-example-ec2/
+https://aws.amazon.com/blogs/architecture/tag/creating-a-multi-region-application-with-aws-services-series/
+
+
+https://github.com/zealvora/terraform-beginner-to-advanced-resource
+
+mysql -h database-1.cjbrybp0fixw.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+
+arn:aws:iam::274683779886:user/sohail
+
+export AWS_ACCESS_KEY_ID="AKIAT75DN3MXI36DVANU"
+export AWS_SECRET_ACCESS_KEY="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"
+export AWS_DEFAULT_REGION="us-east-1"
+
+$env:AWS_ACCESS_KEY_ID="AKIAT75DN3MXI36DVANU"
+$env:AWS_SECRET_ACCESS_KEY="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"
+$env:AWS_DEFAULT_REGION="us-east-1"
+
+for debugging and exporting tf logs :
+
+$env:TF_LOG="TRACE"
+$env:TF_LOG_PATH="c:\binaries\terraform.log"
+
+bitcuket password = yyTdsuKtT4kfXapZScpX
+
+
+Key sections :
+
+provider --- aws\git\kubernetes etc
+resource --- what u want to deploy
+authentication - everyone have there own mechanism
+terraform init - initalize environment mention as provider
+terraform init -upgrade
+terraform plan - read code and diplay what to add\delete
+fmt - format code
+destroy -target resource_type.localresourcename
+state file - contains latest state deployed through tf and imp to keep backup
+terraform refresh --- for refrehing state file to sync changes from GUI, eg if you have deleted some resource from GUI and that has to be updated in tfstate so refresh it keep both in sync or else you have to manually delete those resources from tfstate
+terraform apply -auto-approve ... so you dont have to say yes seperately
+terraform validate -- validates syntax and variable defination
+________________________________________________________________________________
+Deploying resource with terraform example :
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+
+
+
+
+resource "aws_instance" "ec2-code1" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-0816861f09fac99ea"
+
+  tags = {
+    Name = "ec2code1"
+  }
+}
+
+resource "aws_instance" "ec2-code2" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-0816861f09fac99ea"
+
+  tags = {
+    Name = "ec2code2"
+  }
+}
+
+
+___________________________________________________________________________
+output values or attributes
+output values will be used as input to other program
+
+        aws resource . local resource name . attribute
+value = aws_eip.eipcode.public_ip
+
+example :
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+resource "aws_eip" "eipcode" {
+  vpc = true
+}
+
+output "eipattributes" {
+  value = aws_eip.eipcode.public_ip
+
+}
+___________________________________________________________________________
+
+association
+
+example :
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+
+resource "aws_instance" "ec2-code1" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = "t2.micro"
+  subnet_id     = "subnet-0816861f09fac99ea"
+
+  tags = {
+    Name = "ec2code1"
+  }
+}
+
+
+resource "aws_eip" "eipcode" {
+  vpc = true
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.ec2-code1.id
+  allocation_id = aws_eip.eipcode.id
+}
+
+
+
+CIDR block example : ["${aws_eip.localresourcename.attribute}/32"]
+
+___________________________________________________________________________
+
+how to create and use variables default
+
+file name should be variables.tf in same folder as code
+
+example :
+
+variable "tlscidr" {
+
+default = "10.0.0.0/24"
+
+}
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+
+
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic"
+  vpc_id      = "vpc-01f8deadf7be8fb3e"
+
+  ingress {
+    description      = "TLS from VPC"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = [var.tlscidr]
+  }
+}
+
+___________________________________________________________________________
+
+command line flags for variables
+terraform plan -var="tlscidr=10.1.1.0/24" ....terraform plan will take this value as variable since it is assigned and
+this is not mentioned then terraform will goto default value written in variables.tf
+
+if you keep default value blank in variables.tf then it will ask you for the value in terraform plan
+
+___________________________________________________________________________
+
+variables from file
+
+file name should be terraform.tfvars in same folder as code, keep the variable block empty and then code will point to variables.tf and when there is no value then it will be pointed to terraform.vartf file
+
+
+tlscide = "10.1.1.0/24"
+
+terraform.tfvars vallues will be prioritze over variables.tf
+
+-------------------------------------------------------------------------------------
+
+custom var.tf files
+
+create custom.vartf and add variable values and while running terraform plan run pass file name as below
+
+terraform plan -var-file="custom.vartf"
+
+-------------------------------------------------------------------------------------------------
+
+setting environment variables
+
+export TF_VAR_variablename = value
+
+___________________________________________________________________________
+
+setting veriables type like
+
+number : integer
+string : varchar
+list   : used for alphabet and number like AZ names
+map    : mapping particular default value
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = number
+
+}
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+default = "sohail"
+
+}
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = string
+
+}
+
+
+----------------------------------------------------
+
+number exmaple
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = number
+
+}
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = number
+
+}
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variabletype.tf
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+resource "aws_iam_user" "lb" {
+  name = var.username
+  path = "/system/"
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+___________________________________________________________________________
+
+List example
+
+resource "aws_iam_user" "lb" {
+  name = var.username[1]
+  path = "/system/"
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = list
+default = ["sohail","salik"]
+
+}
+
+___________________________________________________________________________
+
+map exaple
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = map
+default = {
+
+us-east-1 = "sohail"
+us-west-1 = "salik"
+}
+
+}
+
+resource "aws_iam_user" "lb" {
+  name = var.username["us-east-1"]
+  path = "/system/"
+
+___________________________________________________________________________
+
+Count & count.index example
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variables.tf
+variable "username" {
+
+type = list
+default = ["sohail","salik"]
+
+
+}
+
+[ec2-user@ip-10-0-1-112 variabletype]$ cat variabletype.tf
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+resource "aws_iam_user" "lb" {
+  name = var.username[count.index]
+  path = "/system/"
+  count = 2
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
+-----------------------------------------------------------------
+
+tagging with the help of local variables
+
+example :
+
+[ec2-user@ip-10-0-1-112 ec2]$ cat ec2.tf
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+locals {
+
+common_tags = {
+
+owner = "sohail"
+service = "test"
+}
+}
+
+resource "aws_instance" "ec2-code1" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = var.instancetype
+  subnet_id     = "subnet-0816861f09fac99ea"
+
+  tags = local.common_tags
+  }
+
+resource "aws_instance" "ec2-code2" {
+  ami           = "ami-0c02fb55956c7d316"
+  instance_type = var.instancetype
+  subnet_id     = "subnet-0816861f09fac99ea"
+
+  tags = local.common_tags
+  }
+
+variable "instancetype"{
+
+default = "t2.micro"
+
+}
+
+___________________________________________________________________________
+
+plan to file [ec2-user@ip-10-0-1-112 ec2]$ terraform plan -out=plantofile
+
+will create binary file to save the and can run with exact same config later
+
+terraform apply plantofile
+
+---------------------------------------------------------------------------
+
+terraform output
+
+to be checked
+
+
+___________________________________________________________________________
+
+___________________________________________________________________________
+
+terraform plan -help
+Plan Customization Options:
+
+  The following options customize how Terraform will produce its plan. You
+  can also use these options when you run "terraform apply" without passing
+  it a saved plan, in order to plan and apply in a single command.
+
+  -destroy            Select the "destroy" planning mode, which creates a plan
+                      to destroy all objects currently managed by this
+                      Terraform configuration instead of the usual behavior.
+
+  -refresh-only       Select the "refresh only" planning mode, which checks
+                      whether remote objects still match the outcome of the
+                      most recent Terraform apply but does not propose any
+                      actions to undo any changes made outside of Terraform.
+
+  -refresh=false      Skip checking for external changes to remote objects
+                      while creating the plan. This can potentially make
+                      planning faster, but at the expense of possibly planning
+                      against a stale record of the remote system state.
+
+  -replace=resource   Force replacement of a particular resource instance using
+                      its resource address. If the plan would've normally
+                      produced an update or no-op action for this instance,
+                      Terraform will plan to replace it instead.
+
+  -target=resource    Limit the planning operation to only the given module,
+                      resource, or resource instance and all of its
+                      dependencies. You can use this option multiple times to
+                      include more than one object. This is for exceptional
+                      use only.
+
+  -var 'foo=bar'      Set a value for one of the input variables in the root
+                      module of the configuration. Use this option more than
+                      once to set more than one variable.
+
+  -var-file=filename  Load variable values from the given file, in addition
+                      to the default files terraform.tfvars and *.auto.tfvars.
+                      Use this option more than once to include more than one
+                      variables file.
+
+Other Options:
+
+  -compact-warnings   If Terraform produces any warnings that are not
+                      accompanied by errors, shows them in a more compact form
+                      that includes only the summary messages.
+
+  -detailed-exitcode  Return detailed exit codes when the command exits. This
+                      will change the meaning of exit codes to:
+                      0 - Succeeded, diff is empty (no changes)
+                      1 - Errored
+                      2 - Succeeded, there is a diff
+
+  -input=true         Ask for input for variables if not directly set.
+
+  -lock=false         Don't hold a state lock during the operation. This is
+                      dangerous if others might concurrently run commands
+                      against the same workspace.
+
+  -lock-timeout=0s    Duration to retry a state lock.
+
+  -no-color           If specified, output won't contain any color.
+
+  -out=path           Write a plan file to the given path. This can be used as
+                      input to the "apply" command.
+
+  -parallelism=n      Limit the number of concurrent operations. Defaults to 10.
+
+  -state=statefile    A legacy option used for the local backend only. See the
+                      local backend's documentation for more information.
+
+
+___________________________________________________________________________
+
+terraform provisioner
+
+local-exec
+for executing commands on local machine where you are running terraform apply and it can be very useful to extract out to noted and initiate cofiguration scripts like ansible
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+resource "aws_instance" "myec2" {
+
+ami = "ami-0c02fb55956c7d316"
+instance_type = "t2.micro"
+subnet_id = "subnet-0816861f09fac99ea"
+
+
+
+provisioner "local-exec" {
+    command = "echo ${self.private_ip} >> private_ips.txt"
+
+  }
+}
+
+
+___________________________________________________________________________
+
+remote-exec
+
+Need to fix "host for provisioner cannot be empty" with this code
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+resource "aws_instance" "myec2" {
+
+ami = "ami-0c02fb55956c7d316"
+instance_type = "t2.micro"
+key_name = "terraform"
+subnet_id = "subnet-0816861f09fac99ea"
+
+
+
+provisioner "remote-exec" {
+
+inline = [
+"sudo yum install httpd",
+"sudo systemctl start httpd"
+]
+}
+
+connection {
+type = "ssh"
+user = "ec2-user"
+private_key = file("./terraform.pem")
+host = self.public_ip
+}
+
+
+}
+
+___________________________________________________________________________
+
+Provisioner failure behaviour
+
+if you want to skip failure and continue script use on_failure as continue because fail is default behaviour
+
+
+----___________________________________________________________________________
+
+
+DRY principle : dont rpeat yourself
+
+___________________________________________________________________________
+
+Deploying resources using modules :
+
+resource module :
+
+resource "aws_instance" "myec2" {
+
+ami = "ami-0c02fb55956c7d316"
+instance_type = "t2.micro"
+subnet_id = "subnet-0816861f09fac99ea"
+}
+
+Code to refer module :
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+module "devec2" {
+  source = "../../modules/ec2"
+}
+
+
+
+___________________________________________________________________________
+
+using variable in modules :
+
+resource "aws_instance" "myec2" {
+
+ami = "ami-0c02fb55956c7d316"
+instance_type = var.instance_type
+subnet_id = "subnet-0816861f09fac99ea"
+}
+
+variable "instance_type"{
+
+  default = "t2.large"
+}
+
+
+___________________________________________________________________________
+
+
+Using terraform defined modules :
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "single-instance"
+
+  ami                    = "ami-ebd02392"
+  instance_type          = "t2.micro"
+  key_name               = "user1"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-12345678"]
+  subnet_id              = "subnet-eddcdzz4"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+
+ Error: Failed to download module
+│
+│ Could not download module "ec2_instance" (module.tf:2) source code from "git::https://github.com/terraform-aws-modules/terraform-aws-ec2-instance?ref=v3.5.0": error downloading
+│ 'https://github.com/terraform-aws-modules/terraform-aws-ec2-instance?ref=v3.5.0': git must be available and on the PATH.
+
+
+___________________________________________________________________________
+
+Terraform workspace :
+it is used to provide separate environment for developer to use and deploy resources as per value supplied for that workspace
+
+
+variable "instance_type" {
+  type = map
+    default = {
+      default = "t2.nano"
+      dev     = "t2.micro"
+      prd     = "t2.large"
+
+    }
+}
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+
+}
+
+resource "aws_instance" "myec2" {
+
+ami = "ami-0c02fb55956c7d316"
+instance_type = lookup(var.instance_type,terraform.workspace)
+subnet_id = "subnet-0816861f09fac99ea"
+}
+
+
+
+___________________________________________________________________________
+
+bitcuket usage :
+
+create your account and clone your repo in local pc
+create branch for diff developers
+install git client
+
+git commands :
+
+git status
+git add
+git commit
+git push
+git branch
+check for more commands and their --help section for more details
+
+
+
+___________________________________________________________________________
+
+using predifed certified git modules in your code
+
+module "mydemomodule"{
+  source = "github.com/terraform-aws-modules/terraform-aws-ec2-instance"
+}
+
+
+__________________________________________________________________________
+
+
+.gitignore file is used to comment files that you dont want to upload in git repo like
+.terraform
+terraform.tfstate
+*.vartf
+__________________________________________________________________________
+
+to configure tfstate file on remotely on s3
+
+create file backend.tf in root folder
+
+terraform {
+  backend "s3" {
+    bucket = "sohailbackend"
+    key    = "backend.tfstate"
+    region = "us-east-1"
+  }
+}
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+
+}
+
+resource "aws_eip"  "backendeip"{
+  vpc = "true"
+}
+
+there are lot of other backend options
+
+https://www.terraform.io/language/settings/backends/s3
+
+
+__________________________________________________________________________
+
+statefile locking : need to understnd locking more based on use cases, remote backend with S3 locking is in not enabled
+
+
+__________________________________________________________________________
+
+terraform state file commands :
+
+terraform state list ... to show resources part of this state file
+terraform state mv source destination : this will change the resource name in state file
+terraform state pull : to pull remote file state
+terraform state rm : to remove resource from state file
+terraform state show resource full path aws_instance.ec2
+
+
+__________________________________________________________________________
+
+terraform import is used to import manually created resources and later use terraform to make changes, it helps to create state .tfstate file but config file
+you need to create
+
+resource "aws_instance" "importec2" {
+
+  ami = "ami-0c02fb55956c7d316"
+  instance_type = "t2.micro"
+  vpc_security_group_ids = ["sg-08f75743bc1a87671"]
+  key_name = "terraform"
+  subnet_id = "subnet-0816861f09fac99ea"
+
+
+}
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "4.9.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+}
+
+terraform import aws_instance.importec2 i-07402933b53c1dd28
+
+__________________________________________________________________________
+
+
+usecase : how to deploy resource in 2 diff region at the same timeout
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+provider "aws" {
+
+  alias = "miraroad"
+  region = "us-west-1"
+}
+
+
+resource "aws_eip" "eip1"{
+
+vpc = "true"
+}
+
+resource "aws_eip" "eip2" {
+  vpc = "true"
+  provider = aws.miraroad
+}
+
+
+__________________________________________________________________________
+
+sentive parameter = "true"
+
+to mark senitive details in output
+
+__________________________________________________________________________
+
+
+data source can be used to supply ami info which is synamic in diff region
+
+provider "aws" {
+  region = "eu-central-1"
+}
+
+data "aws_ami" "standardami"{
+  most_recent = true
+  owners = ["amazon"]
+
+}
+
+resource "aws_instance" "standardec2"{
+
+  ami = data.aws_ami.standardami.id
+  instance_type = "t2.micro"
+
+}
+
+
+
+points to be prepared for certification
+
+https://www.terraform.io/language/expressions/dynamic-blocks
+https://www.terraform.io/language/values/variables#variable-definition-precedence
+https://www.terraform.io/docs/commands/force-unlock.html
+https://www.terraform.io/language/state/locking
+https://www.terraform.io/language/values/locals
+Dynamic block practice
+splat expression practice
+depends_on
+
+code examples
+
+https://github.com/mydevopscoach/my-tf-iac-aws-repo
+https://github.com/easyawslearn/
+
+__________________________________________________________________________
+
+terraform with azure
+
+1. login to azure account using azure cli for authentication
+
+az login
+az acount list
+
+---------------------------------------------------------------------------
+
+backend as azure storage account
+
+write code to create rg, storage account, container, backend<key parameter in backend is the name of tfsate>
+
+terraform init -migrate-state
+terraform plam -out myplan
+terraform apply myplan

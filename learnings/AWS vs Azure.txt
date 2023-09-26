@@ -1,0 +1,11 @@
+
+AWS                                         Azure                                         GCP
+Account                                     Subscription
+VPC                                         Vnet
+Subnet                                      Subnet
+Security Group                              Network Security Group
+Automatic Scaling Group                      VM Scaleset
+Placement Group                             Proximity placement group
+DirectConnect                               ExpressRoute
+AWS Organisation                            Management Group
+IAM                                         Azure AD

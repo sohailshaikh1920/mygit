@@ -1,0 +1,67 @@
+PS C:\learning\vagrant\certified-kubernetes-administrator-course> kubectl get pods -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS      AGE
+kube-system   coredns-565d847f94-6qshx           1/1     Running   0             12m
+kube-system   etcd-minikube                      1/1     Running   0             12m
+kube-system   kube-apiserver-minikube            1/1     Running   0             12m
+kube-system   kube-controller-manager-minikube   1/1     Running   8 (15m ago)   12m
+kube-system   kube-proxy-clvs4                   1/1     Running   0             12m
+kube-system   kube-scheduler-minikube            1/1     Running   1 (15m ago)   12m
+kube-system   storage-provisioner                1/1     Running   0             12m
+PS C:\learning\vagrant\certified-kubernetes-administrator-course> kubectl get pods --all-namespaces
+NAMESPACE     NAME                               READY   STATUS    RESTARTS      AGE
+kube-system   coredns-565d847f94-6qshx           1/1     Running   0             12m
+kube-system   etcd-minikube                      1/1     Running   0             12m
+kube-system   kube-apiserver-minikube            1/1     Running   0             12m
+kube-system   kube-controller-manager-minikube   1/1     Running   8 (15m ago)   12m
+kube-system   kube-proxy-clvs4                   1/1     Running   0             12m
+kube-system   kube-scheduler-minikube            1/1     Running   1 (15m ago)   12m
+kube-system   storage-provisioner                1/1     Running   0             12m
+
+PS C:\learning\vagrant\certified-kubernetes-administrator-course> kubectl describe pod etcd-minikube --namespace kube-system | more
+Name:                 etcd-minikube
+Namespace:            kube-system
+Priority:             2000001000
+Priority Class Name:  system-node-critical
+Node:                 minikube/10.50.90.171
+Start Time:           Wed, 23 Nov 2022 11:09:11 +0100
+Labels:               component=etcd
+                      tier=control-plane
+Annotations:          kubeadm.kubernetes.io/etcd.advertise-client-urls: https://10.50.90.171:2379
+                      kubernetes.io/config.hash: 2706f02f54f24e42bb5cd0242028c640
+                      kubernetes.io/config.mirror: 2706f02f54f24e42bb5cd0242028c640
+                      kubernetes.io/config.seen: 2022-11-23T10:09:10.371043442Z
+                      kubernetes.io/config.source: file
+Status:               Running
+IP:                   10.50.90.171
+IPs:
+  IP:           10.50.90.171
+Controlled By:  Node/minikube
+Containers:
+  etcd:
+    Container ID:  docker://faba337e31360445210ff7019cff8df2156c71e39129dc636648daec53c7b056
+    Image:         registry.k8s.io/etcd:3.5.4-0
+    Image ID:      docker-pullable://registry.k8s.io/etcd@sha256:6f72b851544986cb0921b53ea655ec04c36131248f16d4ad110cb3ca0c369dc1
+
+
+PS C:\learning\vagrant\certified-kubernetes-administrator-course> kubectl get nodes
+    NAME       STATUS   ROLES    AGE   VERSION
+    minikube   Ready    <none>   16m   v1.25.3
+    PS C:\learning\vagrant\certified-kubernetes-administrator-course> kubectl get pods -n kube-system
+    NAME                               READY   STATUS    RESTARTS      AGE
+    coredns-565d847f94-6qshx           1/1     Running   0             15m
+    etcd-minikube                      1/1     Running   0             15m
+    kube-apiserver-minikube            1/1     Running   0             15m
+    kube-controller-manager-minikube   1/1     Running   8 (18m ago)   15m
+    kube-proxy-clvs4                   1/1     Running   0             15m
+    kube-scheduler-minikube            1/1     Running   1 (18m ago)   15m
+    storage-provisioner                1/1     Running   0             14m
+
+kubectl run nginx --image=nginx --dry-run=client -0 yaml
+
+this command helps you create yaml file without running pod 
+
+jenkins+container+k8s
+
+https://sweetcode.io/how-to-deploy-an-application-to-kubernetes-cluster-using-jenkins-ci-cd-pipeline/
+
+

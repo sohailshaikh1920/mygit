@@ -1,0 +1,20 @@
+subscriptions = {
+  t-rg1spoke ={
+    name = "t-rg1spoke"
+    alias = "t-rg1spoke"
+    subscription_id = "547d54ea-411b-459e-b6f8-b3cc5e84c535"
+    management_group_id = "Infrastrcuture"
+    tags = {
+      businessUnit = "Development"
+      solution = "LandingZoneScaffold"
+    }
+    diagnostic_profiles = {
+      operations = {
+        name             = "operations"
+        definition_key   = "subscription_operations"
+        destination_type = "log_analytics"
+        destination_key  = "central_logs"
+      }
+    }
+  }
+}

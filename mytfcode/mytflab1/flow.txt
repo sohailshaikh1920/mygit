@@ -1,0 +1,13 @@
+1. bastion with vnet and subnet - done
+2. vm01 with vnet subnet nsg and peering - done
+3. vm02 with vnet subnet nsg and peering - done 
+4. add denyall rule in nsg and check vm connectvity with each other - done
+
+---------------------------------------------------------------
+
+
+5. deploy azure fw and add static route from lab subnets to AFW 
+6. deploy azure fw policies to connect vm each other  
+
+---------------------------------------------------------------
+

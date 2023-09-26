@@ -1,0 +1,106 @@
+git is a version control system
+
+git init :
+
+initialize empty directory
+
+PS C:\learning\git> git config --global user.name
+sohail
+
+PS C:\learning\git> git config --global user.email
+sohail.shaikh1920@gmail.com
+
+git status
+
+git add <filename> or .
+add pushes changes to staging area and commit pushes it to repo
+
+git commit
+
+git log
+to print no of commits in target folder
+
+user fish shell for suggestion on terminal
+
+git checkout
+can go back to specific commit\branch and return back to original copy
+git checkout e864ccf6b18a72896eac78b8f3135c1b2cca8ec7
+   54  cat test
+   55  git checkout master
+
+git branch
+when you init it start with master branch and every commit is seperate branch which you can move through checkout
+
+[root@ip-172-31-4-119 gitdemo]# git log
+commit 9c28e174ab7eb0c2858d0a80f62503bfc7934853 (HEAD -> master)
+Author: sohail <sohail.shaikh1920@gmail.com>
+Date:   Sat Nov 12 17:25:54 2022 +0000
+
+    3
+
+commit e864ccf6b18a72896eac78b8f3135c1b2cca8ec7
+Author: sohail <sohail.shaikh1920@gmail.com>
+Date:   Sat Nov 12 17:21:14 2022 +0000
+
+    2
+
+commit 8679aa099632c17f94fd2d254778a3e5d1025305
+Author: root <root@ip-172-31-4-119.ec2.internal>
+Date:   Sat Nov 12 17:17:42 2022 +0000
+
+    1
+
+[root@ip-172-31-4-119 gitdemo]# git checkout e864ccf6b18a72896eac78b8f3135c1b2cca8ec7
+Note: switching to 'e864ccf6b18a72896eac78b8f3135c1b2cca8ec7'.
+
+[root@ip-172-31-4-119 gitdemo]# git branch
+* (HEAD detached at e864ccf)
+  master
+
+git branch can be created based on need and can work isolated and once the code is ready it can be merged with parent branch
+git branch dev
+git checkout -b sohail/dev
+git checkout dev
+git merge sohail/dev
+git checkout master
+git merge dev
+
+.gitignore file can be used to restrict sending sensitive info to git repo
+
+[root@ip-172-31-4-119 gitdemo]# touch .gitignore
+[root@ip-172-31-4-119 gitdemo]# touch secretkey
+[root@ip-172-31-4-119 gitdemo]# git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        secretkey
+
+nothing added to commit but untracked files present (use "git add" to track)
+[root@ip-172-31-4-119 gitdemo]# vi .gitignore
+[root@ip-172-31-4-119 gitdemo]# git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+[root@ip-172-31-4-119 gitdemo]#
+
+personal access tocken : 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
+
+create repo on github
+
+git remote -v
+git remote add origin https://github.com/sohailshaikh1920/gitlearning.git
+git branch -M main
+git push -u origin main
+git checkout uat
+git push -u origin uat
+
+there are 2 type of sharing of branch in actual enviroment
+
+1. add collaborator to your repo and he can clone and do similar changes as you
+2. if you want to keep your code restricted to your approval then editor can fork your branch like clone and make changes
+once the changes are done he can raise pull request and you will see that changes and if everything is fine you will approve and
+merge those change in original branch 

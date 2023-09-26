@@ -1,0 +1,17 @@
+
+workflow :
+
+1. create host with jenkins,docker
+2. create git repo and integrate with jenkins
+3. create Dockerfile and push it to git repo
+4. create jenkins project to run container in docker host
+ 
+
+git personal access token : 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
+
+git checkout branchname
+
+visudo
+%jenkins ALL=NOPASSWD: ALL
+git remote -v
+git remote set-url origin https://sohailshaikh1920@bitbucket.org/sohailshaikh1920/learningbucket.git

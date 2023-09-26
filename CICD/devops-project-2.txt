@@ -1,0 +1,44 @@
+workflow :
+
+1. write TF code to deploy resources in aws and backend as S3
+2. Move code to git repo
+3. integrate jenkins with git and create pipeline to deploy code
+4. assign IAM role to jenkins EC2 for resource deployement
+
+once the resources are deployed with pipeline then you have to intilize it from local system where you have git repo cloned
+once you do that you can see tfstate status
+
+[root@ip-172-31-11-151 remotebackendgit]# terraform state list
+aws_route_table.mydevroutetable
+aws_route_table_association.mydevrtassoc1
+aws_route_table_association.mydevrtassoc2
+aws_subnet.mydevsubnet1
+aws_subnet.mydevsubnet2
+aws_vpc.mydevvpc
+
+[root@ip-172-31-11-151 remotebackendgit]# terraform state show aws_vpc.mydevvpc
+# aws_vpc.mydevvpc:
+resource "aws_vpc" "mydevvpc" {
+    arn                              = "arn:aws:ec2:us-east-1:683823344648:vpc/vpc-0f0e23af9c7323adb"
+    assign_generated_ipv6_cidr_block = false
+    cidr_block                       = "10.12.0.0/16"
+    default_network_acl_id           = "acl-0e5b17cc43967e664"
+    default_route_table_id           = "rtb-0ed1a600fd7672b2b"
+    default_security_group_id        = "sg-0a78be0abfd240ffd"
+    dhcp_options_id                  = "dopt-04ac9f9498ca4ea35"
+    enable_classiclink               = false
+    enable_classiclink_dns_support   = false
+    enable_dns_hostnames             = true
+    enable_dns_support               = true
+    id                               = "vpc-0f0e23af9c7323adb"
+    instance_tenancy                 = "default"
+    ipv6_netmask_length              = 0
+    main_route_table_id              = "rtb-0ed1a600fd7672b2b"
+    owner_id                         = "683823344648"
+    tags                             = {
+        "Name" = "mydevvpc"
+    }
+    tags_all                         = {
+        "Name" = "mydevvpc"
+    }
+}

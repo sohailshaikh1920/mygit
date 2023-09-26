@@ -1,0 +1,18 @@
+$grp="aztfexport"
+$location="norwayeast"
+$vm="vm02"
+$plan="Demo-Sea"
+$appname="appservicedemowebapp"
+
+## create RG 
+
+az group create --location $location --resource-group $grp
+
+### create vm
+
+az vm create --resource-group $grp --name $vm --image Win2019Datacenter --admin-username sohail --admin-password Speedy@98765
+
+### App Service 
+
+az appservice plan create --resource-group $grp --name $plan --sku S1
+az webapp create --name $appname --plan $plan --resource-group $grp  

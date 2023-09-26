@@ -1,0 +1,5 @@
+Connect-AzAccount
+Connect-AzAccount -TenantId 67481c72-d897-4db4-a7fa-b96d76dfb545
+Set-AzContext -SubscriptionId "4cce77b1-65bc-4255-9570-07178450d61f"
+Get-AzSubscription
+Get-Content .\PAL-regstration.ps1

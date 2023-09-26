@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('git check') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sohailshaikh1920/terraformpipeline'
+            }
+        }
+        stage('terraform init') {
+            steps {
+                sh ("terraform init");
+            }
+        }
+        stage('terraform action') {
+            steps {
+                echo "terraform action from parameter is --> ${action}"
+                sh ("terraform ${action} --auto-approve");
+            }
+        }
+    }
+}
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('git check') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sohailshaikh1920/terraformpipeline'
+            }
+        }
+        stage('terraform init') {
+            steps {
+                sh ("terraform init");
+            }
+        }
+        stage('terraform apply') {
+            steps {
+                sh ("terraform apply --auto-approve");
+            }
+        }
+    }
+}

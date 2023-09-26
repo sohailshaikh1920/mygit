@@ -1,0 +1,75 @@
+AD\DNS in detail-done
+Migration in detail
+VM : AMA
+PS : AMA,ASR storage replication
+DB : AMA,DMA,backup\restore
+
+migration through ASR storage replication
+DB migration
+Azure cli commands
+ARM deployement - taufeeq
+how to add SSL to AAPGW\FD\TM - done
+Azure VM types
+Azure key vault use cases
+Keys
+secrets
+certficates
+
+RBAC for managent plane
+AKV policy for data plane
+
+DB active-active solutions
+Monitoring in detail - taufeeq
+create alert based on metric or logs
+
+migrating resources in RG\subs\region
+
+
+backup in detail - taufeeq
+internet tag associated with vm for internet access in dnb
+patching - taufeeq
+automation account
+update manager
+
+use of tags
+env tag
+use in automation runbook to shutdown unused vm's
+cost center tags
+use azure policy to enforce tags
+use in compliance policy
+
+types to roles and use cases
+storage replication
+
+logs
+NSG flow logs
+subscription activity log
+ad audit and signin & provisioning logs
+SQL diagnostic logs
+app insights
+
+identity
+
+Azure AD - Platform , PIM
+RBAC - resources
+OS - service principle from AD
+APP-API - token based through AD & managed identity system\user & application object
+key vault - secrets , keys , HSM
+
+
+azure health check URL's
+
+status.azure.com
+https://www.azurespeed.com/Azure/Latency
+
+in hand salary
+bonus kiska 20% hai
+performance pay
+paternity leave
+holiday leaves
+parking space
+data and training mothly claim or by default
+visa renewal
+mobile kab milega?
+norsk learning
+recruitment bonus

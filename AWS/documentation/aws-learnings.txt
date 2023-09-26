@@ -1,0 +1,10 @@
+AWS ECS
+
+define task to deploy no of containers with required capacity , ECS cluster will have no of nodes to run containers and ECS agent is deployed which contacts with ECS cluster
+
+
+aws security
+ansible
+puppet
+ecs
+fargate

@@ -1,0 +1,24 @@
+version 1:
+
+1. RG for LAB
+2. hub-vnet(subnet-bastion,az fw,) with subnet for hub and spoke01 and spoke02
+3. mesh peering between spoke1 & spoke2 & hub  
+4.backend with storage account  
+5. bastion host with public ip
+6. vm01 & vm02 
+7. nsg with deny all 
+
+---------------------------------------------------------------
+
+version 2:
+
+1. route table to point spoke01 and spoke02 to hub 
+2. AZ Firewall 
+3. deploy azure fw and add static route from lab subnets to AFW 
+4. deploy azure fw policies to connect vm each other  
+5. add diagnostic setting for FW and create network watcher and watcher logs (nsg flow logs) for nsg 
+6. create LAW and storage account and move diagnostics logs to LAW and SA 
+
+---------------------------------------------------------------
+
+

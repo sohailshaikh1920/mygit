@@ -1,0 +1,66 @@
+users list
+
+users
+top
+w
+who
+
+umount /mnt/design/users
+vgchange -an design
+vgexport design
+
+pvscan
+vgimport design
+vg -ay design 
+mkdir 
+mount
+
+/var/log/syslog
+tailf /var/log/syslog
+dmesg
+
+/bin - binaries
+/boot - boot file
+/etc - everything to configure
+/lib - libraries
+/dev - devices
+/var - varibale , logs
+
+audit rules 
+/etc/audit/audit.rules
+provide trails of activities perfomed on system
+
+
+performance check
+
+top
+iostat
+vmstat
+netstat
+
+process commands
+top
+ps
+
+/etc/hostname
+
+ip route add\delete
+print route
+
+rpm -qa
+rpm -i
+rpm -e
+
+/etc/yum.conf
+yum update
+yum list
+yum install 
+yum remove
+
+/etc/sudo.conf
+
+/etc/security/limits.conf
+ulimit -sa
+ulimit -ha
+
+

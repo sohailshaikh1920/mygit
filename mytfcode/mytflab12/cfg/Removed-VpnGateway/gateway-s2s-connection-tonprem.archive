@@ -1,0 +1,62 @@
+################################################
+#  VPN - t-onprem (virtual test "on-premises")
+################################################
+
+
+################################################
+#  Local Network Gateway
+################################################
+
+resource "azurerm_local_network_gateway" "Tonprem" {
+  name                = "${azurerm_resource_group.network.name}-vpn-tonprem-lgw"
+  location            = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network.name
+
+  address_space = [
+    "192.168.0.0/22" // Test On-Premises
+  ]
+  gateway_address = "20.23.117.52"
+
+  bgp_settings {
+    asn                 = 65522
+    bgp_peering_address = "192.168.0.254"
+  }
+}
+
+
+################################################
+#  VPN Connection Pre-Shared Key
+################################################
+
+data "azurerm_key_vault_secret" "Tonprem" {
+  name         = "VPNSitesSharedKey"
+  key_vault_id = data.azurerm_key_vault.SharedNetworkingKeyVault.id
+}
+
+################################################
+#  VPN Connection
+################################################
+
+resource "azurerm_virtual_network_gateway_connection" "Tonprem" {
+  name                = "${azurerm_resource_group.network.name}-vpn-tonprem-con"
+  location            = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network.name
+
+  local_network_gateway_id   = azurerm_local_network_gateway.Tonprem.id
+  virtual_network_gateway_id = azurerm_virtual_network_gateway.S2sGateway.id
+  
+  shared_key                         = data.azurerm_key_vault_secret.Tonprem.value
+  dpd_timeout_seconds                = 0
+  type                               = "IPsec"
+  connection_protocol                = "IKEv2"
+  connection_mode                    = "Default"
+  routing_weight                     = "0"
+  enable_bgp                         = true
+  local_azure_ip_address_enabled     = false
+  use_policy_based_traffic_selectors = false
+
+  depends_on = [
+    azurerm_virtual_network_gateway.S2sGateway,
+  ]
+}
+

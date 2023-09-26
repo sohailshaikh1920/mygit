@@ -1,0 +1,52 @@
+AWS config
+
+AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources.
+Config continuously monitors and records your AWS resource configurations and allows you to automate the evaluation of
+recorded configurations against desired configurations. With Config, you can review changes in configurations and
+relationships between AWS resources, dive into detailed resource configuration histories,
+and determine your overall compliance against the configurations specified in your internal guidelines.
+This enables you to simplify compliance auditing, security analysis, change management, and operational troubleshooting.
+
+AWS organisation
+Beanstalk
+AWS control tower
+
+
+SG is steless FW and NACL is statefull , SG you can create deny rule and priority but NACL you can do
+
+cross region Load balancing
+
+To reach global users quickly or to meet the requirements of using a single public IP, AWS Global Accelerator can also be used for
+cross-Region failover.AWS Global Accelerator is a networking service that improves availability and performance for applications with
+both local and global reach. AWS Global Accelerator provides static IP addresses that act as a fixed entry point to your application
+endpoints, such as your Application Load Balancers, Network Load Balancers, or Amazon EC2 instances in single or multiple AWS Regions.
+ It uses the AWS global network to optimize the path from your users to your applications, improving performance,
+ such as the latency of your TCP and UDP traffic.
+
+ The Amazon Route 53 Traffic Flow feature makes it easy for you to manage traffic globally through a variety of routing types,
+ including latency-based routing, geo DNS, geoproximity, and weighted round robin—all of which can be combined with DNS Failover to
+ enable a variety of low-latency, fault-tolerant architectures. The Amazon Route 53 Traffic Flow simple visual editor allows you to
+ manage how your end users are routed to your application’s endpoints—whether in a single AWS Region or distributed around the globe.
+
+
+AWS types of identity :
+
+identity center directory in IAM
+MS AD in AWS
+external authentication like azure ad (SAML)
+
+AWS logs
+
+cloudwatch
+cloudtrail
+vpcflow logs
+tcpdump
+elb access logs
+S3 bucket logs
+cloudfront logs
+R53 query logs
+
+AWS system manager
+used to patch linux and windows machines
+
+elastic disaster recovery

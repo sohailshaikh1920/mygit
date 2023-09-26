@@ -1,0 +1,169 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "imageTemplateName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the Image Template"
+            }
+        },
+        "managedUserId": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource ID of the managed user identity"
+            }
+        },
+        "imageDefinitionId": {
+            "type": "string",
+            "metadata": {
+                "description": "Resource ID of the image definition"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure region to deploy into"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2020-02-14",
+            "name": "[parameters('imageTemplateName')]",
+            "location": "[parameters('location')]",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[parameters('managedUserId')]": {}
+                }
+            },
+            "properties": {
+
+                "buildTimeoutInMinutes": 100,
+
+                "vmProfile": {
+                    "vmSize": "Standard_D2_v5",
+                    "osDiskSizeGB": 30
+                },
+
+                "source": {
+                    "type": "PlatformImage",
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2019-datacenter-core-smalldisk-g2",
+                    "version": "latest"
+
+                },
+                "customize": [
+                    {
+                        "type": "PowerShell",
+                        "name": "installChocolatey",
+                        "runElevated": true,
+                        "inline": [
+                            "echo installChocolatey",
+                            "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+                        ]
+                    },
+
+                    {
+                        "type": "PowerShell",
+                        "name": "installAzureCli",
+                        "runElevated": true,
+                        "inline": [
+                            "echo installChocolatey",
+                            "choco install azure-cli -y"
+                        ]
+                    },
+
+                    {
+                        "type": "PowerShell",
+                        "name": "installAzPowerShell",
+                        "runElevated": true,
+                        "inline": [
+                            "echo installChocolatey",
+                            "choco install az.powershell -y"
+                        ]
+                    },
+
+                    {
+                        "type": "PowerShell",
+                        "name": "installTerraform",
+                        "runElevated": true,
+                        "inline": [
+                            "echo installChocolatey",
+                            "choco install terraform -y"
+                        ]
+                    },
+
+                    {
+                        "type": "PowerShell",
+                        "name": "disableSsl3",
+                        "runElevated": true,
+                        "inline": [
+                            "echo disableSsl3",
+                            "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client' -name 'Enabled' -value '0'",
+                            "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server' -name 'Enabled' -value '0'"
+                        ]
+                    },
+
+                    {
+                        "type": "PowerShell",
+                        "name": "configureStrongCryptography",
+                        "runElevated": true,
+                        "inline": [
+                            "echo configureStrongCryptography",
+                            "New-ItemProperty -Path 'HKLM:\\SOFTWARE\\Wow6432Node\\Microsoft\\.NETFramework\\v4.0.30319' -name 'SystemDefaultTlsVersions' -value '1' -PropertyType 'DWORD'",
+                            "New-ItemProperty -Path 'HKLM:\\SOFTWARE\\Wow6432Node\\Microsoft\\.NETFramework\\v4.0.30319' -name 'SchUseStrongCrypto' -value '1' -PropertyType 'DWORD'",
+                            "New-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319' -name 'SystemDefaultTlsVersions' -value '1' -PropertyType 'DWORD'",
+                            "New-ItemProperty -Path 'HKLM:\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319' -name 'SchUseStrongCrypto' -value '1' -PropertyType 'DWORD'"
+                        ]
+                    },
+
+                    {
+                        "type": "WindowsRestart",
+                        "restartCommand": "shutdown /r /f /t 0",
+                        "restartTimeout": "5m"
+                    },
+
+                    {
+                        "type": "WindowsUpdate",
+                        "searchCriteria": "IsInstalled=0",
+                        "filters": [
+                            "exclude:$_.Title -like '*Preview*'",
+                            "include:$true"
+                        ]
+                    },
+
+                    {
+                        "type": "WindowsRestart",
+                        "restartCommand": "shutdown /r /f /t 0",
+                        "restartTimeout": "5m"
+                    },
+
+                    {
+                        "type": "WindowsUpdate",
+                        "searchCriteria": "IsInstalled=0",
+                        "filters": [
+                            "exclude:$_.Title -like '*Preview*'",
+                            "include:$true"
+                        ]
+                    }
+                ],
+                "distribute": [
+                    {
+                        "excludeFromLatest": false,
+                        "galleryImageId": "[parameters('imageDefinitionId')]",
+                        "replicationRegions": [
+                            "westeurope"
+                        ],
+                        "runOutputName": "[parameters('imageTemplateName')]",
+                        "type": "SharedImage"
+                    }
+                ]
+            }
+        }
+    ]
+}

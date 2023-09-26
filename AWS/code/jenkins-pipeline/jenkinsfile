@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('git checkout') {
+            steps {
+                git branch: 'vpc', url: 'https://github.com/sohailshaikh1920/jenkins'
+            }
+        }
+
+        stage('terraform init') {
+            steps {
+                sh ("terraform init");
+            }
+        }
+        stage('terraform action') {
+            steps {
+                echo "terraform action from parameter is --> ${action}"
+                sh ("terraform ${action} --auto-approve");
+            }
+        }
+    }
+}

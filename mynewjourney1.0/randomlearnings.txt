@@ -1,0 +1,184 @@
+* how to clone private git repo
+1. create your git account
+2. create your repo as private
+3. install git cli and configure user and email parameter
+git config --global user.name "sohail shaikh"
+git config --global user.email "sohail.shaikh@innofactor.com"
+4. generate rsa key on your laptop
+ssh-keygen -t rsa -b 2048
+5. copy key from C:\Users\sohail.shaikh/.ssh/id_rsa and add it in github settings ssh keys and then configure 
+SSO to authorize innofactor so that your laptop can use those keys
+6. git clone repo ssh path
+
+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
+
+git init 
+git add .
+git commit -m "new"
+git status
+git remote -v
+git remote set origin url
+git push --set-upstream origin branchname
+my updates
+
+to create a new branch in existing repo and push changes you to clone the repo first and then create new branch
+
+git init
+git clone path
+git switch -c branchname
+add files
+git add .
+git commit -m "msg"
+git push -u<set upstream> -f origin branchname
+
+-----------------------------------------------------------------------------------
+
+to authenticate azure account throgh service principle
+
+1. go to aad-->apps registration and create new app
+2. goto app-->client secret and create a secret key
+3. add below variables to your enviroment 
+4. now the cli is authenticated with service principle
+
+setx ARM_CLIENT_ID e452ee45-b7ac-4aec-84ff-1df79f604244
+setx ARM_CLIENT_SECRET 60q8Q~~06jvOGz~tlNiVdkPO4Vf6ERngshUq4akC
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+terraform state show azurerm_resource_group.rg
+
+setx CLIENT_ID 27315e8d-9288-4294-ad5c-d12a5a476925
+setx CLIENT_SECRET mHO8Q~yXrPHerHqSwmtEzEDiwcT1fnAYFnzKOb9U
+setx TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+
+setx ARM_CLIENT_ID 918740f3-9135-4574-ab18-8d07eac8d057
+setx ARM_CLIENT_SECRET 8t_8Q~LX99mcXn8s~XzrWtzGaKhrHZmsqMI~falo
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+---------------------------------------------------------------------
+
+azure devops pipeline yaml file for terraform 
+
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+# name: $(BuildDefinitionName)_$(date:yyyyMMdd)$(rev:.r)
+
+variables:
+ - group: terraformvars
+  
+# Only run against develop
+#trigger: none
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+# Don't run against PRs
+# pr: none
+
+stages :
+  - stage: validate
+    jobs:
+    - job: validate
+      continueOnError: false
+      steps:
+      - task: Bash@3
+        displayName: Terraform Init
+        env:            
+         ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)              
+         ARM_TENANT_ID: $(ARM_TENANT_ID)
+        inputs:
+          workingDirectory: '$(System.DefaultWorkingDirectory)'          
+          targetType: 'inline'
+          script: |
+            terraform init
+            
+  
+      - task: Bash@3
+        displayName: Terraform Apply
+        env:            
+         ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+         ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)              
+         ARM_TENANT_ID: $(ARM_TENANT_ID)
+        inputs:      
+          workingDirectory: '$(System.DefaultWorkingDirectory)<working directory in repo>'
+          targetType: 'inline'
+          script: |
+            terraform apply -auto-approve
+
+1. create github and arm service connection in devops project settings
+2. create variable group in pipeline library
+3. install self hosted agent and configure it
+
+
+913d618e-5bd9-437a-9245-9c258daf820a
+DVh8Q~_ZDnu3_QPWbOHUKZhC66KQ0EMlafcbocPB
+67481c72-d897-4db4-a7fa-b96d76dfb545
+
+
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------
+
+Finally sab chal gaya :) ye procedure rahega to run devops pipeline
+
+1. code likho
+2. azure git repo banao and usko clone karlo(set origin karke b push kar sakte hai)
+3. code push karlo
+4. service priciple create karlo and uska info(ClientId,DeploymentPassword,SubscriptionId,TenantId) as variable group devops pipeline
+library me add karlo
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret
+
+setx ARM_CLIENT_ID 2ea0486b-cbf1-4d49-a883-7e36f2e87a7c
+setx ARM_CLIENT_SECRET Klp8Q~87p9uSgV2pizwvFatmdwBLNv3NHlhZ5c7f
+setx ARM_TENANT_ID 67481c72-d897-4db4-a7fa-b96d76dfb545
+setx ARM_SUBSCRIPTION_ID 4cce77b1-65bc-4255-9570-07178450d61f
+
+--------------------------------------------------------------
+
+terraform state list | findstr "vm"
+
+-----------------------------------------------------------------
+
+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
+
+-------------------------------------------------------------------------------------------------
+
+what is you have multiple tenants to work within vscode
+
+first of all terraform doesn't support azure powershell commands like if you authenticate with Connect-AzAccount
+it will not work use az login 
+
+steps 
+
+az account clear
+az logout
+az login --allow-no-subscriptions --tenant "<tenant id on which you want to work>"
+az account list -o table --all --query "[].{TenantID: tenantId, Subscription: name, Default: isDefault}"
+az account set --subscription '<subs id on which you want to work>'
+az account list -o table --all --query "[].{TenantID: tenantId, Subscription: name, Default: isDefault}"
+
+-------------------------------------------------
+
+NA : then set below env variables 
+
+$env:ARM_TENANT_ID = "tenantid"
+$env:ARM_CLIENT_ID = "apps client id"
+$env:ARM_CLIENT_SECRET = "client secret"
+$env:ARM_SUBSCRIPTION_ID = "subs id to work on"
+
+Get-Childitem env:
+
+------------------------------------------------
+detailed approach documented here :
+
+https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/guides/azure_cli
+

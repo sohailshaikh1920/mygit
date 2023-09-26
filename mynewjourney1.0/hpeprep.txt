@@ -1,0 +1,193 @@
+Cray ClusterStor systems consist of a unique scale-out storage architecture that consolidates Lustre servers, RAID controllers, disk enclosures, and the operating system into an integrated storage platform that can be easily expanded using modular storage node building blocks. The Cray ClusterStor E1000 architecture is based on a No (Hardware) Single Point of Failure (NSPF) design.
+
+The basic hardware components are represented by a single rack system and consist of the following hardware building blocks:
+
+Storage Rack
+Power Distribution Unit (PDU)
+High Speed Network (HSN)
+Management Network(s)
+Processor Control Module
+Storage Enclosure, Flash, NVMe
+Storage Enclosure, Disk, HDD
+The first Cray ClusterStor E1000 hardware platform ships with the Neo 6.x code stack.
+
+
+Lustre is DFS for HPC 
+
+Components of a Lustre File System
+Lustre’s scalable architecture has three main components:
+
+Metadata Server (MDS)
+Object Storage Server (OSS)
+Lustre clients
+
+luster servers
+object storage servers(OSS)
+Metadata server (MDS)
+
+luster targets
+object storage disk (OSD)
+Metadata target(MDT)
+
+https://oit.utk.edu/hpsc/lustre-architecture/#:~:text=The%20Lustre%20file%20system%20is,a%20Metadata%20Target%20(MDT).
+
+infiniband
+
+https://www.naddod.com/blog/a-quick-guideline-to-infiniband
+
+ipoib(ip over ib) - within infiniband
+EOIB(enternet over ib) - outside to infiniband
+HCA (host channel adapters)
+
+layers
+physical
+link
+network
+transport
+upper
+
+ib subnet to ib subnet the packaet will have GID (global id)
+each node in subnet is assigned LID(local id) maintained by subnet manager
+
+Direct attach copper (DAC) - ib to ib
+Active optical cable(AOC) - ib to fiber
+QSP56
+
+
+
+/etc/modprobe.d/lustre.conf
+
+
+Oracle ASM
+OCFS
+
+param changes in linux?
+
+HP Cray
+
+types of CRAY system
+River
+mountain
+mountain TDS
+
+
+HW components :
+
+mgnt river cabiner
+COTS - commercial off the shelf servers or non compute nodes(NCN), k8s master & worker node to run system manag services, utility storage , user access node , LNet (sata disk)
+Compute Nodes(CN) - dense compute,GPU accelerated
+TOR - top of rack switch for SMNet (system mgnt network)-dell switch
+
+
+types of switches
+smnet - all CN and NCN , spine in mgnt rack and leaf in every rack,Aruba switches
+slingshot HSN - all CN and most NCN
+
+QSFP-DD transeiver supports upto 400 gbps
+QSFP-DD to QSFP56 (ib to fiber)
+3-hop dragonfly topology
+vlan on SMNET - hw-mgnt,node-mgnt,cust access net(CAN)
+
+
+third party technologies
+
+docker\container
+containerd
+etcd(k8s)
+git
+Ansible
+grafana
+prometheus
+API's(microservices) - peice of code that defines how to communicate world arround it , GET\POst , put\delete , soap , XML
+RESt API - stateless
+
+SMS (system management sevices) - these are microservices running as conainer on docker+conteinerd and orchetrated by k8s
+
+Cray cli is used to connect with system api's
+
+Ceph (software defined storage solution) - rliable autonomic distributed object storage (rados) , hw agnostic,FT,scalable
+
+object storage : metadata ,GID and data stored together as object
+block storage : metadata and data stored seperatly
+file storage : like ext4,efs or lustre
+
+istio : security layer to monitor encrypt mc's
+
+keycloak : IAM solution provide LDAP or AD features for users to autho\authen based on assigned roles, user  needs to have keycloak user to login cray cli, client ldap(AD) can be integrated with keycloak,works with istio to provide JWT(json web toekn) for API auth
+
+kiwi NG - kiwi appliance builder next gen used to build appliance images has 2 parts
+
+image : artifact of build stage which is cray root image
+image desc : defination of image, custpmization of image
+
+can build image based on suse rhel etc
+completely linux fs
+
+helm : install and upgrade sw on k8s cluster
+
+Ansible : automation engine
+
+config mgnt 
+sw installation
+linux service stop start
+file operations
+
+controller node
+managed node
+playbook
+module
+inventory
+task
+
+
+GIT : distributed version control system
+
+flow:
+kiwi ng 
+helm
+ansible
+git
+
+elasticsearch : search engine (cray logs are saved here)
+
+kibana : visual represtation of elasticsearch , analyze logs
+
+postgress : time sereis db data
+
+Grafana : visual data in pg
+
+promenthus : monitor kb8,istio,ceph , alertmanager for alerts , dashboard for heath status
+
+2 cli tools : cray and sat SDU(system dump utility)
+
+authn & authz : auth and authen is similar as public cloud using openid standard which is used for jwt
+
+3 layer of security
+
+api gw : entrypoint and keycloak and istio
+keycloak : IAM
+JWT
+
+system credentials,key and secret stored in hashicorp vault integrated with api
+
+vbis (virtual bastion inception sentinel)
+
+FUS (fimware upgrade service)
+CRU(compute rolling upgrade)
+
+UAI (user access interface) - runs on container and used by developers to deploy apps
+UAN (user access node) - runs on bare metal 
+
+
+HP proliant 10+
+HP apollo 10+ 
+
+HPE performance cluster manager admin nodes (one admin node per cluster , HA config will have 3 admin nodes) should be supported model nodes
+
+naming standard xname
+
+
+
+
+
+

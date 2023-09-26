@@ -1,0 +1,16 @@
+################################################
+#  Storage account for network diagnosts data
+################################################
+
+resource "azurerm_storage_account" "networkdiag" {
+  name                = "pwe1wafnetworkdiagrb2os"
+//  name                = "${local.subscriptionname}networkdiag${random_string.random.result}"
+  resource_group_name = azurerm_resource_group.network.name
+  location            = azurerm_resource_group.network.location
+
+  account_tier              = "Standard"
+  account_kind              = "StorageV2"
+  account_replication_type  = "ZRS"
+  enable_https_traffic_only = true
+}
+

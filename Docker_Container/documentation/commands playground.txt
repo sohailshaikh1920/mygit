@@ -1,0 +1,285 @@
+
+
+FROM centos:centos6.8
+RUN yum install telnet -y && yum install iputils
+RUN mkdir /docker
+COPY loveu.txt /docker
+ENTRYPOINT ["ping"]
+CMD ["-c","100","google.com"]
+
+
+centos yum commands
+
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN yum update -y
+RUN yum install telnet -y
+
+
+FROM centos
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN yum update -y
+RUN yum install telnet -y
+RUN mkdir /root/docker
+COPY loveu.txt /root/docker
+
+FROM centos
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+RUN yum update -y
+RUN yum install telnet -y
+RUN mkdir /root/docker
+COPY loveu.txt /root/docker
+ENTRYPOINT ["ping"]
+CMD ["-c","100","google.com"]
+
+docker build -t centos6 -f centos6 .
+docker run centos6 -c 10 8.8.8.8
+
+docker login
+docker tag centos6 sohailshaikh1920/centos6
+docker push sohailshaikh1920/centos6
+
+docker rmi -f centos5
+
+root@ip-10-0-1-103:~# docker rm 625c285f0a6c (to remove Container)
+625c285f0a6c
+root@ip-10-0-1-103:~# docker rmi cent1 (to remove image)
+Untagged: cent1:latest
+Deleted: sha256:4d48de7308a1435d860efc4a8a8514181242a9b826b4d90a4f746ce2f202a0f3
+Deleted: sha256:0e296564b208a417d7b959b0b6f290c5d04df43dc3e4a4c0ca347fa0089524e5
+Deleted: sha256:d24ac7107c81d5eaa5c1f028c2976c3f7d38de8ba88050836b86a46e7e80fc91
+Deleted: sha256:84fb14c6ec6b293295a64a180e7caba2e38c57322b491dde77a0ded869bb7da1
+root@ip-10-0-1-103:~#
+
+docker hostname=docker id
+
+docker attach containername
+
+Attach local standard input, output, and error streams to a running container
+
+docker diff containername(to check changes made to container)
+
+A	A file or directory was added
+D	A file or directory was deleted
+C	A file or directory was changed
+
+docker commit stoppedcontainerid newcontainername (for creating image from container)
+
+docker volume :
+
+docker volume create testvol
+root@ip-10-0-1-103:/var/lib/docker/volumes/testvol/_data# docker volume inspect testvol
+[
+    {
+        "CreatedAt": "2022-10-02T15:59:07Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/testvol/_data",
+        "Name": "testvol",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+root@ip-10-0-1-103:/var/lib/docker/volumes/testvol/_data#
+
+
+docker run -d --name volume -v testvol:/app new4
+
+
+root@ip-10-0-1-103:~/docker# cat dockerimage
+FROM news
+RUN yum install iputils -y
+RUN mkdir /root/data
+COPY loveu1.txt /root/data
+ENTRYPOINT ["ping","-c","100","google.com"]
+root@ip-10-0-1-103:~/docker#
+
+sharing volumes between containers :
+
+docker volume create testvol
+docker run -d -v testvol:/data new4 (read\write)
+docker run -d --name second -v testvol:/data:ro new4(readonly)
+
+
+docker network :
+
+bridge network :
+
+bridge switch is created inside host as network namespace and nic is created on bridge that is attached to container in this case container
+is exposed via host network , bridge is container namespace network
+bridge is a default network if you dont specify --network parameter while running container
+
+root@ip-10-0-1-103:~# docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+59d440153e11   bridge    bridge    local
+f2cb00a3b9e0   host      host      local
+5c39043166df   none      null      local
+
+root@ip-10-0-1-103:~# ip link (on host)
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9001 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 0e:fd:c8:d5:04:5b brd ff:ff:ff:ff:ff:ff
+3: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default
+    link/ether 02:42:e9:ff:b5:c9 brd ff:ff:ff:ff:ff:ff
+37: veth3670a40@if36: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default
+    link/ether fa:29:4b:35:6e:ae brd ff:ff:ff:ff:ff:ff link-netnsid 0
+
+[root@1e40a38917f0 /]# ip link (inside container)
+    1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    36: eth0@if37: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default
+        link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+
+        root@ip-10-0-1-103:~# docker network inspect 59d440153e11(bridge network id)
+      [
+          {
+              "Name": "bridge",
+              "Id": "59d440153e11954d1e9b574dbcd147205ad4e80d4b1a6d673def2164d7a616ac",
+              "Created": "2022-10-02T10:46:45.761922791Z",
+              "Scope": "local",
+              "Driver": "bridge",
+              "EnableIPv6": false,
+              "IPAM": {
+                  "Driver": "default",
+                  "Options": null,
+                  "Config": [
+                      {
+                          "Subnet": "172.17.0.0/16", (range of bridge network)
+                          "Gateway": "172.17.0.1"
+                      }
+                  ]
+              },
+              "Internal": false,
+              "Attachable": false,
+              "Ingress": false,
+              "ConfigFrom": {
+                  "Network": ""
+              },
+              "ConfigOnly": false,
+              "Containers": {},
+              "Options": {
+                  "com.docker.network.bridge.default_bridge": "true",
+                  "com.docker.network.bridge.enable_icc": "true",
+                  "com.docker.network.bridge.enable_ip_masquerade": "true",
+                  "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+                  "com.docker.network.bridge.name": "docker0",
+                  "com.docker.network.driver.mtu": "1500"
+              },
+              "Labels": {}
+          }
+      ]
+      root@ip-10-0-1-103:~#
+
+      docker inspect 2dc82c21ea04 (containerid)
+
+      copy file from cotainer to host :
+
+      docker cp 49af2aad085b:/root/data/testfile /root/docker
+
+      copy file from host to container 
+
+      docker cp filepath containerid:/root/tmp
+
+ECS :
+
+cluster : set of ec2 instances or fargate cluster
+task : metadata about deployement like namespace cgroups port mapping
+service : autoscalling,LB,blue green deployement
+
+*****scenario to be tested :
+
+1. run container on isolated network and connect it from windows machine deployed in other vnet on isolated network
+2. move container image to ECR and run container in ECS and test access
+
+
+ECR URL :   274683779886.dkr.ecr.us-east-1.amazonaws.com/myecr
+Image URL : 274683779886.dkr.ecr.us-east-1.amazonaws.com/myecr:latest
+
+AWS docker login :
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 683823344648.dkr.ecr.us-east-1.amazonaws.com
+
+image tag & push on ECR :
+
+aws configure
+docker tag nginx1:latest 274683779886.dkr.ecr.us-east-1.amazonaws.com/myecr:latest
+docker tag nginx1:latest 683823344648.dkr.ecr.us-east-1.amazonaws.com/dockerecr:newimage
+
+docker push 274683779886.dkr.ecr.us-east-1.amazonaws.com/myecr:latest
+docker push 683823344648.dkr.ecr.us-east-1.amazonaws.com/dockerecr:newimage
+
+683823344648.dkr.ecr.us-east-1.amazonaws.com/dockerecr:latest
+683823344648.dkr.ecr.us-east-1.amazonaws.com/dockerecr:sohail
+
+Pushing image to ACR :
+
+az login
+az group create -n tobedeleted -l eastus
+az acr create -g tobedeleted -n sohailacr --sku basic
+docker login sohailacr.azurecr.io(get the username\password from acr access key)
+docker tag yeasy/simple-web:latest sohailacr.azurecr.io/webapp(repo name insideacr):newapp(imagetag)
+docker push sohailacr.azurecr.io/webapp:newimage
+
+
+actual commands after revision in july 2023 :
+
+1  yum list docker
+    2  yum install docker
+    3  docker -v
+    4  docker status
+    5  service docker status
+    6  service docker start
+    9  docker ps
+   10  docker pull centos
+   16  docker images
+   20  systemctl enable docker
+   21  docker images
+   47  docker run -d -p 8080:80 nginx
+   48  docker ps
+   49  curl localhost:8080
+   50  docker ps
+   51  docker exec -it f2e17a9830dd /bin/bash
+   52  docker ps
+   53  docker stop 158f74c00d39 f2e17a9830dd
+   54  docker ps -a
+   55  docker images
+   56  docker rmi docker.io/nginx
+   59  docker diff f7dd506a4618
+   72  docker volume
+   73  docker volume ls
+   74  docker volume create myvol1
+   75  docker volume ls
+   76  cd /var/lib/docker/volumes/myvol1/
+   77  docker run -d -p 8080:80 -v myvol1:/opt/nginx nginx
+   78  docker ps
+   79  docker exec -it 1620 /bin/bash
+   80  ll
+   81  cd _data/
+   82  ll
+   83  cd /root/
+   84  ll
+   85  touch test1
+   86  cp test1 /var/lib/docker/volumes/myvol1/_data/
+   87  docker exec -it 1620 /bin/bash
+   89  docker inspect 1620
+   90  docker inspect 1620 | more
+   91  docker logs 1620
+   92  docker ps
+   93  docker images
+   94  docker run -d centos /bin/bash ping google.com
+   95  docker ps
+   96  docker ps -a
+  102  docker run -d --name=cont centos ping google.com
+  108  docker exec -it 6c70 /bin/bash
+  docker attach 283972ec6ed8
+
+  detailed video to deploy container with az devops
+
+  https://www.youtube.com/watch?v=GcM05tbaYGg&list=PLdU0EKYsvsEU6WD7k6c1sqqv28Ff1PfDo&index=5
+
+
+
+

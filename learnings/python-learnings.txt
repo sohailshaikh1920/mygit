@@ -1,0 +1,10 @@
+python2 vs python3
+3 launched in 2008 and 2 long before that, P2.7 is compatible with all P2 version along with most P3 versions
+
+we are using P3.10.6 for our LAB
+
+pip is used to install thrid party modules in python
+
+indentation is a space given before each line of code represent one block and every line of code should have similar indent
+
+# or ... text to be hashed in program ... can be used in program for comments

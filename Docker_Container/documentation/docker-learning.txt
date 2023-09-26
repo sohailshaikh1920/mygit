@@ -1,0 +1,298 @@
+
+docs.docker.com
+hub.docker.com
+
+commands :
+
+docker run dockerpath
+docker ps -- to show containers processes
+docker stop
+docker rm
+docker pull : pull latest image and store it locally
+docker exec -it containername command : to run command inside cotainer
+docker run  : to run containers
+docker run --name=containername : to name container
+docker rmi : to remove images
+docker images : to list images
+docker run dockerimage:version : called tag to get older version otherwise it is latest default
+docker run -p dockerport:containerport container name : for mapping unique docker
+port with container port to be accessible from outside
+docker run -v dockerhostfilesystem:containerfs containername : to map container FS with docker dockerhostfilesystem
+docker inspect containername : to get container complete details in json format
+docker logs containername : to get the logs to the container
+docker push tag imagename registryname/imagename
+docker volume
+docker network
+docker diff
+docker commit
+docker cp 
+
+to build docker container image :
+
+1. create file name Dockerfile and add all instruction & arguments
+https://docs.docker.com/engine/reference/builder/
+
+2. docker build . -t imagelable
+
+dockerfile commands
+
+FROM - which image you want to use
+RUN - run commands while building docker image
+CMD - these commands will be run when container is started
+Copy
+Add
+RUN : Mainly used to build images and install applications and packages. Builds a new layer over an existing image by committing the results.
+CMD : Sets default parameters that can be overridden from the Docker Command Line Interface (CLI) when a container is running.
+ENTRYPOINT : Default parameters that cannot be overridden when Docker Containers run with CLI parameters.
+
+
+https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+
+
+docker compose is use to deploy stack with multiple container
+
+
+https://docs.docker.com/compose/
+
+https://docs.docker.com/engine/reference/commandline/compose/
+
+docker registry
+
+is a public or private repository for your images and default location is docker.io but u can use AWS and azure
+private registry or deploy registry on prem with docker private registry container
+
+docker engine
+
+consist of 3 components :
+
+1. docker daeomon : manages all network and storage and process for diff conntainers
+2. rest api : helps to connect registry and cli to daeomon
+3. docker cli : for commands
+
+workspace PID
+
+each of the linux process is assigned with unique PID and when container runs any services it is mapped with workspace
+so that it is shown running diff PID on host
+
+cgroups
+
+this is to control assigned comupute to a specific containers
+
+docker run --cpus=.5 ubuntu -- it will assign 50% of host cpu to this container
+docker run memory=100m ubuntu
+
+docker push syntax
+
+docker build . -t sohailcentos
+docker tag sohailcentos sohailshaikh1920/ccentos
+docker images
+docker push sohailshaikh1920/ccentos
+
+Docker storage
+
+/var/lib/docker is directory where all action happens on host
+
+docker build images based on layered approach and package in image hence all image config are readonly and changes
+made during runtime on container is in container layer and a copy of file is been created so that image is protected
+since same image is used by multiple containers and this is called copy_on_write and these changes will be lost once the container is stopped
+but to preserve follow below procedure
+
+docker volume create volumename : it will create volume under /var/lib/docker/volumes
+docker run -v volumename:containervolumetobeounted containername
+
+when you make a change to code in layered form then existing image is referred in same storage to save time and storage
+
+there are 2 types of volume mapping
+
+volume : where u map container FS to specific volume in host /var/lib FS
+bind : where u can map any FS on host with container FS
+
+docker run \ --mount type=bind,source=fsabsoultepath,target=fsabsoultepath containername
+
+https://docs.docker.com/storage/bind-mounts/
+
+docker user storage drivers for mapping volumes
+
+AUFS
+ZFS
+device mapper
+overlay
+overlay2
+
+each of the drivers has its on folder in /var/lib/docker
+
+docker history imagename : to list dockerfile content of this images
+
+docker build . -f Dockerfilenew -t newimage : for using specific file to build images
+
+root@ip-10-0-1-141:~# docker system df
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          16        2         3.013GB   2.976GB (98%)
+Containers      6         2         0B        0B
+Local Volumes   19        4         666MB     666MB (99%)
+Build Cache     0         0         0B        0B
+root@ip-10-0-1-141:~#
+
+root@ip-10-0-1-141:~# docker system df -v
+Images space usage:
+
+REPOSITORY                              TAG        IMAGE ID       CREATED         SIZE      SHARED SIZE   UNIQUE SIZE   CONTAINERS
+result                                  latest     cc3db90297ed   11 hours ago    159.8MB   134.3MB       25.48MB       0
+worker-app                              latest     722f0435457d   12 hours ago    192.8MB   189.8MB       2.971MB       0
+<none>                                  <none>     6dfea02b9f7e   12 hours ago    749.9MB   710.8MB       39.1MB        0
+votingapp                               latest     c51c4a25eab5   12 hours ago    144.8MB   124.9MB       19.92MB       0
+sohailimage                             latest     721da9daea0e   6 days ago      231.3MB   231.3MB       0B            0
+jenkins/jenkins                         latest     5c1acdaa7aa7   7 days ago      460.5MB   0B            460.5MB       0
+ubuntu                                  latest     d2e4e1f51132   11 days ago     77.81MB   0B            77.81MB       0
+redis                                   latest     a10f849e1540   13 days ago     116.8MB   80.41MB       36.37MB       3
+mcr.microsoft.com/dotnet/core/sdk       3.1        9e061f4e4e4c   2 weeks ago     710.8MB   710.8MB       0B            0
+mcr.microsoft.com/dotnet/core/runtime   3.1        de3d1ae8053b   2 weeks ago     189.8MB   189.8MB       0B            0
+python                                  3.9-slim   8c7051081f58   2 weeks ago     124.9MB   124.9MB       0B            0
+bash                                    latest     f6cdab9d8531   5 weeks ago     12.98MB   0B            12.98MB       0
+centos                                  latest     5d0da3dc9764   7 months ago    231.3MB   231.3MB       0B            3
+node                                    10-slim    6fbcbbb5c603   13 months ago   134.3MB   134.3MB       0B            0
+postgres                                9.4        ed5a45034282   2 years ago     250.7MB   0B            250.7MB       0
+jenkins                                 2.60.3     cd14cecfdb3a   3 years ago     695.7MB   0B            695.7MB       0
+
+Containers space usage:
+
+CONTAINER ID   IMAGE          COMMAND                  LOCAL VOLUMES   SIZE      CREATED             STATUS                         NAMES
+fe4831a2535e   sohailcentos   "sleep 1000"             1               0B        34 minutes ago      Exited (0) 18 minutes ago      upbeat_panini
+ef66723f1c30   sohailcentos   "bash"                   1               0B        35 minutes ago      Exited (0) 35 minutes ago      vigilant_hypatia
+3e4dc858cefe   sohailcentos   "/bin/bash"              1               0B        35 minutes ago      Exited (0) 35 minutes ago      serene_goldstine
+f584b2c9d1cf   redis          "docker-entrypoint.s…"   1               0B        About an hour ago   Up About an hour               hardcore_noether
+49aa0c2b46cc   redis          "docker-entrypoint.s…"   1               0B        About an hour ago   Up About an hour               intelligent_cartwright
+4d09f7ab082a   redis          "docker-entrypoint.s…"   1               0B        About an hour ago   Exited (0) About an hour ago   unruffled_saha
+
+Local Volumes space usage:
+
+VOLUME NAME                                                        LINKS     SIZE
+8a100a811be7d954b6a7f8af76f88c9134f05e30d5247b42a2a2153e0389d743   0         0B
+adf51a2778ac808f777dea368725ab449d2bb2b5212318ebe1571d729d916698   0         81.91MB
+d1d8a3ace7e9d7b23b0ede3d12b7913fb6a55c46bca29c488cc80521d6e003ac   1         0B
+newdisk                                                            3         5.627kB
+1bdc3e3280a7e81fd479ffe617de71e4f3a6be5b4f33dd18d0219ae1671fd5b8   0         109.7MB
+a52379ab409aa25c613ada4c5781a261e1014ccf92809459e4c7bf3426a2d1cc   0         88B
+b98208ea14dd672d9410429d44e0bf9e901a3e16bdb5b7edb3cce5f76924dc17   0         81.91MB
+3aa135adcf51a14753f78e2783cc32ca76ae05b96b0575bece385ab5779400de   0         81.91MB
+8735aacf97147397d816c2d1dd9f04e304e9e23a22d105bfce6757f2faa0afb7   0         81.91MB
+e1070a9d030d5e10e8235744c65dabf58f70d7858fe9464367ddd94351f9cd25   0         109.7MB
+3b2c364000dbbf122d674f92a93e79b03b69c42e92a50e3516f3275108fb44cf   0         165B
+025c5f95951ef55c1c39b1d9043fb8ebec6bcc5cb32efb5d7598aa5b3a73f873   0         0B
+661aff33d8f035b89995e347e045d7ca949df05213a88c6d7a4df568035a995e   1         88B
+e219d64eb9b74516eee9056a315a96b5180c4868eb90d6ea44efff85cbc470cd   1         0B
+1f3c5044df2457a1da69e5dfda54f55f34b60e05d273f1d83464b4d086844d3b   0         0B
+36c22e4e78b8451c1104af791ed2f49918bb4e5b9a72bde5edad1b7058f10b1c   0         156B
+600d8c03c39bae79f5ffcec57ef4084fb2784443787117b867ad0d65fdb48cf0   0         81.91MB
+93fac27b562a84a3c2bdb6d3a5e3f6839091545c378d00e6d7ad01f622accfd2   0         0B
+f2fe4224bd38b38ee813d3ddb768888935def31597043f193b07b75bbaded83a   0         37.12MB
+
+Build cache usage: 0B
+
+CACHE ID   CACHE TYPE   SIZE      CREATED   LAST USED   USAGE     SHARED
+root@ip-10-0-1-141:~#
+
+root@ip-10-0-1-141:~# docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+811e0ea8c66b   bridge    bridge    local
+88ced4d4b879   host      host      local
+eb917bd4c4ae   none      null      local
+root@ip-10-0-1-141:~#
+
+for detailed network conecpts check other videos
+
+Docker on windows
+
+Summary Points:
+
+Docker on Windows has two options
+
+Docker on Windows using Docker Toolbox - Docker on Linux VM on Oracle Virtual Box on Windows
+
+Docker Toolbox Requirements
+
+64-bit operating system
+
+Windows 7 or Higher
+
+Virtualization enabled on Windows
+
+Docker Toolbox Contents
+
+Oracle Virtualbox
+
+Docker Engine
+
+Docker Machine
+
+Docker Compose
+
+Kitematic GUI
+
+Docker For Windows - Docker on Linux VM on Windows Hyper-V on Windows
+
+Docker For Windows Requirements
+
+Windows 10 Enterprise/Professional Edition
+
+Windows Server 2016
+
+Docker For Windows supports Linux Containers (Default) and Windows Containers
+
+Docker For Windows Container Types:
+
+Windows Server Core: Windows container on native windows server core
+
+Hyper-V Isolation: Windows container on an isolated hyper-v kernel
+
+References and Links:
+Docker on Windows Documentation: https://docs.docker.com/docker-for-windows/
+
+Docker For Windows Download: https://www.docker.com/docker-windows
+
+Docker Toolbox Download: https://www.docker.com/products/docker-toolbox
+
+
+docker architecture :
+
+Docker Engine :
+Namespace :
+
+what it can see FS,PS,network
+it is the abstraction of process mounts and network that container is going to use container PID is 1 always
+
+[root@0fa8cc970b09 /]# ps -ef
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 15:22 ?        00:00:00 ping google.com
+root          33       0  0 15:25 pts/0    00:00:00 /bin/bash
+root          49      33  0 15:25 pts/0    00:00:00 ps -ef
+[root@0fa8cc970b09 /]#
+
+cgroups :
+
+what it can use
+resource allocation for container like cpu memory and bandwidth
+
+Union filesystem :
+
+creates a single point visible to docker like pulling image for docker hub in stages means if required it pulls required
+image or else use the existing images
+it also helps in preserving container FS so that whenever you run image you find same FS
+all images layer goes into overlay2 like when you run any container it is created inside overlay2 and changes goes into diff
+
+when you remove container the layers are removed from overlay2
+-init is created for oevrlay for initial files and directory
+
+conatiner runtime:
+
+high level runtime which  manages docker deomon,image library called containd
+low level runtime which manages namespace and cgroups called runc
+
+Docker image :
+
+is a set of layer each layer is immutable means you cant make changes and then presented as one image with the help of union FS
+union FS is AUFS storage driver
+
+Multistep build :
+
+is a concept of optimizing dcoker images size to smallest

@@ -1,0 +1,17 @@
+service offering from cloud(IAAS,PAAS,SAAS)
+Virtual WAN
+	P2S
+	P2P
+	ER
+	Vnet Peering
+	routing
+	FW
+	Azure regions serves as hubs and have backbone connectivity with spokes,VW offers hub and spoke model with 
+	integrated network, better troubelshooting having view end to end
+	hub to hub is also possible where vnet1 rom hub1spoke1 can connect to vnet1 on hub2spoke1 which is bigger mesh
+	network, one vnet can be peerted with one hub only 
+mgnt group
+RBAC
+Azure policy
+subscription activity logs
+storage accounts

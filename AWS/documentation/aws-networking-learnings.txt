@@ -1,0 +1,388 @@
+
+VPC endpoints :
+GW VPC endpoints
+interface VPC endpoints
+GW LB VPC endpoints
+
+
+allows you to connect private subnet workloads to public S3 buckets and DynamoDB through AWS private network
+
+GW VPC endpoints
+
+for S3 and DynamoDB
+
+drawbacks :
+
+unable to use this from VPN and direct connect since it is not of VPC
+wit is limited to same region and can not be extended to other region
+
+VPC endpoint policy :
+
+you can put restriction on top of existing access requestor has with the help of policy creation tool that generates json
+
+3 level permissions can be applied based on diff requirement
+
+EC2 IAM role for S3 access --> VPC endpoint policy --> S3 bucket level policy
+
+Interface endpoint
+
+EC2 IAM role for S3 access --> Security Group --> S3 bucket level policy
+Supports DC & VPN
+
+SQS
+
+provider and consumer concept and helps in building loosely coupled systems
+always use private DNS name for pointing to specific queue
+
+how tcpdump works?
+how vpc flow logs works?
+
+Load Balancers :
+
+ALB
+layer 7 LB with http and https
+
+path and host based routing
+
+example.com/name/ - server01
+example.com/address/ - server02
+
+register ip as target
+load balancing on multiple ports in same instance
+set conditional response message in ALB if both conditions are not met
+
+AWS adds features in conditional response regularly
+
+listerner (alb name) --> target group --> servers
+
+path(exampple.com/test/) & host(example.com) bases based routing
+
+NLB
+
+works on 4th layer , supports TCP protocols , ALB can see HTTP header but NLB can't
+selects targets based on flow hash algo based on IP,dest port & tcp sequence number
+
+CLB works oon standard round robin algo ,
+
+NLB vs alb
+
+NLB can process millions of request per second
+you can use static elastic ip
+both works almost same but key diff are ALB works on HTTP & HTTPS that helps conditional routing based on host,header,path etc but NLB
+works on tcp
+
+transmission control protocol keeps source and destination port details and internet protocol records IP details
+
+ELB Access logs
+
+sourceip , timestampp , type of request , content trying to open , http code , source browser details
+you have to enable access logs explicitly to be stores in S3 and it takes 5-10 minutes to generate log
+it doesn't provide all logging ingo but it helps to understand type of logging to elb
+S3 bucket policy should be allowed to write object from AWS account where elb is deployed , its is better to create S3 bucket while creating
+ALB so that policy is set correctly
+
+
+DHCP
+
+DHCP discover : new client added to network send this request to 255.255.255.255 broadcast address
+DHCP offer : DHCP servers see discover request and offers avail ip address
+DHCP request : client picks one ip and send request to aquire it if it is still available
+DHCP AcK : server ack free ip address
+
+to configure DHCP options in AWS create DHCP set in VPC tab put all required details like DNS server name, ip range,netbios name
+NTP server and then attach it to vpc
+
+check /etc/resolve.conf in ec2
+
+Data packet travel from source to destination called as data encapsulation
+
+1. Data raw size (L7)
+2. TCP header includes source and destination port details(L4)
+3. IP header source and destination ip details(L3)
+4. ethernet header having mac details source and destination(L1,L2)
+5. Data frame is complete packet with all details but the size will be more comparing to data raw size 
+
+*** max data packet size is 64k byte wheras max MTU size 1500 byte hence the data packet will be fragmented and merged at destinaion
+
+Understanding tcp
+
+reliable ensures data transfer in same format between source and destination
+
+3 way handshake
+
+client to server : SYN (synchronize)
+Server to client : SYN AcK
+client to server : AcK
+
+What happens when you request any website
+
+1. public DNS is hit to resolve name and get public IP
+2. once the IP is received 3 way handshake happens
+3. get http starts with all details
+
+Understanding MTU (maximum transmission unit)
+
+defined as maximum size of IP packet that can be transfer in one network transaction
+1500 MTU is standard across internet
+
+intranet devices supporting jumbo frames can have 9000 bytes
+AWS VPC have jumbo frames enabled for intranet connections
+if you send packet more then 1500 bytes to internet then it will be fragmented to 1500 automatically by AWS
+
+maximum segment size in TCP
+
+MSS is the value after substracting IP & TCP header which is 20 bytes each
+
+MSS = 1500 - tcpheader(20) - IPheader(20) = 1460
+
+this u can find in wireshark output tcp under options
+
+IP fragmentation
+
+1. fragment the packet into smaller peices and send it to destination taken care by router
+2. response ICMP packet too large
+
+router has DF(don not fragment) bit set then it will not fragment else it will fragment but fragment on router is not a good practice
+
+ICMP (internet control message protocol) is used for error reporting and diagnosis
+
+IP Address reservations in AWS
+
+max subnet is /16(65536) and min subnet is /28(16)
+max 5 vpc per region
+AWS has 5 reserved ip's
+
+10.0.0.0 network Address
+10.0.0.1 VPC router
+10.0.0.2 VPC dns
+10.0.0.3 VPC future use
+10.0.0.255 VPC broadcast
+
+IP address in subnet cannot overlap in vpc
+
+Security Assertion Markup Language (SAML) authentication
+
+MPLS (multiprotocol label switching)
+
+label based routing where each router assignes one label to every subnet and based on that packet reaches the destination
+
+support ip,ipx protocols
+label based lookup are faster compare to ip based
+
+VPC peering
+
+allows diff VPC to talk to each other on local ip's in diff or same region
+ovelapping cidr blocks is not supported
+
+VPC CIDR planning
+
+10.0.0.0/16
+172.16.0.0/16
+192.168.0.0/16
+
+max 5 CIDR is allowed but we can increase it to 50 with support request
+
+Global accelarator
+
+helps you to reduce response time on your webpage
+oregon is having this service available
+all hits comes to nearest edge location and then pointed to endpoints
+endpoints can be ELB,EC2 or elastic ip
+
+
+Web application Firewall
+
+AWS sheild works on L3 & L4
+WAF works on layer 7 because application cyberattacks happpen on L7 like HTTP
+
+Statefull vs stateless FW
+
+Pros of Stateful Firewalls
++ Stateful firewalls are highly skilled at detecting unauthorized attempts or forged messaging.
+
++ The powerful memory retains key attributes of network connections.
+
++ These firewalls do not need many ports open for proper communication.
+
++ Stateful firewalls offer extensive logging capabilities and robust attack prevention.
+
++ An intelligent system, stateful firewalls base future filtering decisions on the cumulative sum of past and present findings.
+
+Cons of Stateful Firewalls
+- Vulnerabilities may allow a hacker to compromise and take control over a firewall that is not updated with the latest software releases.
+
+- Some stateful firewalls can be tricked to allow or even attract outside connections with an action as simple as viewing a webpage.
+
+- Man-in-the-middle attacks may pose greater vulnerabilities.
+
+Pros of Stateless Firewalls
++ Stateless firewalls deliver fast performance.
+
++ Heavy traffic is no match for stateless firewalls, which perform well under pressure without getting caught up in the details.
+
++ Stateless firewalls have historically been cheaper to purchase, although these days stateful firewalls have significantly come down in price.
+
+Cons of Stateless Firewalls
+- Stateless firewalls do not inspect traffic.
+
+- The stateless firewall also does not examine an entire packet, but instead decides whether the packet satisfies existing security rules.
+
+- These firewalls require some configuration to arrive at a suitable level of protection.
+
+
+WAF deployment phases
+
+Rule statement :
+
+define exactly what is the condition that you want to enable\disable
+like blocking all traffic from outside india
+below are the custom config that you cann do
+
+headers , http methd , query string,geolocation URI etc
+
+there are predefined rules from AWS and marketplace
+
+Rules in WAF :
+
+define rule statement with condition like AND,OR,NOT
+
+Association in WAF :
+
+WAF can be associated with ALB,CloudFront,APIGW
+can not be EC2
+
+WEB ACL in WAF
+
+centralized place for rules,statement and association
+
+ACL capacity is 1500 and each ALB,CF,APIGW will have seperate WAF
+
+regular and rate based rules are the 2 options
+
+allow
+block
+count
+captcha
+
+AWS certificate Manager
+
+SSL\TLS certificates provision,deploy,manage and all free of cost
+
+VPC flow logs
+
+record the traffic info coming to AWS resources like EC2,ELB,API GW etc & outbound traffic from AWS resource
+
+VPC flow logs works at network interface level and below is the format of logs
+
+DNS connectivity,windows activation & DHCP traffic is not captured here
+
+VPN
+
+is used to route traffic via VPN server IP, in AWS we can plave VPN in public subnet and connect it to get private subnet VM Access
+
+managed services from aws
+
+below are the 3 authentication approach in VPN
+AD based
+mutual authentication
+SAML\single sing on
+
+
+client.cert & server.cert
+
+Client VPN supports certificate from ACM
+
+procedure
+
+create CA,server & client certifcate from git repo using EC2
+Copy CA,server & client certifcate and asscoaited key to ACM
+create client vpn endpoint
+associate with subnets
+authorization
+
+architecture supported
+
+client to vpc
+client to vpc and then another vpc through vpc peering
+client to vpn and then internet via internet gateway
+client to client via vpn
+
+site to site vpn\ipsec tunnel
+
+Virtual private gw is used to built HA for tunnel
+
+customer GW - create CGW with FW public ip
+VPG : create VPG and attach it to specific VPC(only one VPC per tunnel)
+VPN tunnel : create VPNT and define CGW & VPG and customer segment to advertise
+download config file to be uploaded in customer FW
+add route in VPC for customer subnet pointing towards VPG
+
+static routing :
+
+routes that you define for specific dest
+
+route add -net dest GW 0.0.0.0 netwmast 0.0.0.0 dev devname
+
+Dynamic routing
+
+RIP
+OSPF : open shortest path first
+BGP : Broadway gateway protocol
+AS : autonomus system is group of computer on internet it can be ISP or ent org
+
+Direct Connect
+
+consistent net perf
+reduce bandwidth cost
+internet connectivity between onprem to cloud
+
+DC is free and only chargeable for transfer out data, transfer in us free and maybe third party partner charges if it is used
+
+DC traffic towards diff resources
+
+public interface : S3 & dynamodb
+private int : EC2 and all in priavte subnet
+transit int to connect resource in another VPC
+
+once the DC is create AWS takes 3 days to share LOA(letter of auth) so that you can co-ordinate with AWS network hub team to
+establish connectivity
+
+Virtual private GW : allows connection to a single VPC in same region
+Direct connect GW  : allows connection to multiple VPC and regions
+
+Transit GW :
+
+to connect multiple VPC,VPN and DC
+
+below are the stages in TGW
+
+1. attachement : (vpc,vpn,dc)
+2. TG route table : each attachement will be associated with one RT
+3. Association :   each attachement will be associated with one RT
+4. route Propogation : VPC should have routes pointing towards TGW & VPN & DC will be propogated through BGP
+
+TG peering
+
+use to connecting multiple vpc,ipsec tunnels through TG
+
+-- after you create peering attachement the owner to peer TG has to to approve it same as vpc peering
+-- TG should have route towards peering TG
+-- traffic is encrypted
+
+
+content delivery network (CDN) :
+
+offloading data caching in CDN
+DDOS and WAF security features
+WAF integration
+
+
+AWS CloudFront :
+
+can be associated with S3,EC2,ALB,Lamda etc
+
+AWS CloudFront origin access identity
+
+restrict user to access web page from CF only and no direct connection to origin S3,EC2
+
+AWS CF signed URL

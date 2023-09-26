@@ -1,0 +1,608 @@
+
+K8s components :
+
+controoller : brain behind managing all HA and monitoring in K8 cluster
+container runtime : provide docker Engine
+kubelet : agent deployed in each node in cluster
+etcd : key value store stores metadata about all master and workers and also maintaining logs
+scheduler : to schedule all jobs in cluster
+API server : use for cli and connection to k8s cluster
+
+Kubernetes :
+
+components :
+
+Master node : manages deployement calls on nodes
+node : node where container runs
+apiserver : all calls to master happens through apiserver
+etcd : store cluster state
+kubelet : agent runs on node and register it with master , take commands from master to deploy container on nodes
+container runtime : taking image and deploying container on nodes
+kube-proxy : manages networking
+
+deployement types :
+
+https://www.padok.fr/en/blog/minikube-kubeadm-kind-k3s
+
+
+kubernetes is master and worker node architecture with set of services called primitives
+
+Master :
+API server : use for cli and connection to k8s cluster , exposes k8 services to outside world
+ETCD : key value store stores metadata about all master and workers and also maintaining logs
+controller manager :brain behind managing all HA and monitoring in K8 cluster
+scheduler : manages scalein and scaleout
+
+worker :
+kube proxy : helps communication between containers
+kubelet : agent deployed in each worker node in cluster, when POD needs to be deployed API server talks to kubelet on worker node for deployement
+
+Master can be in odd number from 1-3-5 and 5 can handle any no of worker nodes
+
+
+*****New channel
+
+kube-apiserver : entry point for K8 cluster for
+access\auth\validation
+API GET\POST
+K8 dashboard
+Application
+master\worker node process
+
+whenever there is a request for deploying pod it is validated by apiserver and it creates a pod object which is then taken by
+scheduler to find right node for deploying pod and once that is decided it sends info back to apiserver and then kubelet
+takes over from there to deploy pod based on the info provided by apiserver
+
+kube-scheduler :
+it checks apiserver continously and if there is any request then it finds a right worker node to deploy that pod which is called
+filtering , then scoring for worker node happens means if there is more than one eligible node it finds most feasible from compute
+perspective and that node gets more score and selected as target if all the nodes have similar capacity then random node will
+be selected
+
+kube-controller :
+
+monitor & scaleout\scalein k8 resources and take action to bring it to desired state
+built controller : predefined cntroller
+custom controller : u can create your own
+multiple controller : same controller can do multiple jobs
+
+etcd :
+is a DB based on key value store and a primary DB for K8
+runs on master node and does master node election based on RAFT algorithm
+stores config,metadata,actual and desired state
+
+kubelet :
+registers node as worker node in kube-apiserver
+create or delete pod based on info received from kube-apiserver
+reports the status of pod to kube-apiserver
+
+kubeproxy :
+helps communication between pods
+
+**** Udemy
+
+Core concepts :
+
+kube-apiserver : entry point for K8 cluster for
+access\auth\validation
+API GET\POST
+K8 dashboard
+Application
+master\worker node process
+
+whenever there is a request for deploying pod it is validated by apiserver and it creates a pod object which is then taken by
+scheduler to find right node for deploying pod and once that is decided it sends info back to apiserver and then kubelet
+takes over from there to deploy pod based on the info provided by apiserver, apiserver interacts with etcd store to update
+info and this is the only service connects with etcd
+
+kube-scheduler :
+it checks apiserver continously and if there is any request then it finds a right worker node to deploy that pod which is called
+filtering , then scoring for worker node happens means if there is more than one eligible node it finds most feasible from compute
+perspective and that node gets more score and selected as target if all the nodes have similar capacity then random node will
+be selected
+
+kube-controller :
+
+monitor & scaleout\scalein k8 resources and take action to bring it to desired state
+built controller : predefined controller
+custom controller : u can create your own
+multiple controller : same controller can do multiple jobs
+ReplicationController\ ReplicaSet : is a controller to ensure no of pods are always up across worker node or within same node
+
+Some types of these controllers are:
+
+Node controller: Responsible for noticing and responding when nodes go down.
+Job controller: Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.
+EndpointSlice controller: Populates EndpointSlice objects (to provide a link between Services and Pods).
+ServiceAccount controller: Create default ServiceAccounts for new namespaces.
+
+
+etcd :
+is a DB based on key value store and a primary DB for K8
+runs on master node and does master node election based on RAFT algorithm
+stores config,metadata,actual and desired state
+
+kubelet :
+registers node as worker node in kube-apiserver
+create or delete pod based on info received from kube-apiserver
+reports the status of pod to kube-apiserver
+
+kubeproxy :
+helps communication between pods
+
+Kubernetes have set of objects that we are going to see :
+
+PODS
+deployment
+replicationcontroller\replicaset
+services(nodeport,clusterip,LB)
+namespace
+resourcequota
+
+
+PODS :
+its a smallest object in K8 cluster which can have one or more containers but best practice is to have one container in one POD
+except there is some supporting service with primary container application
+
+YAML file for creating simple POD :
+
+apiVersion: v1 <Pod-v1,service-v1,ReplicaSet-apps/v1,Deployement-apps/v1>
+kind: Pod
+metadata:
+  name: name-pod
+  labels:
+    app: myapp
+    type: webapp
+spec:
+  containers:
+    -<means first container> name: containername
+      image: imagename
+
+kubectl create -f filename.yaml
+kubectl get pods
+kubectl describe pod podname
+
+YAML file for creating ReplicationController :
+
+apiVersion: v1
+kind: ReplicationController
+metadata: <for ReplicationController>
+  name: myapp-rset
+  type: webapp
+
+spec:<for ReplicationController>
+  template:
+    metadata:<for POD>
+      name: name-pod
+      labels:
+        app: myapp
+        type: webapp
+    spec:<For POD>
+      containers:
+        -<means first container> name: containername
+        image: imagename
+
+  replicas: 3
+
+  kubectl create -f filename.yaml
+  kubectl get replicationcontroller
+  kubectl describe replicationcontroller
+  kubectl get pod
+
+YAML file for creating replicaset :
+
+  apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:<for ReplicaSet>
+    name: myapp-replicaset
+    labels:
+      app: myapp
+      type: webapp
+
+  spec:<for ReplicaSet>
+    template:
+      metadata:<for POD>
+        name: name-pod
+        labels:
+          app: myapp
+          type: webapp
+    spec:<For POD>
+      containers:
+        -<means first container> name: containername
+        image: imagename
+    replicas: 3
+    selector:<this is the prime diff between RC and RS, here you can define previously created pod as well for HA>
+     matchLabels:
+      type: webapp
+
+kubectl create -f myappreplicaset.yaml
+kubectl get rs
+kubectl describe rs/myappreplicaset
+kubectl get pods
+
+in future if you want to increase replicas edit it in defination file and run
+
+kubectl replace -f filename.yaml
+
+Practice LAB - ReplicaSet :
+
+Deployment :
+
+is K8 object used to upgrade underlying infra on pods with rolling updates where you can pause and resume services after Deployement
+
+deployment YAML file :
+
+apiVersion: apps/v1
+kind: Deployement<this is the only change as compare to replicaset>
+metadata:<for ReplicaSet>
+  name: myapp-replicaset
+  labels:
+    app: myapp
+    type: webapp
+
+spec:<for ReplicaSet>
+  template:
+    metadata:<for POD>
+      name: name-pod
+      labels:
+        app: myapp
+        type: webapp
+  spec:<For POD>
+    containers:
+      -<means first container> name: containername
+      image: imagename
+  replicas: 3
+  selector:<this is the prime diff between RC and RS, here you can define previously created pod as well for HA>
+   matchLabels:
+    type: webapp
+
+
+*** from LAB
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: httpd-frontend
+  template:
+    metadata:
+      labels:
+        name: httpd-frontend
+    spec:
+      containers:
+      - name: httpd-frontend
+        image: httpd:2.4-alpine
+
+
+with this deployement it creates deployement,replicaset and pods
+
+kubectl get all <to check all things executed>
+
+
+Service :
+is a k8s object that is used to expose pod service to outside world and also for internal communication
+there are 3 type of services
+
+nodeport
+clusterip
+loadbalancer
+
+
+nodeport :
+is used to expose pod web service on a particular port on node it is running like port mapping where there are 3 types of ports
+1. target port <port on pod where service is listening>
+2. port <port on service cluster which is running on node>
+3. nodeport <port on node where pod is running>
+
+nodeport YAML file :
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  type: nodeport
+  ports:
+    - targetport: 80
+      port: 80
+      nodeport: 30008 <nodeport can be between 30000-32767
+  selector:
+    app: <labels from pod defination to point it to right pod>
+    type: <labels from pod defination to point it to right pod>
+
+
+** correct template from LAB
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8080
+      port: 8080
+      nodePort: 30080
+
+  selector:
+    name: simple-webapp
+
+
+kubectl create -f filename
+kubectl get services
+
+it works in all 3 scenarios where
+1 pod - 1 node
+multiple pod - 1 node
+multiple pod - multiple node
+
+service expands to required nodes where pods are running with matching labels and all nodes defined port is mapped with service
+so you can access service from any node ip on defined port, whenever the new pods added or removed services redefined auto
+
+ClusterIP :
+
+static ClusterIp is created that is mapped to set of pods on sigle or multiple nodes based on defined labels and ports
+
+ClusterIP YAML file :
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  type: ClusterIP
+  ports:
+    - targetport: 80
+      port: 80
+
+  selector:
+    app: <labels from pod defination to point it to right pod>
+    type: <labels from pod defination to point it to right pod>
+
+  kubectl create -f filename
+  kubectl get services
+
+service can be access through cluster name or IP
+
+DNS :
+
+db-service.dev.svc.cluster.local
+servicename.namespacename.subdomainforservice.defaultdomainfork8 cluster
+
+namespace :
+can be created based on different enviromeent like prod\dev\uat K8 create default namespace
+kubectl get pods --all-namespace ..give you pods from all name space
+kubectl create namespace dev ... create new namespace dev
+
+add <namespace: namespacename> in metadata of pod to create it in specific namespace
+kubectl config set-context $(kubectl config cuurent-context) --namespace=dev ..this will set default namespace to dev
+kubectl get pods --namespace=dev ...use this if you are in another namespace
+
+namespace can have set of policies and resource quota
+
+kubectl get namespace
+
+imperative vs declarative kubectl :
+
+imperative where we define everything & declarative works based on predfined system rules.
+need to deep dive in this topic
+
+3. Scheduling :
+
+manual schedule :
+
+yaml file :
+
+controlplane ~ ➜  cat nginx.yaml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  -  image: nginx
+     name: nginx
+
+  nodeName: node01 <if the scheduler is not running then you have to specify which node this pod should run on>
+
+kubectl apply -f nginx.yaml
+kubectl get cs < to get control plane status>
+
+labels & selectors :
+
+labels can be object types like pods,replicaset,deployment,services && APP1,APP2,APP3 && functionality like frontend,backend
+so when you filter you can choose type+app+functionality filters which is called selectors
+
+labels are defined in metadata section of object and it can be any numbers relevant to that object
+
+kubectl get pods --selector app=APP1
+
+Annotations :
+
+this property inside labels where minor info can go like version
+
+controlplane ~ ➜  history
+    1  kubectl get pods --selector env=dev
+    2  kubectl get pods --selector env=dev | wc
+    3  kubectl get pods --selector bu=finance | wc
+    4  kubectl get all --selector env=prod
+    5  kubectl get all --selector env=prod bu=finance
+    6  kubectl get all --selector env=prod,bu=finance
+    7  kubectl get all --selector env=prod,bu=finance,tier=frontend
+    8  vi replicaset-definition-1.yaml
+    9  kubectl apply -f replicaset-definition-1.yaml
+   10  kubectl get rs
+   11  history
+
+   controlplane ~ ➜  cat replicaset-definition-1.yaml
+   apiVersion: apps/v1
+   kind: ReplicaSet
+   metadata:
+      name: replicaset-1
+   spec:
+      replicas: 2
+      selector:
+         matchLabels:
+           tier: front-end
+      template:
+        metadata:
+          labels:
+           tier: front-end
+        spec:
+          containers:
+          - name: nginx
+            image: nginx
+
+
+Taints & Tolerations :
+
+taints is on node which defines which pods with relevant tolaration it can accept,3 types are
+
+NoSchedule : dont schedule any pods exect this tolaration tag , usually this in tainted on master node
+
+kubectl describe node kubemaster | grep taint
+
+NoExecute: here only defined toleration pods can run and node will evict non tolarated pods which then can be placed on other nodes
+
+PreferNoSchedule : node will not be preferred for scheduling
+
+kubectl taint nodes <node-name> <key>=<value>:<effect>
+kubectl taint node node1 app=blue:NoScheule
+
+Yaml file :
+
+apiVersion: v1 <Pod-v1,service-v1,ReplicaSet-apps/v1,Deployement-apps/v1>
+kind: Pod
+metadata:
+  name: name-pod
+  labels:
+    app: myapp
+    type: webapp
+spec:
+  containers:
+    -<means first container> name: containername
+      image: imagename
+  tolerations:
+    - key: "app"
+      operator: "Equal"
+      value: "blue"
+      effect: "NoScheule"
+
+kubectl taint nodes controlplane node-role.kubernetes.io/control-plane:NoSchedule-
+node/controlplane untainted
+
+kubectl taint nodes minikube application=example:NoSchedule
+node/minikube tainted
+
+kubectl taint nodes minikube application=example:NoSchedule-
+node/minikubee untainted
+
+cat pod1.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+
+spec:
+  containers:
+    - name: mosquito
+      image: nginx
+  tolerations:
+    -  key: "spray"
+       operator: "Equal"
+       value: "mortein"
+       effect: "NoSchedule"
+
+kubectl describe nodes | egrep "Taints:|Name:"
+kubectl taint node node01 spray=mortein:NoSchedule
+
+Node Selector:
+
+this can help to label node with value like large and small and in pod defination state wich label it needs to go to
+
+kubectl label nodes <nodename> <label-key>:<label-value>
+kubectl label nodes node01 size=Large
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+
+spec:
+  containers:
+    - name: mosquito
+      image: nginx
+  nodeSelector:
+    size: Large
+
+but other combination like either large or medium OR apart from small can not be acheived with this
+
+Node Affinity :
+
+This helps to make complex combinations while placing pods on required nodes 
+
+types:
+
+requiredDuringSchedulingIgnoredDuringExecution
+node labels will be checked while scheduling pods and ignored when there is change happens during operations
+
+preferredDuringSchedulingIgnoreDuringExecution
+node labels will be checked while scheduling pods but if the required match is not found then affinity rule will be ignored 
+and ignored when there is change happens during operations
+
+requiredDuringSchedulingRequiredDuringExecution
+node labels will be checked while scheduling pods and pods will be evicted from node when there is change happens during 
+operations
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+
+spec:
+  containers:
+    - name: mosquito
+      image: nginx
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution
+        nodeSelectorTerms:
+        - matchExpressions: 
+          - key: size
+            operator: NotIn 
+            values:
+            - Small 
+
+Requirements & Limits :
+
+in kubernetes we can limit each pod resources by default it takes 1vcpu so we can set required vs limits by creating limit range
+with below yaml file , when pod request more cpu k8 blocks it and when RAM is requested it terminates the pod 
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 1
+    defaultRequest:
+      memory: 256Mi
+      cpu: 0.5
+    type: Container
+
+
+Check monitoring solutions for kubernetes :
+
+metric servers is default solution which stores logs in memory so it is not the production solution
+
+
+Static PODS:
+
+created by kubelet from /etc/kubernetes/manifests folder and a mirror copy can be viewed by kubectl from master node 

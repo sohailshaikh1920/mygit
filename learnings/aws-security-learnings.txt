@@ -1,0 +1,162 @@
+Below are the domains in AWS Security
+
+domain 1 : Incident response
+domain 2 : Logging & monitoring
+domain 3 : Infra Security
+domain 4 : Identity & Access Management
+domain 5 : Data Protection
+
+
+possible reasons for server hack
+
+improper FW config
+lack of WAF use
+server hardening
+patch Management
+file integrity monitoring
+vulnerabilities assessment
+monitor port opening
+encrypting credentials
+encrypting end to end traffic on public
+
+
+AWS security services
+
+AWS guarduty : is a threat intelligence service from AWS to monitor malicious behaviour it monitor cloudtrail events, dns logs & VPC flow
+logs to detect threats like bitcoin detected , DNS exfiltration , trojanss found & SSH bruteforce
+
+you can whitelist your own IP in guarduty to supress alert generated from your ip range
+
+https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_finding-types-active.html
+
+Guarduty master and member account can be used to manage logs from multiple accounts
+
+IPDS systems
+
+incident response is an organised approach and identified threat ip list can be bloked in NACL or firewall
+
+is ur org ready for detecting incident ?
+
+1. detect brute force attack?
+2. identify changes happening to critical files?
+3. data transmitted to unidentified destination from any server?
+4. web based attack?
+5. track user activity within your network?
+6. can you find if someone is scanning your network?
+
+use cases :
+
+1. exposing aws access and secret keys to public response
+* determine the access associated with those keys
+* invalidating the credentials
+inactive or delete the user - inactive is recommended
+
+sequence of activity
+
+generating temporary token for temporary access with same privileges
+
+PS C:\Users\AD00133\.aws> pwd
+
+Path
+----
+C:\Users\AD00133\.aws
+
+
+PS C:\Users\AD00133\.aws> dir
+
+
+    Directory: C:\Users\AD00133\.aws
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        21-05-2022     14:35             11 config
+-a----        21-05-2022     14:35            119 credentials
+
+
+PS C:\Users\AD00133\.aws> cat .\credentials
+[default]
+aws_access_key_id = AKIAT75DN3MXI36DVANU
+aws_secret_access_key = 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
+PS C:\Users\AD00133\.aws>
+
+PS C:\Users\AD00133\.aws> aws sts get-session-token
+{
+    "Credentials": {
+        "AccessKeyId": "ASIAT75DN3MXLNDFHTOE",
+        "SecretAccessKey": "nDD2pk62MU+A6glVy+Q3M3okrUM84wRV9kNBT4xU",
+        "SessionToken": "FwoGZXIvYXdzEFYaDPtZreuP6YOpAB0XhyKCAcOdGOelx0f18whhG+rLSdG8iavyv0XyWpVIAkmAb/ywRlmCVGhxfa9MYO9VYcprurDURCepzrOqe02wypcw+ZLE2W1/uoTrurHZDeTESowarZkhyvb0hPZeW2kZ8D3j3BL2gJAq4H+6kZQbumtneawgS/MdZmrOTqlpGgrjLxKDhLoo7MCjlAYyKLJ7NXNZmsW+ZXo79bpY1wGvCjCp5MjaZZSQVFkbDO6TYDYY+6KoEh0=",
+        "Expiration": "2022-05-22T00:51:56+00:00"
+    }
+}
+
+PS C:\Users\AD00133\.aws>
+
+PS C:\Users\AD00133\.aws> cat .\credentials
+[default]
+aws_access_key_id = AKIAT75DN3MXI36DVANU
+aws_secret_access_key = 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
+
+
+[sohail]
+aws_access_key_id = ASIAT75DN3MXLNDFHTOE
+aws_secret_access_key = nDD2pk62MU+A6glVy+Q3M3okrUM84wRV9kNBT4xU
+aws_session_token = FwoGZXIvYXdzEFYaDPtZreuP6YOpAB0XhyKCAcOdGOelx0f18whhG+rLSdG8iavyv0XyWpVIAkmAb/ywRlmCVGhxfa9MYO9VYcprurDURCepzrOqe02wypcw+ZLE2W1/uoTrurHZDeTESowarZkhyvb0hPZeW2kZ8D3j3BL2gJAq4H+6kZQbumtneawgS/MdZmrOTqlpGgrjLxKDhLoo7MCjlAYyKLJ7NXNZmsW+ZXo79bpY1wGvCjCp5MjaZZSQVFkbDO6TYDYY+6KoEh0=
+
+
+PS C:\Users\AD00133\.aws>
+
+PS C:\Users\AD00133\.aws> aws s3 ls --profile sohail
+2022-05-21 15:07:30 sohailbackend
+PS C:\Users\AD00133\.aws>
+
+
+if the user account is compromised then remove all access from attached policy or attached inline deny policy
+temporary credentials stays between 15min to 36 hours
+check the trails of compromised id and restore changes made during hack
+
+2. compromised ec2 instances
+
+How to deal with compromised EC2 instance :
+
+--lock the instance down
+isolate insatnce from all SG and allow only one SG for forensic purpose
+keep a handy script to do this
+
+--Take the EBS snapshot
+EBS snapshot to get all malicious details along with memory dump
+
+--Memory dump
+--Perform forensic analysis
+--Terminate the instance
+
+incident response in cloud :
+
+detection , reaction and recovery
+
+preparation
+detection
+containment
+investigation
+recovery
+lesson learned
+
+AWS services involved in incident respond
+
+AWS config, cloudtrail,guardduty,vpc flow logs,cloudwatch,aws org,nacl,waf,security group
+
+Third party tools
+
+Splunk ent Security , nessus vullnariblity scanning , meta sploit penetration testing
+
+there are allowed services from AWS for which you don't need prior approval from AWS for vullnariblity ass & penetration testing
+
+alb ,cloudfront , ec2 , RDS etc
+
+Security layer in AWS :
+
+1. SG
+2. NACL
+3. Firewall (VPC level)
+4. WAF
+5. DNS FW

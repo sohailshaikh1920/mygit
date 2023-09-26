@@ -1,0 +1,39 @@
+
+Below are the key areas am working with :
+
+
+
+AWS : designing solution,deployment, management and monitoring AWS components like EC2,S3,ELB,VPC,SSO,RDS etc.
+
+Azure : designing solution,deployment, management and monitoring Azure stack,Ad connect and authetication
+
+DevOps : deploying and maintaining IAC with terraform & cloudformation , deployements & pipeline with jenkins , managing central code repo in bitbucket
+
+Operating System : Redhat, Oracle linux , Windows enterprise server
+
+Database : Mysql & Oracle
+
+Docker & Container : EKS & AKS
+
+Kubernetes : I have detailed understanding here but haven't got opportunity to work
+
+Non Cloud Technologies : Vmware , EMC VxRack , HP\EMC Storage
+
+Connectivity : In depth understanding of On-prem to cloud (AWS & Azure) connectivity,Network layers,TCP protocols , Load balancer,DHCP & DNS etc
+
+Security : In depth understanding on security majors on-prem & cloud
+
+CDN : archtecture understanting of Akamai,AWS Cloudfront, Azure front door
+
+Identity : Azure AD,Ping Identity
+
+sections :
+
+identity(access\auth\token\)
+connectivity
+security
+integrations(DNS\API)
+data management
+operations (monitoring\backup\HA\DR\CM)
+
+migrate;PROD;94fadd26-6eb4-4679-a039-224f2a281486;8831a463-0160-43ad-9094-13aafe67476a;linux;migarte;7351a019-dfe6-40f4-9d11-becaf88b2998;53d3dd2c-1939-4fd6-ba78-d823ab66ca7e;https://discoverysrv.wus2.prod.migration.windowsazure.com/;westus2;false

@@ -1,0 +1,187 @@
+topics to be deep dive in
+
+DC and DNS architecture 
+
+AZ FW will be used as central DNS forwareder system where FW policy DNS config will have ip address of DNS hosted DC either 
+All vnet will have custom DNS as FW IP and FW will forward all DNS request to DC servers in Azure and if the record is not found then there will be forwarder pointing to internal DNS 168.63.129.16 and then it forwards it o either private or public Azure DNS
+
+
+-------------------------------------------------------------------------------------------------
+
+bastion host
+
+use case is to have bastion host with public ip and then bastion host connect to vm inside private subnet so that
+private vm's are not exposed to internet 
+it required dedicated subnet with name AzureBastionSubnet /26 
+understand bastion host to vm auth and connectivity in details??
+NSG needs to have inbound rule to allow bastionshostsubnet on port 443
+passwords stored in kv has to be selected to authorize connection
+bastion will always have a public ip to be accessible from internet
+
+command to check list of sku's in specific region
+
+az vm list-skus --location eastus --size Standard_D --all --output table
+
+can be deployed in VMSS
+it has to be in same tenant id because end clients can't see bastion from another tenant
+peering conection with other vnet can extend the connectivity 
+
+
+------------------------------------------------------------------------------------
+update management+tags
+Cost mgnt 
+-----------------------------------------------------------------------------------
+
+hub and spoke
+
+hub : p-we1net
+hubvnet: p-we1net-network-vnet
+
+spoke : p-nwsadm
+spokevnet : p-nwsadm-network-vnet
+
+peering connection needs to be both ways so that traffic can flow bi-directional
+
+eagress traffic from from nic to internet
+
+nic->subnet->nsg(outbound)->RT->FW(virtual appliance)->application rule collection->internet -- statefull connection
+
+ingress traffic from internet to nic
+
+internet->waf->AAGW->listner->backend pool->FQDN\URI-->nsg(inbound)-->subnet-->nic
+
+
+how AAGW is talking to backend pool vm\app service?
+why managed identity is required in AAGW?
+
+eagress traffic from nic to interanet
+
+source nic->subnet(NSG)->RT->FW(virtual appliance)->network rule collection->nsg(inbound)->subnet->destination nic
+
+Ingress traffic from interanet to nic
+
+destination nic->subnet(NSG)->RT->FW->network rule collection->nsg(inbound)->subnet->source nic
+
+CIDR decision?
+
+address space is registered in 
+
+https://dev.azure.com/montel/Azure%20VDC/_git/p-net?path=/docs/WE1%20IP%20Address%20Usage.md
+
+---------------------------------------------------------------------------------------------
+
+
+s2s vpn
+
+--------------------------------------------------------------------------------------------
+
+log analytics workspace
+
+same LAW can handle operational logs from Azure Monitor, azure sentinel and defender
+LAW per region can save data ingestion cost
+LAW should pe specific to each tenant because resurce from same tenant can inject logs to LAW
+by default logs stored for 90 days
+
+1. what is the default retention period of logs like activity log,resource log,storage account logs or NSG flow logs
+90 days, but on LAW we can set based on our requirement and NSG flow logs is usually kept for 3 days max
+
+2. does LAW require storage to be linked or it manages storage by its own
+No it does not require storage account to be created, azure manages injections in LAW to TB
+
+3. NSG flow log retentions vs analytics
+3 days and for analytics logs are pushed to LAW
+
+4. how azure monitor is integrated with LAW to pull data
+Not yet clarified
+
+5. Agnets MMA,AMA
+to push logs to defined LAW
+
+6. usecases to export log from LAW to storage account or event hub
+nothing as such in montel
+
+----------------------------------------------------------------------------------------------
+network hub and spoke architecture with Azure FW 
+
+finally FW full speed my daud raha hai, ye procedure follow karo :
+
+1. create vnet\subnet for hub and spoke
+2. hub<-->spoke peering , spoke to spoke no peering
+3. create route table for every subnet to point traffic towards virtual appliace(FW) and attach it to respective subnet
+4. ensure to disable route propagation (detail me padho)
+5. dnat rule kaam kiya tha for RDP when there was no inbound allow for RDP in NSG(check ke FW priority vs NSG priorty ka kya chakkar hai)
+6. read about priority in FW and NSG in detail
+
+
+----------------------------------------------------------------------------------------------
+Azure migrate
+WAF
+AKV
+Application insight
+
+
+-----------------------------------------------------------------------------------------------
+
+Monitor
+-shared dashboard
+-azure workload
+-MS monitoring agent
+
+-----------------------------------------------------------------------------------------------
+private and service endpoints
+policy
+access policy
+shared dashboard
+azure workload
+self hosted vs azure cloud agent for devops
+application proxy
+managed identity
+
+Azure defender
+
+---------------------------------------------------------------------------------------
+
+Azure App Services
+
+flow to deploy app service\function
+
+subscription
+RG
+app service plan
+
+
+---------------------------------------------------------------------------------------
+Azure funtions apps
+network watcher
+light house
+
+
+connection monitring
+law saved quesries
+
+New topics to be checked
+
+resource graph explorer
+Azure Automanage
+Azure Arc
+Azure sentinel
+
+---------------------------------------------------------------------------------------------
+
+azure devops self hosted agent 
+
+https://www.coachdevops.com/2023/01/how-to-setup-self-hosted-linux-agent-in.html
+
+
+
+-----------------------------------------------------------------------------------------
+
+useful article to connect azure vm rdp through bastion host 
+
+https://techcommunity.microsoft.com/t5/itops-talk-blog/how-to-transfer-files-to-your-azure-vm-with-no-public-open-rdp/ba-p/3166230
+
+when you set subscription ensure it is of basion host
+
+---------------------------------------------------------------------------------------
+
+
