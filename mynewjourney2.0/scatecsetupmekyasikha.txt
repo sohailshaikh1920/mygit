@@ -1,0 +1,9 @@
+﻿terraform init ke liye providers dene ki b zarurat nahi hai khali folder pe b initilize kar sakte
+you need to have application administrator role to register new app(serviceprincipal)
+service priciple needs to have Group.Read.All API permission to read ad group information(solution to below error)
+
+GroupsClient.BaseClient.Get(): unexpected status 403 with OData error:
+│ Authorization_RequestDenied: Insufficient privileges to complete the
+│ operation
+
+
