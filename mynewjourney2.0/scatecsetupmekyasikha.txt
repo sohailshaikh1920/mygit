@@ -6,4 +6,29 @@ GroupsClient.BaseClient.Get(): unexpected status 403 with OData error:
 │ Authorization_RequestDenied: Insufficient privileges to complete the
 │ operation
 
+https://support.hashicorp.com/hc/en-us/articles/13737677728915-AzureAD-Error-403-Insufficient-privileges-with-Service-Principal
+
+Data analytics flow ETL (extract , transform , Load)
+
+Extract : data extracted from different source with the help of fivetran and then stored in azure storage account(datalakeshouse)
+transform : databricks spark layer works on top of storage account to provide transformation,structured capablities
+load : data then loaded in tables called as data products which then can be used as data source to run queries or reporting
+
+API Integration :
+
+REST API
+reprensentational state transfer
+
+Data operations    HTTP method/operations
+                                                Response
+Create -->         Post                         Json usually
+Read -->           Get
+Update -->         Put
+Delete -- >        Delete
+
+HTTPS Request format
+
+Header : API key\Auth details
+Opertion : HTTP method post\get\put\delete
+Endpoint 
 

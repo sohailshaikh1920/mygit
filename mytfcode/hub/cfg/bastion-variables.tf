@@ -31,3 +31,9 @@ variable "Bastion-tunneling_enabled" {
   type        = bool
   description = "Is IP Connect feature enabled for the Bastion Host."
 }
+
+variable "AzureBastion-zones" {
+  type        = list(string)
+  default     = ["1", "2", "3"]
+  description = "Specifies a list of Availability Zones in which this Azure Bastion (and associated resources) should be located."
+}

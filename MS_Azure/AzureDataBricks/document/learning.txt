@@ -1,0 +1,43 @@
+unstructure data which can't be handled by RDBMS stores in big data and there is need to tecnology to process that data to generate meaningful data
+
+Apache spark is opensource technology to process such huge amount of unstructured data and same is implemented in Azure as DataBricks
+
+stages of data processing 
+
+injest : datafactory , kafka , blob , datalake
+process\transform : databricks
+result : SQLDB,COSMOSDB,blob
+
+Apche Spark Ecosystem :
+
+Spark SQL : work with structured data in tables (row&column)
+DataFrames : DF table in relational DB, distribution of collection of data with named columns
+Streaming : process reltime data and perform transformation
+MLLib : Machine learning 
+GraphX : Graph data computation
+
+Spark Core API :
+
+Transformation login can be written in any language
+
+R
+SQL
+Python 
+Scala
+Java
+
+Databricks components :
+
+Workspace : Data scientist,Engineer,Bussiness and any other user will interact with WS and there is something called notebook where transformation login will be written
+Databricks Workflow :
+DataBricks runtime :
+DataBricks I/O :
+DataBricks serverless : this is fully managed clusters by azure as and when requested
+DataBricks ent security :
+
+Flow :
+
+you create DataBricks environment 
+launch workspace
+create notebook to write quey,visualization and data modeling
+notebook needs a processing engine which is apache spark cluster which should be created and attached to notebook

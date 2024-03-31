@@ -1,0 +1,64 @@
+Core data related services in Azure 
+
+Azure storage account
+umberalla of services as below 
+
+blob
+tables
+file shares
+
+azure storage explorer
+to explore data within stirage account
+
+azure synapse analytics
+data warehouse and unified analytics platform
+
+cosmodb
+fully managed nosql db engine for file,docs,audio,video,graph etc
+
+Azure datalake store(gen2)
+centralized data repository for big data, blob storage designed for vast amunt of data
+
+Azure data analytics 
+big data as service and write u-sql query to get data from data lake
+
+Azure data box
+to move TB of data to azure DC
+
+SQL on vm
+IAAS
+
+SQL managed instance
+hosted services but you manage DB
+
+Azure SQL
+fully managed sql services
+
+azure db for open source
+mysql,psql,maria db
+
+azure cache for redis
+im-memory data store
+
+MS 365 sharepoint
+shared file system for organisation and controlling acces 
+
+azure databricks
+third party provider partered with azure to provide apache spark to provide very fast ETL,ML and streaming tasks
+
+MS power BI
+create dashboard and interactive reports
+
+Azure data studio
+IDE same as vs studio but specific to data related task
+to connect azure sql,data warehouse
+
+Azure data factory
+managed ETL\ELT pipeline builder. easily build transformation pipeline via a web-interface
+
+SQL server integration services(SSIS)
+a stand alone windows app to prepare data for sql workloads via transformation pipeline
+
+
+
+
