@@ -1,0 +1,88 @@
+﻿Internation information secuirty certification (ISC2)
+
+Chapter 1: Security Principles
+
+Module 1 : understand security concepts 
+
+CIA (Confidentiality,Integrity,availablity)
+
+Confidentiality:
+ensuring data is restricted to auth users and blocking uncomplianed devices
+personal identifiable information and health information should always be protected or encrypted
+data sensitivity by marking data classification
+
+Integrity :
+Data integrity, no unauthroize changes to data
+system integrity, no unauthroize changes to system
+
+Availablity :
+Data and system is accessible all the time to authorized users and recovery procedures if system goes down
+Criticallity by marking system hihn,medium,low
+
+Authentication :
+password
+tokens
+biometric
+
+Methods of auth :
+
+SFA (single factor) : password or pin
+MFA : Password + pin
+
+Non-repudiation :
+Non-repudiation methodologies ensure that people are held responsible for transactions they conducted
+
+GDPR :
+The General Data Protection Regulation (GDPR) is the toughest privacy and security law in the world. 
+Though it was drafted and passed by the European Union (EU), it imposes obligations onto organizations 
+anywhere, so long as they target or collect data related to people in the EU. The regulation was put 
+into effect on May 25, 2018. The GDPR will levy harsh fines against those who violate its privacy and 
+security standards, with penalties reaching into the tens of millions of euros.
+
+HIPAA :
+The Health Insurance Portability and Accountability Act of 1996 (HIPAA) is a federal law that required 
+the creation of national standards to protect sensitive patient health information from being disclosed 
+without the patient's consent or knowledge.
+
+Module 1 : understand risk management process
+
+vulnarablity :
+gap in technical and physical security that can breach data
+
+threat :
+threat can be omeone exploiting vulnarablity to get unauth access
+
+risk management is to understand threat wrt to vulanarblkity and mitigate risk as much as possible
+
+Risk Management Terminology
+
+An asset is something in need of protection.
+A vulnerability is a gap or weakness in those protection efforts.
+A threat is something or someone that aims to exploit a vulnerability to thwart protection efforts.
+
+When determining an organization’s vulnerabilities, the security team will consider the probability, 
+or likelihood , of a potential vulnerability being exploited within the construct of the organization’s
+threat environment. Likelihood of occurrence is a weighted factor based on a subjective analysis of the
+probability that a given threat or set of threats is capable of exploiting a given vulnerability or set 
+of vulnerabilities.
+
+In the world of cyber, identifying risks is not a one-and-done activity. It’s a recurring process of 
+identifying different possible risks, characterizing them and then estimating their potential for 
+disrupting the organization.  
+
+Risk assessment is defined as the process of identifying, estimating and prioritizing risks to an
+organization’s operations (including its mission, functions, image and reputation), assets, individuals,
+other organizations and even the nation. Risk assessment should result in aligning (or associating) 
+each identified risk resulting from the operation of an information system with the goals, objectives, 
+assets or processes that the organization uses, which in turn aligns with or directly supports achieving
+the organization’s goals and objectives. 
+
+Risk treatment relates to making decisions about the best actions to take regarding the identified and 
+prioritized risk. The decisions made are dependent on the attitude of management toward risk and the
+availability — and cost — of risk mitigation. The options commonly used to respond to risk are:
+
+Security Controls :
+
+Physical
+Administrative
+Technical
