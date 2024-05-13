@@ -86,3 +86,283 @@ Security Controls :
 Physical
 Administrative
 Technical
+
+Chapter 2 : Incident response,BCP,DR
+
+Breach
+The loss of control, compromise, unauthorized disclosure, unauthorized acquisition, or any similar 
+occurrence where: a person other than an authorized user accesses or potentially accesses personally 
+identifiable information; or an authorized user accesses personally identifiable information for other 
+than an authorized purpose
+
+Event
+Any observable occurrence in a network or system
+
+Exploit
+A particular attack. It is named this way because these attacks exploit system vulnerabilities
+
+Incident
+An event that actually or potentially jeopardizes the confidentiality, integrity or availability of an 
+information system or the information the system processes, stores or transmits
+
+Intrusion
+A security event, or combination of events, that constitutes a deliberate security incident in which an 
+intruder gains, or attempts to gain, access to a system or system resource without authorization
+
+Threat
+Any circumstance or event with the potential to adversely impact organizational operations (including 
+mission, functions, image or reputation), organizational assets, individuals, other organizations or 
+the nation through an information system via unauthorized access, destruction, disclosure, modification 
+of information and/or denial of service
+
+Vulnerability
+Weakness in an information system, system security procedures, internal controls or implementation that could be exploited by a threat source
+
+Zero Day
+A previously unknown system vulnerability with the potential of exploitation without risk of detection or prevention because it does not, in general, fit recognized patterns, signatures or methods
+
+The Goal of Incident Response
+Every organization must be prepared for incidents. Despite the best efforts of an organization’s management and security teams to avoid or prevent problems, it is inevitable that  adverse events will happen that have the potential to affect the business mission or objectives.
+The priority of any incident response is to protect life, health and safety. When any decision related to priorities is to be made, always choose safety first.
+The primary goal of incident management is to be prepared. Preparation requires having a policy and a response plan that will lead the organization through the crisis. Some organizations use the term “crisis management” to describe this process, so you might hear this term as well.
+An event is any measurable occurrence, and most events are harmless. However, if the event has the potential to disrupt the business’s mission, then it is called an incident. Every organization must have an  incident response plan that will help preserve business viability and survival.
+The incident response process is aimed at reducing the impact of an incident so the organization can resume the interrupted operations as soon as possible. Note that incident response planning is a subset of the greater discipline of business continuity management (BCM), which we will cover shortly.
+
+Components of the Incident Response Plan
+The incident response policy should reference an incident response plan that all employees will follow, depending on their role in the process. The plan may contain several procedures and standards related to incident response. It is a living representation of an organization’s incident response policy
+
+Preparation
+Develop a policy approved by management.
+Identify critical data and systems, single points of failure.
+Train staff on incident response.
+Implement an incident response team. (covered in subsequent topic)
+Practice Incident Identification. (First Response)
+Identify Roles and Responsibilities.
+Plan the coordination of communication between stakeholders.
+
+Detection and Analysis
+Monitor all possible attack vectors.
+Analyze incident using known data and threat intelligence.
+Prioritize incident response.
+Standardize incident documentation.
+
+Containment
+Gather evidence.
+Choose an appropriate containment strategy.
+Identify the attacker.
+Isolate the attack.
+
+Post-Incident Activity
+Identify evidence that may need to be retained.
+Document lessons learned.
+
+Incident Response Team
+A typical incident response team is a cross-functional group of individuals who represent the management, technical and functional areas of responsibility most directly impacted by a security incident. Potential team members include the following:
+
+Representative(s) of senior management
+Information security professionals
+Legal representatives
+Public affairs/communications representatives
+Engineering representatives (system and network)
+
+The Importance of Business Continuity
+The intent of a business continuity plan is to sustain business operations while recovering from a significant disruption. An event has created a disturbance in the environment, and now you need to know how to maintain the business. 
+A key part of the plan is communication, including multiple contact methodologies and backup numbers in case of a disruption of power or communications. Many organizations will establish a phone tree, so that if one person is not available, they know who else to call. Organizations will go through their procedures and checklists to make sure they know exactly who is responsible for which action. No matter how many times they have flown, without fail, pilots go through a checklist before take-off. Similarly, there must be established procedures and a thorough checklist, so that no vital element of business continuity will be missed. 
+We call the appropriate individuals and start to activate the business continuity plan. Management must be included, because sometimes priorities may change depending on the situation. Individuals with proper authority must be there to execute operations, for instance, if there are critical areas that need to be shut down. 
+
+BIA
+Bussiness impact analysis
+
+The Goal of Disaster Recovery
+In the Business Continuity module, the essential elements of business continuity planning were explored. Disaster recovery planning steps in where BC leaves off. When a disaster strikes or an interruption of business activities occurs, the Disaster recovery plan (DRP) guides the actions of emergency response personnel until the end goal is reached—which is to see the business restored to full last-known reliable operations.
+
+Components of a Disaster Recovery Plan
+Depending on the size of the organization and the number of people involved in the DRP effort, organizations often maintain multiple types of plan documents, intended for different audiences. The following list includes various types of documents worth considering:
+
+Executive summary providing a high-level overview of the plan
+Department-specific plans
+Technical guides for IT personnel responsible for implementing and maintaining critical backup systems
+Full copies of the plan for critical disaster recovery team members
+Checklists for certain individuals:
+Critical disaster recovery team members will have checklists to help guide their actions amid the chaotic atmosphere of a disaster.
+IT personnel will have technical guides helping them get the alternate sites up and running. 
+Managers and public relations personnel will have simple-to-follow, high-level documents to help them communicate the issue accurately without requiring input from team members who are busy working on the recovery. 
+
+RTO
+RPO
+
+Chapter 3 : Security Controls 
+
+A control is a safeguard or countermeasure designed to preserve Confidentiality, Integrity and Availability of data. This, of course, is the CIA Triad.  
+
+Access control involves limiting what objects can be available to what subjects according to what rules. We will further define objects, subjects and rules later in this chapter. For now, remember these three words, as they are the foundation upon which we will build. 
+
+One brief example of a control is a firewall, which is included in a system or network to prevent something from the outside from coming in and disturbing or compromising the environment. The firewall can also prevent information on the inside from going out into the Web where it could be viewed or accessed by unauthorized individuals. 
+
+Controls Overview
+It can be argued that access controls are the heart of an information security program. Earlier in this course we looked at security principles through foundations of risk management, governance, incident response, business continuity and disaster recovery. But in the end, security all comes down to, “who can get access to organizational assets (buildings, data, systems, etc.) and what can they do when they get access?”
+
+Access is based on three elements:  
+
+Subject :
+who wants to access user,program,client,mobile,external disk etc
+
+Object :
+Anything that subject tries to access app,DB,program,client etc
+
+Rules :
+What is allowed and what is not , FW is one of the example which defines who can access what
+
+Physical vs logical control:
+wearing set belt while driving is physical control and having LAW to enforce wearing seatbelt while driving is logical control
+
+Controls Assessments
+Risk reduction depends on the effectiveness of the control. It must apply to the current situation and adapt to a changing environment. 
+
+Consider a scenario where part of an office building is being repurposed for use as a secure storage facility. Due to the previous use of the area, there are 5 doors which must be secured before confidential files can be stored there. When securing a physical location, there are several things to consider. To keep the information the most secure, it might be recommended to install biometric scanners on all doors. A site assessment will determine if all five doors need biometric scanners, or if only one or two doors need scanners. The remaining doors could be permanently secured, or if the budget permits, the doors could be removed and replaced with a permanent wall. Most importantly, the cost of implementing the controls must align with the value of what is being protected.  If multiple doors secured by biometric locks are not necessary, and the access to the area does not need to be audited, perhaps a simple deadbolt lock on all of the doors will provide the correct level of control. 
+
+Defense in Depth
+As you can see, we are not just looking at system access. We are looking at all access permissions including building access, access to server rooms, access to networks and applications and utilities. These are all implementations of access control and are part of a layered defense strategy, also known as defense in depth, developed by an organization.
+
+A technical example of defense in depth, in which multiple layers of technical controls are implemented, is when a username and password are required for logging into your account, followed by a code sent to your phone to verify your identity. This is a form of multi-factor authentication using methods on two layers, something you have and something you know. The combination of the two layers is much more difficult for an adversary to obtain than either of the authentication codes individually. 
+
+Examples of Least Privilege
+To preserve the confidentiality of information and ensure that it is only available to personnel who are authorized to see it, we use privileged access management, which is based on the principle of least privilege. That means each user is granted access only to the items they need and nothing further.  
+
+For example, only individuals working in billing will be allowed to view consumer financial data, and even fewer individuals will have the authority to change or delete that data. This maintains confidentiality and integrity while also allowing availability by providing administrative access with an appropriate password or sign-on that proves the user has the appropriate permissions to access that data.  
+
+Privileged Access Management
+Privileged access management provides the first and perhaps most familiar use case. Consider a human user identity that is granted various create, read, update, and delete privileges on a database. Without privileged access management, the system’s access control would have those privileges assigned to the administrative user in a static way, effectively “on” 24 hours a day, every day. Security would be dependent upon the login process to prevent misuse of that identity. Just-in-time privileged access management, by contrast, includes role-based specific subsets of privileges that only become active in real time when the identity is requesting the use of a resource or service. 
+
+Consider this scenario explaining why privileged access management is important:
+
+ABC, Inc., has a small IT department that is responsible for user provisioning and administering systems. To save time, the IT department employees added their IDs to the Domain Admins group, effectively giving them access to everything within the Windows server and workstation environment. While reviewing an invoice that was received via email, they opened an email that had a malicious attachment that initiated a ransomware attack. Since they are using Domain Admin privileges, the ransomware was able to encrypt all the files on all servers and workstations. A privileged access management solution could limit the damage done by this ransomware if the administrator privileges are only used when performing a function requiring that level of access. Routine operations, such as daily email tasks, are done without a higher level of access. 
+
+Segregation of Duties 
+A core element of authorization is the principle of segregation of duties (also known as separation of duties). Segregation of duties is based on the security practice that no one person should control an entire high-risk transaction from start to finish. Segregation of duties breaks the transaction into separate parts and requires a different person to execute each part of the transaction. For example, an employee may submit an invoice for payment to a vendor (or for reimbursement to themselves), but it must be approved by a manager prior to payment; in another instance, almost anyone may submit a proposal for a change to a system configuration, but the request must go through technical and management review and gain approval, before it can be implemented.
+
+Two-Person Integrity 
+The two-person rule is a security strategy that requires a minimum of two people to be in an area together, making it impossible for a person to be in the area alone. Many access control systems prevent an individual cardholder from entering a selected high-security area unless accompanied by at least one other person. Use of the two-person rule can help reduce insider threats to critical areas by requiring at least two individuals to be present at any time. It is also used for life safety within a security area; if one person has a medical emergency, there will be assistance present.
+
+Authorized Versus Unauthorized Personnel
+Subjects are authorized access to objects after they have been authenticated. Remember from earlier sections that authentication is confirming the identity of the subject. Once a subject has been authenticated, the system checks its authorization to see if it is allowed to complete the action it is attempting. This is usually done via a security matrix accessed by the system controlling the access, based on pre-approved levels. For example, when a person presents an ID badge to the data center door, the system checks the ID number, compares that to a security matrix within the system, and unlocks the door if the ID is authorized. If the ID is not authorized to unlock the door, it will remain locked. In another example, a user attempts to delete a file. The file system checks the permissions to see if the user is authorized to delete the file. If the user is authorized, the file is deleted. If the user is not authorized, an error message is displayed, and the file is left untouched. 
+
+How Users Are Provisioned
+Other situations that call for provisioning new user accounts or changing privileges include: 
+
+A new employee
+Change of position
+Separation of employment
+during leave-deactivate user
+
+What Are Physical Security Controls? 
+Physical access controls are items you can physically touch. They include physical mechanisms deployed to prevent, monitor, or detect direct contact with systems or areas within a facility. Examples of physical access controls include security guards, fences, motion detectors, locked doors/gates, sealed windows, lights, cable protection, laptop locks, badges, swipe cards, guard dogs, cameras, mantraps/turnstiles, and alarms.
+
+What are Logical Access Controls?
+Whereas physical access controls are tangible methods or mechanisms that limit someone from getting access to an area or asset, logical access controls are electronic methods that limit someone from getting access to systems, and sometimes even to tangible assets or areas. Types of logical access controls include: 
+
+Passwords
+Biometrics (implemented on a system, such as a smartphone or laptop)
+Badge/token readers connected to a system
+
+Discretionary Access Control (DAC)
+Discretionary access control (DAC) is a specific type of access control policy that is enforced over all subjects and objects in an information system. In DAC, the policy specifies that a subject who has been granted access to information can do one or more of the following:
+
+Pass the information to other subjects or objects 
+Grant its privileges to other subjects 
+Change security attributes on subjects, objects, information systems or system components 
+Choose the security attributes to be associated with newly created or revised objects; and/or 
+Change the rules governing access control; mandatory access controls restrict this capability 
+
+
+Role-Based Access Control (RBAC)
+Role-based access control (RBAC), as the name suggests, sets up user permissions based on roles. Each role represents users with similar or identical permissions. 
+
+
+Chapter 4 : Network Security
+
+What is Networking
+A network is simply two or more computers linked together to share data, information or resources.
+
+To properly establish secure data communications, it is important to explore all of the technologies involved in computer communications. From hardware and software to protocols and encryption and beyond, there are many details, standards and procedures to be familiar with.
+
+Types of Networks
+There are two basic types of networks:
+
+Local area network (LAN) - A local area network (LAN) is a network typically spanning a single floor or building. This is commonly a limited geographical area.
+Wide area network (WAN) - Wide area network (WAN) is the term usually assigned to the long-distance connections between geographically remote networks.
+
+Security of the Network 
+TCP/IP’s vulnerabilities are numerous. Improperly implemented TCP/IP stacks in various operating systems are vulnerable to various DoS/DDoS attacks, fragment attacks, oversized packet attacks, spoofing attacks, and man-in-the-middle attacks.
+
+TCP/IP (as well as most protocols) is also subject to passive attacks via monitoring or sniffing. Network monitoring, or sniffing, is the act of monitoring traffic patterns to obtain information about a network. 
+
+Spoofing :
+
+An attack with the goal of gaining access to a target system through the use of a falsified identity. Spoofing can be used against IP addresses, MAC address, usernames, system names, wireless network SSIDs, email addresses, and many other types of logical identification.
+
+DOS\DDOS :
+
+A denial-of-service (DoS) attack is a network resource consumption attack that has the primary goal of preventing legitimate activity on a victimized system. Attacks involving numerous unsuspecting secondary victim systems are known as distributed denial-of-service (DDoS) attacks. 
+
+Virus :
+
+The computer virus is perhaps the earliest form of malicious code to plague security administrators. As with biological viruses, computer viruses have two main functions—propagation and destruction. A virus is a self-replicating piece of code that spreads without the consent of a user, but frequently with their assistance (a user has to click on a link or open a file).
+
+Worm :
+
+Worms pose a significant risk to network security. They contain the same destructive potential as other malicious code objects with an added twist—they propagate themselves without requiring any human intervention.
+
+Trojan :
+
+Named after the ancient story of the Trojan horse, the Trojan is a software program that appears benevolent but carries a malicious, behind-the-scenes payload that has the potential to wreak havoc on a system or network. For example, ransomware often uses a Trojan to infect a target machine and then uses encryption technology to encrypt documents, spreadsheets and other files stored on the system with a key known only to the malware creator.
+
+On path attach :
+
+In an on-path attack, attackers place themselves between two devices, often between a web browser and a web server, to intercept or modify information that is intended for one or both of the endpoints. On-path attacks are also known as man-in-the-middle (MITM) attacks.
+
+Side-Channel :
+
+A side-channel attack is a passive, noninvasive attack to observe the operation of a device. Methods include power monitoring, timing and fault analysis attacks.
+
+Advance persistent attack :
+
+Advanced persistent threat (APT) refers to threats that demonstrate an unusually high level of technical and operational sophistication spanning months or even years. APT attacks are often conducted by highly organized groups of attackers.
+
+Insider Threat :
+
+Insider threats are threats that arise from individuals who are trusted by the organization. These could be disgruntled employees or employees involved in espionage. Insider threats are not always willing participants. A trusted user who falls victim to a scam could be an unwilling insider threat.
+
+Malware :
+
+A program that is inserted into a system, usually covertly, with the intent of compromising the confidentiality, integrity or availability of the victim’s data, applications or operating system or otherwise annoying or disrupting the victim.
+
+
+Ransomeware :
+
+Malware used for the purpose of facilitating a ransom attack. Ransomware attacks often use cryptography to “lock” the files on an affected computer and require the payment of a ransom fee in return for the “unlock” code.
+
+
+Intrusion Detection System (IDS)
+An intrusion occurs when an attacker is able to bypass or thwart security mechanisms and gain access to an organization’s resources. Intrusion detection is a specific form of monitoring that monitors recorded information and real-time events to detect abnormal activity indicating a potential incident or intrusion. An intrusion detection system (IDS) automates the inspection of logs and real-time system events to detect intrusion attempts and system failures. An IDS is intended as part of a defense-in-depth security plan. It will work with, and complement, other security mechanisms such as firewalls, but it does not replace them. 
+
+IDSs can recognize attacks that come from external connections, such as an attack from the internet, and attacks that spread internally, such as a malicious worm. Once they detect a suspicious event, they respond by sending alerts or raising alarms. A primary goal of an IDS is to provide a means for a timely and accurate response to intrusions. 
+
+Preventing Threats
+While there is no single step you can take to protect against all threats, there are some basic steps you can take that help reduce the risk of many types of threats.
+
+Keep systems and applications up to date. Vendors regularly release patches to correct bugs and security flaws, but these only help when they are applied. Patch management ensures that systems and applications are kept up to date with relevant patches. 
+Remove or disable unneeded services and protocols. If a system doesn’t need a service or protocol, it should not be running. Attackers cannot exploit a vulnerability in a service or protocol that isn’t running on a system. As an extreme contrast, imagine a web server is running every available service and protocol. It is vulnerable to potential attacks on any of these services and protocols. 
+Use intrusion detection and prevention systems. As discussed, intrusion detection and prevention systems observe activity, attempt to detect threats and provide alerts. They can often block or stop attacks.  
+Use up-to-date anti-malware software. We have already covered the various types of malicious code such as viruses and worms. A primary countermeasure is anti-malware software.  
+Use firewalls. Firewalls can prevent many different types of threats. Network-based firewalls protect entire networks, and host-based firewalls protect individual systems. This chapter included a section describing how firewalls can prevent attacks. 
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+integration
+http post
+api graph
+webhook
+
+IAM 
+SSO
+OIDC
+
+Norsk A1
+
+CCSP – Certified Cloud Security Professional
