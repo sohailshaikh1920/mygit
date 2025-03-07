@@ -1,0 +1,74 @@
+Azure Databricks
+
+
+Data engineering aspect
+
+Build Centralized data warehouse
+track historical data
+Transform data to expected to useful information
+Build KPI for bussiness decisions 
+
+Extract Transform Load
+
+Apache Spark
+* extreamly fast and powerful analytics engine to process struc,semi,non data 
+* in-memory engine and hence 100x faster than hadoop
+* High scalable architecture
+* batch proc,streaming data,ML,advance analytics
+
+Architecture :
+
+Dataframe API 
+Built on top of RDD - in-memory,resilient,partitioned and readonly 
+data is organised in row and column
+imposes structure on data
+spark engine can apply optimization
+allow for structured data processing
+
+Libraries (Spark SQL,Streaming,MLlib,GraphX)
+
+Spark core(RDD) 
+RDD (resilient distributed dataset)
+
+inmemory
+partitioned
+readonly
+resilient
+
+It is is core FS for databricks which distrubutes read data into partitions in multiple nodes in memory
+there are 2 operations transformation and action
+each transformation create new RDD which shows lineage graph but actual transformation happens only when action is called like load,show,count 
+RDD is readonly and immutable(means no changes) and works on lazy processing means only act when action is called
+
+Challenges :
+* Infra mgnt
+* patching and upgrade
+* disk mgnt
+* Tools to develop,CICD
+* no native interface
+
+Databricks :
+
+Apache Spark-based Unified Analytics Platform that has been optimized for the cloud
+
+* Managed and optimized platform for running Apache Spark
+* provide set of tools to support complete Data processing
+* provide an integrated workspace to write code and collabiorate with team
+* hosted infra that can spin up in few clicks and managed by Databricks
+
+Databricks Cluster :
+
+Driver and worker same as pyspark
+databricks runtime version
+node config (driver and worker)
+Auto-scaling
+Auto-termination (stop after x number of idle state)
+
+Azure Databricks :
+* Infra ,network , security storage
+* serves as solution Azure Databricks 
+
+
+
+
+

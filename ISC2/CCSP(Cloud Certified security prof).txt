@@ -1,0 +1,107 @@
+﻿CCSP
+
+Domain 1 : CLoud concepts,architecture and design
+
+Cloud computing charateristics
+
+on-demand self service - opex and can be enabled by any professional
+broad network access - always available network and resources
+resource pooling - scalable,agile,use based,large resource pool
+rapid elasticity - flexible to scale whenever needed, like electricity provider you get itemised bill
+
+ISO (International Organization for Standardization) 
+IEC (International Electrotechnical Commission)
+
+ISO/IEC 22123-1:2023
+ISO/IEC 17788:2014 provides an overview of cloud computing along with a set of terms and definitions. It is a terminology foundation for cloud computing standards.
+
+ISO/IEC 17788:2014 is applicable to all types of organizations (e.g., commercial enterprises, government agencies, not-for-profit organizations).
+
+type of destruction of digital data
+
+physical destruction
+magnetic desgausion
+owerwrtting
+crytographic erasure
+
+threats to cloud storage
+malware attack
+unauth access
+DOS & DDOS
+Data leakage
+Unauth usage
+liablity due to regulatory noncompliance
+corruption,modification or destruction of data
+improper disposal after end of use
+theft or accidental loss of media
+
+types of data
+structure
+semi
+un
+
+data masking
+
+Network function virtulization (NFV)
+within cloud like fw,vnet gate,vnet
+
+software defined network(SDN-WAN)
+for WAN and internet connectivity
+
+Management plane:
+At this plane, all business applications that
+manage the underlying control plane are
+exposed with norhbound interaces
+
+Control plane:
+At this layer, control of network functionality
+and programmability is directly made
+to devices. OpenFlow was the original
+framework/protocol speciied to interace
+with devices through southbound interaces
+
+Data plane:
+The network switches and routers located
+at this plane are associated with the
+infrastructure. The process of forwarding
+data is accomplished at this plane, so it can
+also be referred to as a forwarding plane.
+SD-WAN especially
+supports WAN architecture
+related to cloud migration.
+The benefits of SD-WAN
+implementations include:
+Minimizing on-premises
+hardware procurement and
+management
+Microsegmentation of traic
+types (broadband, MPLS,
+customer/corporate facing,
+etc.) for greater perormance
+Suppor for security integration
+The modern virualization of networks and
+the associated technology is called network
+function virualization (NFV), alternately
+referred to as virual network function.
+
+points to be covered for exam 
+
+ISC2 material revision
+CSA(cloud security alliance) 4.0
+CCSP course outline
+CCSP prabh nair videos
+NIST(natiional institute of standards and technology) defination of Cloud computing
+NIST cloud computing synopsis and recommendation
+NIST guide to security for full vitulization technlogies
+ISO/IEC 17789:2014 - last minute
+https://owasp.org/www-project-top-ten/
+Cirrus book
+SOC report 1\2
+https://blog.securityinnovation.com/cloud-security-alliance-egregious-11
+https://www.examtopics.com/discussions/isc/view/101277-exam-cissp-topic-1-question-426-discussion/
+ISO/IEC 27018 focuses on protection of personal data in the cloud
+
+Q&A practice exams
+
+
+

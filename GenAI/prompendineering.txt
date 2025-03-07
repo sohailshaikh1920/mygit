@@ -1,0 +1,19 @@
+elements of prompt
+
+instruction
+context
+input data
+output data indicator
+
+be clear and concise with simple language
+include context
+use directives
+include output you want
+start with ?
+provide example responses
+breakup complex tasks
+experimenet and be creative
+
+https://www.promptingguide.ai/techniques
+https://explore.skillbuilder.aws/learn
+https://explore.skillbuilder.aws/learn/course/external/view/elearning/17763/foundations-of-prompt-engineering

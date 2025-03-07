@@ -1,0 +1,12 @@
+genai is based on dataset fed to LLM(large language model) this data is stored in neural network 
+these LLM is trained to be less toxic with the help of humans RLHF(reinforcement learning without human intervention)
+
+reoccuring neural network 
+every work input is considered as one neural and chatgpt can take upto 3000 neural when you submit a string
+in translator or in email that input is compared with neural data and suggestion provided based on matching 
+probablity from 0-1 highest the probablity that becomes suggestion on your screen 
+
+GenAI flow
+
+GPT4 - LLM (large langua model) which is trained with many different datasources but its just a brain to use it you need other body parts like backend server(web servers) and it will use 
+RAG(retrieval augmented generation) to pull information from LLM which is hosted in open AI cloud

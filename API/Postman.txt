@@ -1,0 +1,41 @@
+
+https://www.freecodecamp.org/news/rest-vs-graphql-apis/
+https://jwt.ms/ - to see access token in xml format
+
+https://github.com/cloudcommunity/Free-Certifications?tab=readme-ov-file - free certifications
+
+Application programable interface 
+
+is eesentially used for system to system communication 
+mostly uses http protocol to request data
+user browser to server request is http and response is HTML which is expected but mobile to server request is http but response is json or xml so that mobile os can understand it
+this is essential for any cleint server or server to server communication
+
+You can think of APIs as being like a waiter at a restaurant, serving as a go-between for the customer and the kitchen. A customer who wants soup doesn’t go into the kitchen to cook. They don't even have to know how to make soup. They only have to know how to ask the waiter for soup and expect the waiter will bring back soup. APIs work the same way, but there are different names for the players involved. Instead of soup, the customer might ask for data or execution of a service.
+
+Customer = Client (typically a browser, web app or mobile app)
+Waiter = API (interface for interacting with the backend)
+Kitchen = Server (backend where the processing happens)
+
+here we are focusin on web api but there are other like
+
+hw to sw api
+libraries that we import in code
+web api's
+
+Multiple API types may be used to achieve a simple task. For example, uploading a photo to Instagram makes use of various APIs:
+
+Hardware API for the app to talk to your camera
+Software library API for the image to be processed with filters
+Web API for sending your image to Instagram's servers so your friends can like it
+
+API architectures
+There is more than one way to build and consume APIs. These are some of the most common architecture types you may come across:
+
+REST (Representational State Transfer)
+GraphQL
+WebSockets
+webhooks
+SOAP (Simple Object Access Protocol)
+gRPC (Google Remote Procedure Call)
+MQTT (MQ Telemetry Transport)

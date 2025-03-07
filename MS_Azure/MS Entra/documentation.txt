@@ -1,0 +1,11 @@
+Fundamental of identity
+
+identity
+authentication
+authorization
+
+IDP(identity provider)
+
+centralized user system,create,manage,auth,autho,audit,log
+Entra,google,twitter,okta etc
+

@@ -1,0 +1,22 @@
+pyspark key components
+
+Drivers
+heart of spark app
+manages the info and state of executor
+analyze distribute and schedule work for executor
+
+executor (jvm runs in cluster)
+execute the code
+respond to driver with execution status
+each cluster node is an executor and each node will have 2 processor , each processor 1 task at a time
+
+jobs
+stages
+tasks
+
+partition
+chunk of data broken by spark so that executor can do parellal processing , each chunk is processed as one task
+
+Transformation
+narrow
+wide

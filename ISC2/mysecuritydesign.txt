@@ -1,0 +1,23 @@
+define application criticality based on bussines model
+critical 
+medium
+low 
+
+BIA
+RA
+
+BCM
+Call tree
+BCP test
+HA\DR test
+
+Confidentiality
+integrity
+availablity
+
+reason for chossing specific region for deploying cloud resources
+
+cost
+regulatory\compliance
+performance
+

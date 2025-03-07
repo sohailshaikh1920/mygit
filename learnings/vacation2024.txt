@@ -10,3 +10,87 @@ OIDC
 Norsk A1
 
 CCSP – Certified Cloud Security Professional
+
+type encrytption
+symmetric
+asymmtric
+
+token based auth
+types of viruses
+DOS and DDOS 
+
+
+freshservice integration with Azure monitor and devops
+
+
+**************************************************************************
+
+IAM
+
+there mainly 3 types of authentication
+Oauth 2.0 - app to app auth for specific resource or scope 
+
+SSO
+OpenID - build on top of oauth for user to app auth 
+SAML - Security assertion markup language 
+
+which one to be used to dependent on application or service provider
+
+
+MS Entra
+is single source of user base to maintain all identities,attributes,passwords
+this is also source to O365 admin center and intune admin center
+provide single source of authetication to MS and non MS based applications
+
+Oauth 2.0 delegate user permission flow(any application auth with gmail)
+allows application to access specific resource on behalf of an user (like service principle)
+
+1. resource owner logins to specific application page and click on autheticate with identity system
+2. application(client) contacts authorization server(gmail) with redirect uri
+3. Auth server verifies your login and if not ask you to login 
+4. auth server presents you consent form with requested scope if applicable like linkedin
+5. auth server response thruogh redirect uri with temp auth code 
+6. client contacts auth server directly not through owner browser and sends auth code,client id and secret 
+7. auth server verifies the data and response with access token
+8. client uses the access token to connect with resource server and get the required data within scope
+
+OpenID or OIDC or SSO user permission flow
+
+Open standard for decentralized authentication
+ID token refers to JWT,JSON web token that can be decryted to find information like scope,expiration etc
+
+OpenID is auth standard is same as oauth with additional information like ID token along with access token https://jwt.ms/
+
+1. resource owner logins to specific application page and click SSO with identity system
+2. application(client) contacts authorization server(Entra) with redirect uri
+3. Auth server verifies your login and if not ask you to login 
+4. auth server presents you consent form with requested scope if applicable like linkedin
+5. auth server response thruogh redirect uri with temp auth code 
+6. client contacts auth server directly not through owner browser and sends auth code,client id and secret 
+7. auth server verifies the data and response with access token & ID token
+8. client uses the access token & ID token to connect with resource server to complete login
+
+
+types of SSO
+
+SSO is federated identity management
+
+SAML :
+consider a scenario when you want to access any application so it does require your identity so there are 3 participants here
+1. user
+2. service provider (app)
+3. identity provider (entra,okta,any ldap)
+
+SAML flow :
+
+1. user access app with try to auth with SSO
+2. app generates SAML request and redirect it to IDP
+3. IDP accepts the SAM request and validate wether user is authenticated already if yes then step 6 else step 4
+4. IDP presents a login page to user 
+5. user provide credentials
+6. IDP provides SAML response token to user browser
+7. user browser redirect SAML token to service provider
+8. SP validates SAML response & token with the help of public key crytography
+9. finally SP returns resources to user browser
+
+OpenID
